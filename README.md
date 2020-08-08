@@ -27,3 +27,16 @@ type
 ```
 
 [TResult](https://github.com/isemenkov/pascalutils/blob/master/source/utils.result.pas) class contains result value or error type like in GO or Rust lang. [TVoidResult](https://github.com/isemenkov/pascalutils/blob/master/source/utils.result.pas) class contains Ok flag or error type.
+
+##### TUnaryFunctor, TBinaryFunctor
+
+```pascal
+uses
+  utils.functor;
+  
+type
+  generic TUnaryFunctor<V, R> = class
+  generic TBinaryFunctor<V, R> = class
+```
+
+[TUnaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) class and [TBinaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) provides functor structure, like in C++ language.
