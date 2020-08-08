@@ -76,7 +76,7 @@ type
     class(specialize TDefaultBinaryLessFunctor<Byte>);
   TBinaryLessFunctorShortInt = 
     class(specialize TDefaultBinaryLessFunctor<ShortInt>);
-  TBinaryLogicLessFunctorWord = 
+  TBinaryLessFunctorWord = 
     class(specialize TDefaultBinaryLessFunctor<Word>);
   TBinaryLessFunctorSmallInt = 
     class(specialize TDefaultBinaryLessFunctor<SmallInt>);
@@ -170,6 +170,115 @@ type
   TBinaryLogicLessFunctorWideString = 
     class(specialize TDefaultBinaryLogicLessFunctor<WideString>);
 
+  { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                     Binary greater functors for default types                  
+    
+    If AValue1 > AValue2 return 1, if AValue2 > AValue1 return -1, 
+    overwise return 0                  
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
+  generic TDefaultBinaryGreaterFunctor<V> = 
+    class(specialize TBinaryFunctor<V, Integer>)
+  public
+    function Call(AValue1, AValue2 : V) : Integer; override;
+  end;
+
+  TBinaryGreaterFunctorByte = 
+    class(specialize TDefaultBinaryGreaterFunctor<Byte>);
+  TBinaryGreaterFunctorShortInt = 
+    class(specialize TDefaultBinaryGreaterFunctor<ShortInt>);
+  TBinaryGreaterFunctorWord = 
+    class(specialize TDefaultBinaryGreaterFunctor<Word>);
+  TBinaryGreaterFunctorSmallInt = 
+    class(specialize TDefaultBinaryGreaterFunctor<SmallInt>);
+  TBinaryGreaterFunctorInteger = 
+    class(specialize TDefaultBinaryGreaterFunctor<Integer>);
+  TBinaryGreaterFunctorDWord = 
+    class(specialize TDefaultBinaryGreaterFunctor<DWord>);
+  TBinaryGreaterFunctorCardinal = 
+    class(specialize TDefaultBinaryGreaterFunctor<Cardinal>);
+  TBinaryGreaterFunctorLongWord = 
+    class(specialize TDefaultBinaryGreaterFunctor<LongWord>);
+  TBinaryGreaterFunctorLongInt = 
+    class(specialize TDefaultBinaryGreaterFunctor<LongInt>);
+  TBinaryGreaterFunctorQWord = 
+    class(specialize TDefaultBinaryGreaterFunctor<QWord>);
+  TBinaryGreaterFunctorInt64 = 
+    class(specialize TDefaultBinaryGreaterFunctor<Int64>);
+  TBinaryGreaterFunctorSingle = 
+    class(specialize TDefaultBinaryGreaterFunctor<Single>);
+  TBinaryGreaterFunctorReal = 
+    class(specialize TDefaultBinaryGreaterFunctor<Real>);
+  TBinaryGreaterFunctorDouble = 
+    class(specialize TDefaultBinaryGreaterFunctor<Double>);
+  TBinaryGreaterFunctorExtended = 
+    class(specialize TDefaultBinaryGreaterFunctor<Extended>);
+  TBinaryGreaterFunctorCurrency = 
+    class(specialize TDefaultBinaryGreaterFunctor<Currency>);
+  TBinaryGreaterFunctorBoolean = 
+    class(specialize TDefaultBinaryGreaterFunctor<Boolean>);
+  TBinaryGreaterFunctorChar = 
+    class(specialize TDefaultBinaryGreaterFunctor<Char>);
+  TBinaryGreaterFunctorWideChar = 
+    class(specialize TDefaultBinaryGreaterFunctor<WideChar>);  
+  TBinaryGreaterFunctorString = 
+    class(specialize TDefaultBinaryGreaterFunctor<String>);
+  TBinaryGreaterFunctorWideString = 
+    class(specialize TDefaultBinaryGreaterFunctor<WideString>);
+
+  { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                 Binary greater logic functors for default types
+                        
+    Return True if AValue1 > AValue2                       
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= } 
+  generic TDefaultBinaryLogicGreaterFunctor<V> = 
+    class (specialize TBinaryLogicFunctor<V>)
+  public
+    function Call(AValue1, AValue2 : V) : Boolean; override;
+  end;
+
+  TBinaryLogicGreaterFunctorByte = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Byte>);
+  TBinaryLogicGreaterFunctorShortInt = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<ShortInt>);
+  TBinaryLogicGreaterFunctorWord = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Word>);
+  TBinaryLogicGreaterFunctorSmallInt = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<SmallInt>);
+  TBinaryLogicGreaterFunctorInteger = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Integer>);
+  TBinaryLogicGreaterFunctorDWord = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<DWord>);
+  TBinaryLogicGreaterFunctorCardinal = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Cardinal>);
+  TBinaryLogicGreaterFunctorLongWord = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<LongWord>);
+  TBinaryLogicGreaterFunctorLongInt = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<LongInt>);
+  TBinaryLogicGreaterFunctorQWord = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<QWord>);
+  TBinaryLogicGreaterFunctorInt64 = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Int64>);
+  TBinaryLogicGreaterFunctorSingle = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Single>);
+  TBinaryLogicGreaterFunctorReal = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Real>);
+  TBinaryLogicGreaterFunctorDouble = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Double>);
+  TBinaryLogicGreaterFunctorExtended = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Extended>);
+  TBinaryLogicGreaterFunctorCurrency = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Currency>);
+  TBinaryLogicGreaterFunctorBoolean = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Boolean>);
+  TBinaryLogicGreaterFunctorChar = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<Char>);
+  TBinaryLogicGreaterFunctorWideChar = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<WideChar>);  
+  TBinaryLogicGreaterFunctorString = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<String>);
+  TBinaryLogicGreaterFunctorWideString = 
+    class(specialize TDefaultBinaryLogicGreaterFunctor<WideString>);
+
 implementation
 
 function TDefaultBinaryLessFunctor.Call(AValue1, AValue2 : V) : Integer;
@@ -191,5 +300,23 @@ begin
   Result := AValue1 < AValue2;
 end;
 
+function TDefaultBinaryGreaterFunctor.Call(AValue1, AValue2 : V) : Integer;
+begin
+  if AValue1 > AValue2 then
+  begin
+    Result := 1;
+  end else if AValue2 > AValue1 then
+  begin
+    Result := -1
+  end else
+  begin
+    Result := 0;
+  end;
+end;
+
+function TDefaultBinaryLogicGreaterFunctor.Call(AValue1, AValue2 : V) : Boolean;
+begin
+  Result := AValue1 > AValue2;
+end;
 
 end.
