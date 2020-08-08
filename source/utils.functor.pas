@@ -60,132 +60,136 @@ type
     function Call(AValue1, AValue2 : V) : Boolean; virtual; abstract;
   end;  
 
-  { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    Binary less functors for default types 
-    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  }   
-  TBinaryLogicLessFunctorByte = class(specialize TBinaryLogicFunctor<Byte>)
+  { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                      Binary less functors for default types
+    
+    If AValue1 < AValue2 return 1, if AValue2 < AValue1 return -1, 
+    overwise return 0                  
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
+  generic TDefaultBinaryLessFunctor<V> = 
+    class(specialize TBinaryFunctor<V, Integer>)
   public
-    function Call(AValue1, AValue2 : Byte) : Boolean; override;
+    function Call(AValue1, AValue2 : V) : Integer; override;
   end;
 
+  TBinaryLessFunctorByte = 
+    class(specialize TDefaultBinaryLessFunctor<Byte>);
+  TBinaryLessFunctorShortInt = 
+    class(specialize TDefaultBinaryLessFunctor<ShortInt>);
+  TBinaryLogicLessFunctorWord = 
+    class(specialize TDefaultBinaryLessFunctor<Word>);
+  TBinaryLessFunctorSmallInt = 
+    class(specialize TDefaultBinaryLessFunctor<SmallInt>);
+  TBinaryLessFunctorInteger = 
+    class(specialize TDefaultBinaryLessFunctor<Integer>);
+  TBinaryLessFunctorDWord = 
+    class(specialize TDefaultBinaryLessFunctor<DWord>);
+  TBinaryLessFunctorCardinal = 
+    class(specialize TDefaultBinaryLessFunctor<Cardinal>);
+  TBinaryLessFunctorLongWord = 
+    class(specialize TDefaultBinaryLessFunctor<LongWord>);
+  TBinaryLessFunctorLongInt = 
+    class(specialize TDefaultBinaryLessFunctor<LongInt>);
+  TBinaryLessFunctorQWord = 
+    class(specialize TDefaultBinaryLessFunctor<QWord>);
+  TBinaryLessFunctorInt64 = 
+    class(specialize TDefaultBinaryLessFunctor<Int64>);
+  TBinaryLessFunctorSingle = 
+    class(specialize TDefaultBinaryLessFunctor<Single>);
+  TBinaryLessFunctorReal = 
+    class(specialize TDefaultBinaryLessFunctor<Real>);
+  TBinaryLessFunctorDouble = 
+    class(specialize TDefaultBinaryLessFunctor<Double>);
+  TBinaryLessFunctorExtended = 
+    class(specialize TDefaultBinaryLessFunctor<Extended>);
+  TBinaryLessFunctorCurrency = 
+    class(specialize TDefaultBinaryLessFunctor<Currency>);
+  TBinaryLessFunctorBoolean = 
+    class(specialize TDefaultBinaryLessFunctor<Boolean>);
+  TBinaryLessFunctorChar = 
+    class(specialize TDefaultBinaryLessFunctor<Char>);
+  TBinaryLessFunctorWideChar = 
+    class(specialize TDefaultBinaryLessFunctor<WideChar>);  
+  TBinaryLessFunctorString = 
+    class(specialize TDefaultBinaryLessFunctor<String>);
+  TBinaryLessFunctorWideString = 
+    class(specialize TDefaultBinaryLessFunctor<WideString>);
+
+
+  { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                   Binary less logic functors for default types
+                        
+    Return True if AValue1 < AValue2                       
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= } 
+  generic TDefaultBinaryLogicLessFunctor<V> = 
+    class (specialize TBinaryLogicFunctor<V>)
+  public
+    function Call(AValue1, AValue2 : V) : Boolean; override;
+  end;
+
+  TBinaryLogicLessFunctorByte = 
+    class(specialize TDefaultBinaryLogicLessFunctor<Byte>);
   TBinaryLogicLessFunctorShortInt = 
-    class(specialize TBinaryLogicFunctor<ShortInt>)
-  public
-    function Call(AValue1, AValue2 : ShortInt) : Boolean; override;
-  end;
-
-  TBinaryLogicLessFunctorWord = class(specialize TBinaryLogicFunctor<Word>)
-  public
-    function Call(AValue1, AValue2 : Word) : Boolean; override;
-  end;
-  
+    class(specialize TDefaultBinaryLogicLessFunctor<ShortInt>);
+  TBinaryLogicLessFunctorWord = 
+    class(specialize TDefaultBinaryLogicLessFunctor<Word>);
   TBinaryLogicLessFunctorSmallInt = 
-    class(specialize TBinaryLogicFunctor<SmallInt>)
-  public
-    function Call(AValue1, AValue2 : SmallInt) : Boolean; override;
-  end;
-  
+    class(specialize TDefaultBinaryLogicLessFunctor<SmallInt>);
   TBinaryLogicLessFunctorInteger = 
-    class(specialize TBinaryLogicFunctor<Integer>)
-  public
-    function Call(AValue1, AValue2 : Integer) : Boolean; override;
-  end;
-
-  TBinaryLogicLessFunctorDWord = class(specialize TBinaryLogicFunctor<DWord>)
-  public
-    function Call(AValue1, AValue2 : DWord) : Boolean; override;
-  end;
-
+    class(specialize TDefaultBinaryLogicLessFunctor<Integer>);
+  TBinaryLogicLessFunctorDWord = 
+    class(specialize TDefaultBinaryLogicLessFunctor<DWord>);
   TBinaryLogicLessFunctorCardinal = 
-    class(specialize TBinaryLogicFunctor<Cardinal>)
-  public
-    function Call(AValue1, AValue2 : Cardinal) : Boolean; override;
-  end;
- 
+    class(specialize TDefaultBinaryLogicLessFunctor<Cardinal>);
   TBinaryLogicLessFunctorLongWord = 
-    class(specialize TBinaryLogicFunctor<LongWord>)
-  public
-    function Call(AValue1, AValue2 : LongWord) : Boolean; override;
-  end;
-
+    class(specialize TDefaultBinaryLogicLessFunctor<LongWord>);
   TBinaryLogicLessFunctorLongInt = 
-    class(specialize TBinaryLogicFunctor<LongInt>)
-  public
-    function Call(AValue1, AValue2 : LongInt) : Boolean; override;
-  end;
-
-  TBinaryLogicLessFunctorQWord = class(specialize TBinaryLogicFunctor<QWord>)
-  public
-    function Call(AValue1, AValue2 : QWord) : Boolean; override;
-  end;
-
-  TBinaryLogicLessFunctorInt64 = class(specialize TBinaryLogicFunctor<Int64>)
-  public
-    function Call(AValue1, AValue2 : Int64) : Boolean; override;
-  end;
+    class(specialize TDefaultBinaryLogicLessFunctor<LongInt>);
+  TBinaryLogicLessFunctorQWord = 
+    class(specialize TDefaultBinaryLogicLessFunctor<QWord>);
+  TBinaryLogicLessFunctorInt64 = 
+    class(specialize TDefaultBinaryLogicLessFunctor<Int64>);
+  TBinaryLogicLessFunctorSingle = 
+    class(specialize TDefaultBinaryLogicLessFunctor<Single>);
+  TBinaryLogicLessFunctorReal = 
+    class(specialize TDefaultBinaryLogicLessFunctor<Real>);
+  TBinaryLogicLessFunctorDouble = 
+    class(specialize TDefaultBinaryLogicLessFunctor<Double>);
+  TBinaryLogicLessFunctorExtended = 
+    class(specialize TDefaultBinaryLogicLessFunctor<Extended>);
+  TBinaryLogicLessFunctorCurrency = 
+    class(specialize TDefaultBinaryLogicLessFunctor<Currency>);
+  TBinaryLogicLessFunctorBoolean = 
+    class(specialize TDefaultBinaryLogicLessFunctor<Boolean>);
+  TBinaryLogicLessFunctorChar = 
+    class(specialize TDefaultBinaryLogicLessFunctor<Char>);
+  TBinaryLogicLessFunctorWideChar = 
+    class(specialize TDefaultBinaryLogicLessFunctor<WideChar>);  
+  TBinaryLogicLessFunctorString = 
+    class(specialize TDefaultBinaryLogicLessFunctor<String>);
+  TBinaryLogicLessFunctorWideString = 
+    class(specialize TDefaultBinaryLogicLessFunctor<WideString>);
 
 implementation
 
-function TBinaryLogicLessFunctorByte.Call(AValue1, AValue2 : Byte) : Boolean;
+function TDefaultBinaryLessFunctor.Call(AValue1, AValue2 : V) : Integer;
+begin
+  if AValue1 < AValue2 then
+  begin
+    Result := 1;
+  end else if AValue2 < AValue1 then
+  begin
+    Result := -1
+  end else
+  begin
+    Result := 0;
+  end;
+end;
+
+function TDefaultBinaryLogicLessFunctor.Call(AValue1, AValue2 : V) : Boolean;
 begin
   Result := AValue1 < AValue2;
 end;
 
-function TBinaryLogicLessFunctorShortInt.Call(AValue1, AValue2 : ShortInt) : 
-  Boolean;
-begin
-  Result := AValue1 < AValue2;
-end;
-
-function TBinaryLogicLessFunctorWord.Call(AValue1, AValue2 : Word) : Boolean;
-begin
-  Result := AValue1 < AValue2;
-end;
-
-function TBinaryLogicLessFunctorSmallInt.Call(AValue1, AValue2 : SmallInt) :
-  Boolean;
-begin
-  Result := AValue1 < AValue2;
-end;
-
-function TBinaryLogicLessFunctorInteger.Call(AValue1, AValue2 : Integer) :
-  Boolean;
-begin
-  Result := AValue1 < AValue2;
-end;
-
-function TBinaryLogicLessFunctorDWord.Call(AValue1, AValue2 : DWord) : Boolean;
-begin
-  Result := AValue1 < AValue2;
-end;
-
-function TBinaryLogicLessFunctorCardinal.Call(AValue1, AValue2 : Cardinal) : 
-  Boolean;
-begin
-  Result := AValue1 < AValue2;
-end;
-
-function TBinaryLogicLessFunctorLongWord.Call(AValue1, AValue2 : LongWord) : 
-  Boolean;
-begin
-  Result := AValue1 < AValue2;
-end;
-
-function TBinaryLogicLessFunctorLongInt.Call(AValue1, AValue2 : LongInt) : 
-  Boolean;
-begin
-  Result := AValue1 < AValue2;
-end;
-
-function TBinaryLogicLessFunctorQWord.Call(AValue1, AValue2 : QWord) : Boolean;
-begin
-  Result := AValue1 < AValue2;
-end;
-
-function TBinaryLogicLessFunctorInt64.Call(AValue1, AValue2 : Int64) : Boolean;
-begin
-  Result := AValue1 < AValue2;
-end;
 
 end.
