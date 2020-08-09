@@ -166,7 +166,7 @@ type
     Return True if AValue1 > AValue2.                       
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= } 
   generic TDefaultGreaterFunctor<V> = 
-    class (specialize TBinaryLogicFunctor<V, Boolean>)
+    class (specialize TBinaryFunctor<V, Boolean>)
   public
     function Call(AValue1, AValue2 : V) : Boolean; override;
   end;
@@ -221,7 +221,7 @@ type
     Return True if AValue1 = AValue2.                       
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= } 
   generic TDefaultEqualFunctor<V> = 
-    class (specialize TBinaryLogicFunctor<V, Boolean>)
+    class (specialize TBinaryFunctor<V, Boolean>)
   public
     function Call(AValue1, AValue2 : V) : Boolean; override;
   end;
