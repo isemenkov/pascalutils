@@ -49,61 +49,61 @@ type
   end;
 
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-                                   Equal functor                                
+                                  Compare functor                                
     
     Return a negative value if value1 should be sorted before value2, a positive 
     value if value1 should be sorted after value2, zero if value1 and value2 are 
     equal.                  
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
-  generic TDefaultEqualFunctor<V> = 
+  generic TDefaultCompareFunctor<V> = 
     class(specialize TBinaryFunctor<V, Integer>)
   public
     function Call(AValue1, AValue2 : V) : Integer; override;
   end;
 
   { Functors for default types. }
-  TEqualFunctorByte = 
-    class(specialize TDefaultEqualFunctor<Byte>);
-  TEqualFunctorShortInt = 
-    class(specialize TDefaultEqualFunctor<ShortInt>);
-  TEqualFunctorWord = 
-    class(specialize TDefaultEqualFunctor<Word>);
-  TEqualFunctorSmallInt = 
-    class(specialize TDefaultEqualFunctor<SmallInt>);
-  TEqualFunctorInteger = 
-    class(specialize TDefaultEqualFunctor<Integer>);
-  TEqualFunctorDWord = 
-    class(specialize TDefaultEqualFunctor<DWord>);
-  TEqualFunctorCardinal = 
-    class(specialize TDefaultEqualFunctor<Cardinal>);
-  TEqualFunctorLongWord = 
-    class(specialize TDefaultEqualFunctor<LongWord>);
-  TEqualFunctorLongInt = 
-    class(specialize TDefaultEqualFunctor<LongInt>);
-  TEqualFunctorQWord = 
-    class(specialize TDefaultEqualFunctor<QWord>);
-  TEqualFunctorInt64 = 
-    class(specialize TDefaultEqualFunctor<Int64>);
-  TEqualFunctorSingle = 
-    class(specialize TDefaultEqualFunctor<Single>);
-  TEqualFunctorReal = 
-    class(specialize TDefaultEqualFunctor<Real>);
-  TEqualFunctorDouble = 
-    class(specialize TDefaultEqualFunctor<Double>);
-  TEqualFunctorExtended = 
-    class(specialize TDefaultEqualFunctor<Extended>);
-  TEqualFunctorCurrency = 
-    class(specialize TDefaultEqualFunctor<Currency>);
-  TEqualFunctorBoolean = 
-    class(specialize TDefaultEqualFunctor<Boolean>);
-  TEqualFunctorChar = 
-    class(specialize TDefaultEqualFunctor<Char>);
-  TEqualFunctorWideChar = 
-    class(specialize TDefaultEqualFunctor<WideChar>);  
-  TEqualFunctorString = 
-    class(specialize TDefaultEqualFunctor<String>);
-  TEqualFunctorWideString = 
-    class(specialize TDefaultEqualFunctor<WideString>);
+  TCompareFunctorByte = 
+    class(specialize TDefaultCompareFunctor<Byte>);
+  TCompareFunctorShortInt = 
+    class(specialize TDefaultCompareFunctor<ShortInt>);
+  TCompareFunctorWord = 
+    class(specialize TDefaultCompareFunctor<Word>);
+  TCompareFunctorSmallInt = 
+    class(specialize TDefaultCompareFunctor<SmallInt>);
+  TCompareFunctorInteger = 
+    class(specialize TDefaultCompareFunctor<Integer>);
+  TCompareFunctorDWord = 
+    class(specialize TDefaultCompareFunctor<DWord>);
+  TCompareFunctorCardinal = 
+    class(specialize TDefaultCompareFunctor<Cardinal>);
+  TCompareFunctorLongWord = 
+    class(specialize TDefaultCompareFunctor<LongWord>);
+  TCompareFunctorLongInt = 
+    class(specialize TDefaultCompareFunctor<LongInt>);
+  TCompareFunctorQWord = 
+    class(specialize TDefaultCompareFunctor<QWord>);
+  TCompareFunctorInt64 = 
+    class(specialize TDefaultCompareFunctor<Int64>);
+  TCompareFunctorSingle = 
+    class(specialize TDefaultCompareFunctor<Single>);
+  TCompareFunctorReal = 
+    class(specialize TDefaultCompareFunctor<Real>);
+  TCompareFunctorDouble = 
+    class(specialize TDefaultCompareFunctor<Double>);
+  TCompareFunctorExtended = 
+    class(specialize TDefaultCompareFunctor<Extended>);
+  TCompareFunctorCurrency = 
+    class(specialize TDefaultCompareFunctor<Currency>);
+  TCompareFunctorBoolean = 
+    class(specialize TDefaultCompareFunctor<Boolean>);
+  TCompareFunctorChar = 
+    class(specialize TDefaultCompareFunctor<Char>);
+  TCompareFunctorWideChar = 
+    class(specialize TDefaultCompareFunctor<WideChar>);  
+  TCompareFunctorString = 
+    class(specialize TDefaultCompareFunctor<String>);
+  TCompareFunctorWideString = 
+    class(specialize TDefaultCompareFunctor<WideString>);
 
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
                                 Less logic functor                             
@@ -272,7 +272,7 @@ type
 
 implementation
 
-function TDefaultEqualFunctor.Call(AValue1, AValue2 : V) : Integer;
+function TDefaultCompareFunctor.Call(AValue1, AValue2 : V) : Integer;
 begin
   if AValue1 < AValue2 then
   begin
