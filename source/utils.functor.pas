@@ -48,275 +48,257 @@ type
     function Call(AValue1, AValue2 : V) : R; virtual; abstract;
   end;
 
-  { Unary functor returns Boolean value }
-  generic TUnaryLogicFunctor<V> = class
-  public
-    function Call(AValue : V) : Boolean; virtual; abstract;
-  end;  
-
-  { Binary functor returns Boolean value }
-  generic TBinaryLogicFunctor<V> = class
-  public
-    function Call(AValue1, AValue2 : V) : Boolean; virtual; abstract;
-  end;  
-
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-                      Binary less functors for default types
+                                   Equal functor                                
     
-    If AValue1 < AValue2 return 1, if AValue2 < AValue1 return -1, 
-    overwise return 0                  
+    Return a negative value if value1 should be sorted before value2, a positive 
+    value if value1 should be sorted after value2, zero if value1 and value2 are 
+    equal.                  
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
-  generic TDefaultBinaryLessFunctor<V> = 
+  generic TDefaultEqualFunctor<V> = 
     class(specialize TBinaryFunctor<V, Integer>)
   public
     function Call(AValue1, AValue2 : V) : Integer; override;
   end;
 
-  TBinaryLessFunctorByte = 
-    class(specialize TDefaultBinaryLessFunctor<Byte>);
-  TBinaryLessFunctorShortInt = 
-    class(specialize TDefaultBinaryLessFunctor<ShortInt>);
-  TBinaryLessFunctorWord = 
-    class(specialize TDefaultBinaryLessFunctor<Word>);
-  TBinaryLessFunctorSmallInt = 
-    class(specialize TDefaultBinaryLessFunctor<SmallInt>);
-  TBinaryLessFunctorInteger = 
-    class(specialize TDefaultBinaryLessFunctor<Integer>);
-  TBinaryLessFunctorDWord = 
-    class(specialize TDefaultBinaryLessFunctor<DWord>);
-  TBinaryLessFunctorCardinal = 
-    class(specialize TDefaultBinaryLessFunctor<Cardinal>);
-  TBinaryLessFunctorLongWord = 
-    class(specialize TDefaultBinaryLessFunctor<LongWord>);
-  TBinaryLessFunctorLongInt = 
-    class(specialize TDefaultBinaryLessFunctor<LongInt>);
-  TBinaryLessFunctorQWord = 
-    class(specialize TDefaultBinaryLessFunctor<QWord>);
-  TBinaryLessFunctorInt64 = 
-    class(specialize TDefaultBinaryLessFunctor<Int64>);
-  TBinaryLessFunctorSingle = 
-    class(specialize TDefaultBinaryLessFunctor<Single>);
-  TBinaryLessFunctorReal = 
-    class(specialize TDefaultBinaryLessFunctor<Real>);
-  TBinaryLessFunctorDouble = 
-    class(specialize TDefaultBinaryLessFunctor<Double>);
-  TBinaryLessFunctorExtended = 
-    class(specialize TDefaultBinaryLessFunctor<Extended>);
-  TBinaryLessFunctorCurrency = 
-    class(specialize TDefaultBinaryLessFunctor<Currency>);
-  TBinaryLessFunctorBoolean = 
-    class(specialize TDefaultBinaryLessFunctor<Boolean>);
-  TBinaryLessFunctorChar = 
-    class(specialize TDefaultBinaryLessFunctor<Char>);
-  TBinaryLessFunctorWideChar = 
-    class(specialize TDefaultBinaryLessFunctor<WideChar>);  
-  TBinaryLessFunctorString = 
-    class(specialize TDefaultBinaryLessFunctor<String>);
-  TBinaryLessFunctorWideString = 
-    class(specialize TDefaultBinaryLessFunctor<WideString>);
-
+  { Functors for default types. }
+  TEqualFunctorByte = 
+    class(specialize TDefaultEqualFunctor<Byte>);
+  TEqualFunctorShortInt = 
+    class(specialize TDefaultEqualFunctor<ShortInt>);
+  TEqualFunctorWord = 
+    class(specialize TDefaultEqualFunctor<Word>);
+  TEqualFunctorSmallInt = 
+    class(specialize TDefaultEqualFunctor<SmallInt>);
+  TEqualFunctorInteger = 
+    class(specialize TDefaultEqualFunctor<Integer>);
+  TEqualFunctorDWord = 
+    class(specialize TDefaultEqualFunctor<DWord>);
+  TEqualFunctorCardinal = 
+    class(specialize TDefaultEqualFunctor<Cardinal>);
+  TEqualFunctorLongWord = 
+    class(specialize TDefaultEqualFunctor<LongWord>);
+  TEqualFunctorLongInt = 
+    class(specialize TDefaultEqualFunctor<LongInt>);
+  TEqualFunctorQWord = 
+    class(specialize TDefaultEqualFunctor<QWord>);
+  TEqualFunctorInt64 = 
+    class(specialize TDefaultEqualFunctor<Int64>);
+  TEqualFunctorSingle = 
+    class(specialize TDefaultEqualFunctor<Single>);
+  TEqualFunctorReal = 
+    class(specialize TDefaultEqualFunctor<Real>);
+  TEqualFunctorDouble = 
+    class(specialize TDefaultEqualFunctor<Double>);
+  TEqualFunctorExtended = 
+    class(specialize TDefaultEqualFunctor<Extended>);
+  TEqualFunctorCurrency = 
+    class(specialize TDefaultEqualFunctor<Currency>);
+  TEqualFunctorBoolean = 
+    class(specialize TDefaultEqualFunctor<Boolean>);
+  TEqualFunctorChar = 
+    class(specialize TDefaultEqualFunctor<Char>);
+  TEqualFunctorWideChar = 
+    class(specialize TDefaultEqualFunctor<WideChar>);  
+  TEqualFunctorString = 
+    class(specialize TDefaultEqualFunctor<String>);
+  TEqualFunctorWideString = 
+    class(specialize TDefaultEqualFunctor<WideString>);
 
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-                   Binary less logic functors for default types
+                                Less logic functor                             
                         
-    Return True if AValue1 < AValue2                       
+    Return True if AValue1 < AValue2.                       
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= } 
-  generic TDefaultBinaryLogicLessFunctor<V> = 
-    class (specialize TBinaryLogicFunctor<V>)
+  generic TDefaultLessFunctor<V> = 
+    class (specialize TBinaryFunctor<V, Boolean>)
   public
     function Call(AValue1, AValue2 : V) : Boolean; override;
   end;
 
-  TBinaryLogicLessFunctorByte = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Byte>);
-  TBinaryLogicLessFunctorShortInt = 
-    class(specialize TDefaultBinaryLogicLessFunctor<ShortInt>);
-  TBinaryLogicLessFunctorWord = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Word>);
-  TBinaryLogicLessFunctorSmallInt = 
-    class(specialize TDefaultBinaryLogicLessFunctor<SmallInt>);
-  TBinaryLogicLessFunctorInteger = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Integer>);
-  TBinaryLogicLessFunctorDWord = 
-    class(specialize TDefaultBinaryLogicLessFunctor<DWord>);
-  TBinaryLogicLessFunctorCardinal = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Cardinal>);
-  TBinaryLogicLessFunctorLongWord = 
-    class(specialize TDefaultBinaryLogicLessFunctor<LongWord>);
-  TBinaryLogicLessFunctorLongInt = 
-    class(specialize TDefaultBinaryLogicLessFunctor<LongInt>);
-  TBinaryLogicLessFunctorQWord = 
-    class(specialize TDefaultBinaryLogicLessFunctor<QWord>);
-  TBinaryLogicLessFunctorInt64 = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Int64>);
-  TBinaryLogicLessFunctorSingle = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Single>);
-  TBinaryLogicLessFunctorReal = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Real>);
-  TBinaryLogicLessFunctorDouble = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Double>);
-  TBinaryLogicLessFunctorExtended = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Extended>);
-  TBinaryLogicLessFunctorCurrency = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Currency>);
-  TBinaryLogicLessFunctorBoolean = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Boolean>);
-  TBinaryLogicLessFunctorChar = 
-    class(specialize TDefaultBinaryLogicLessFunctor<Char>);
-  TBinaryLogicLessFunctorWideChar = 
-    class(specialize TDefaultBinaryLogicLessFunctor<WideChar>);  
-  TBinaryLogicLessFunctorString = 
-    class(specialize TDefaultBinaryLogicLessFunctor<String>);
-  TBinaryLogicLessFunctorWideString = 
-    class(specialize TDefaultBinaryLogicLessFunctor<WideString>);
+  { Functors for default types. } 
+  TLessFunctorByte = 
+    class(specialize TDefaultLessFunctor<Byte>);
+  TLessFunctorShortInt = 
+    class(specialize TDefaultLessFunctor<ShortInt>);
+  TLessFunctorWord = 
+    class(specialize TDefaultLessFunctor<Word>);
+  TLessFunctorSmallInt = 
+    class(specialize TDefaultLessFunctor<SmallInt>);
+  TLessFunctorInteger = 
+    class(specialize TDefaultLessFunctor<Integer>);
+  TLessFunctorDWord = 
+    class(specialize TDefaultLessFunctor<DWord>);
+  TLessFunctorCardinal = 
+    class(specialize TDefaultLessFunctor<Cardinal>);
+  TLessFunctorLongWord = 
+    class(specialize TDefaultLessFunctor<LongWord>);
+  TLessFunctorLongInt = 
+    class(specialize TDefaultLessFunctor<LongInt>);
+  TLessFunctorQWord = 
+    class(specialize TDefaultLessFunctor<QWord>);
+  TLessFunctorInt64 = 
+    class(specialize TDefaultLessFunctor<Int64>);
+  TLessFunctorSingle = 
+    class(specialize TDefaultLessFunctor<Single>);
+  TLessFunctorReal = 
+    class(specialize TDefaultLessFunctor<Real>);
+  TLessFunctorDouble = 
+    class(specialize TDefaultLessFunctor<Double>);
+  TLessFunctorExtended = 
+    class(specialize TDefaultLessFunctor<Extended>);
+  TLessFunctorCurrency = 
+    class(specialize TDefaultLessFunctor<Currency>);
+  TLessFunctorBoolean = 
+    class(specialize TDefaultLessFunctor<Boolean>);
+  TLessFunctorChar = 
+    class(specialize TDefaultLessFunctor<Char>);
+  TLessFunctorWideChar = 
+    class(specialize TDefaultLessFunctor<WideChar>);  
+  TLessFunctorString = 
+    class(specialize TDefaultLessFunctor<String>);
+  TLessFunctorWideString = 
+    class(specialize TDefaultLessFunctor<WideString>);
 
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-                     Binary greater functors for default types                  
-    
-    If AValue1 > AValue2 return 1, if AValue2 > AValue1 return -1, 
-    overwise return 0                  
-    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
-  generic TDefaultBinaryGreaterFunctor<V> = 
-    class(specialize TBinaryFunctor<V, Integer>)
-  public
-    function Call(AValue1, AValue2 : V) : Integer; override;
-  end;
-
-  TBinaryGreaterFunctorByte = 
-    class(specialize TDefaultBinaryGreaterFunctor<Byte>);
-  TBinaryGreaterFunctorShortInt = 
-    class(specialize TDefaultBinaryGreaterFunctor<ShortInt>);
-  TBinaryGreaterFunctorWord = 
-    class(specialize TDefaultBinaryGreaterFunctor<Word>);
-  TBinaryGreaterFunctorSmallInt = 
-    class(specialize TDefaultBinaryGreaterFunctor<SmallInt>);
-  TBinaryGreaterFunctorInteger = 
-    class(specialize TDefaultBinaryGreaterFunctor<Integer>);
-  TBinaryGreaterFunctorDWord = 
-    class(specialize TDefaultBinaryGreaterFunctor<DWord>);
-  TBinaryGreaterFunctorCardinal = 
-    class(specialize TDefaultBinaryGreaterFunctor<Cardinal>);
-  TBinaryGreaterFunctorLongWord = 
-    class(specialize TDefaultBinaryGreaterFunctor<LongWord>);
-  TBinaryGreaterFunctorLongInt = 
-    class(specialize TDefaultBinaryGreaterFunctor<LongInt>);
-  TBinaryGreaterFunctorQWord = 
-    class(specialize TDefaultBinaryGreaterFunctor<QWord>);
-  TBinaryGreaterFunctorInt64 = 
-    class(specialize TDefaultBinaryGreaterFunctor<Int64>);
-  TBinaryGreaterFunctorSingle = 
-    class(specialize TDefaultBinaryGreaterFunctor<Single>);
-  TBinaryGreaterFunctorReal = 
-    class(specialize TDefaultBinaryGreaterFunctor<Real>);
-  TBinaryGreaterFunctorDouble = 
-    class(specialize TDefaultBinaryGreaterFunctor<Double>);
-  TBinaryGreaterFunctorExtended = 
-    class(specialize TDefaultBinaryGreaterFunctor<Extended>);
-  TBinaryGreaterFunctorCurrency = 
-    class(specialize TDefaultBinaryGreaterFunctor<Currency>);
-  TBinaryGreaterFunctorBoolean = 
-    class(specialize TDefaultBinaryGreaterFunctor<Boolean>);
-  TBinaryGreaterFunctorChar = 
-    class(specialize TDefaultBinaryGreaterFunctor<Char>);
-  TBinaryGreaterFunctorWideChar = 
-    class(specialize TDefaultBinaryGreaterFunctor<WideChar>);  
-  TBinaryGreaterFunctorString = 
-    class(specialize TDefaultBinaryGreaterFunctor<String>);
-  TBinaryGreaterFunctorWideString = 
-    class(specialize TDefaultBinaryGreaterFunctor<WideString>);
-
-  { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-                 Binary greater logic functors for default types
+                              Greater logic functor                             
                         
-    Return True if AValue1 > AValue2                       
+    Return True if AValue1 > AValue2.                       
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= } 
-  generic TDefaultBinaryLogicGreaterFunctor<V> = 
-    class (specialize TBinaryLogicFunctor<V>)
+  generic TDefaultGreaterFunctor<V> = 
+    class (specialize TBinaryLogicFunctor<V, Boolean>)
   public
     function Call(AValue1, AValue2 : V) : Boolean; override;
   end;
 
-  TBinaryLogicGreaterFunctorByte = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Byte>);
-  TBinaryLogicGreaterFunctorShortInt = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<ShortInt>);
-  TBinaryLogicGreaterFunctorWord = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Word>);
-  TBinaryLogicGreaterFunctorSmallInt = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<SmallInt>);
-  TBinaryLogicGreaterFunctorInteger = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Integer>);
-  TBinaryLogicGreaterFunctorDWord = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<DWord>);
-  TBinaryLogicGreaterFunctorCardinal = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Cardinal>);
-  TBinaryLogicGreaterFunctorLongWord = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<LongWord>);
-  TBinaryLogicGreaterFunctorLongInt = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<LongInt>);
-  TBinaryLogicGreaterFunctorQWord = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<QWord>);
-  TBinaryLogicGreaterFunctorInt64 = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Int64>);
-  TBinaryLogicGreaterFunctorSingle = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Single>);
-  TBinaryLogicGreaterFunctorReal = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Real>);
-  TBinaryLogicGreaterFunctorDouble = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Double>);
-  TBinaryLogicGreaterFunctorExtended = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Extended>);
-  TBinaryLogicGreaterFunctorCurrency = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Currency>);
-  TBinaryLogicGreaterFunctorBoolean = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Boolean>);
-  TBinaryLogicGreaterFunctorChar = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<Char>);
-  TBinaryLogicGreaterFunctorWideChar = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<WideChar>);  
-  TBinaryLogicGreaterFunctorString = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<String>);
-  TBinaryLogicGreaterFunctorWideString = 
-    class(specialize TDefaultBinaryLogicGreaterFunctor<WideString>);
+  { Functors for default types. } 
+  TGreaterFunctorByte = 
+    class(specialize TDefaultGreaterFunctor<Byte>);
+  TGreaterFunctorShortInt = 
+    class(specialize TDefaultGreaterFunctor<ShortInt>);
+  TGreaterFunctorWord = 
+    class(specialize TDefaultGreaterFunctor<Word>);
+  TGreaterFunctorSmallInt = 
+    class(specialize TDefaultGreaterFunctor<SmallInt>);
+  TGreaterFunctorInteger = 
+    class(specialize TDefaultGreaterFunctor<Integer>);
+  TGreaterFunctorDWord = 
+    class(specialize TDefaultGreaterFunctor<DWord>);
+  TGreaterFunctorCardinal = 
+    class(specialize TDefaultGreaterFunctor<Cardinal>);
+  TGreaterFunctorLongWord = 
+    class(specialize TDefaultGreaterFunctor<LongWord>);
+  TGreaterFunctorLongInt = 
+    class(specialize TDefaultGreaterFunctor<LongInt>);
+  TGreaterFunctorQWord = 
+    class(specialize TDefaultGreaterFunctor<QWord>);
+  TGreaterFunctorInt64 = 
+    class(specialize TDefaultGreaterFunctor<Int64>);
+  TGreaterFunctorSingle = 
+    class(specialize TDefaultGreaterFunctor<Single>);
+  TGreaterFunctorReal = 
+    class(specialize TDefaultGreaterFunctor<Real>);
+  TGreaterFunctorDouble = 
+    class(specialize TDefaultGreaterFunctor<Double>);
+  TGreaterFunctorExtended = 
+    class(specialize TDefaultGreaterFunctor<Extended>);
+  TGreaterFunctorCurrency = 
+    class(specialize TDefaultGreaterFunctor<Currency>);
+  TGreaterFunctorBoolean = 
+    class(specialize TDefaultGreaterFunctor<Boolean>);
+  TGreaterFunctorChar = 
+    class(specialize TDefaultGreaterFunctor<Char>);
+  TGreaterFunctorWideChar = 
+    class(specialize TDefaultGreaterFunctor<WideChar>);  
+  TGreaterFunctorString = 
+    class(specialize TDefaultGreaterFunctor<String>);
+  TGreaterFunctorWideString = 
+    class(specialize TDefaultGreaterFunctor<WideString>);
+
+  { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                               Equal logic functor                              
+                        
+    Return True if AValue1 = AValue2.                       
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= } 
+  generic TDefaultEqualFunctor<V> = 
+    class (specialize TBinaryLogicFunctor<V, Boolean>)
+  public
+    function Call(AValue1, AValue2 : V) : Boolean; override;
+  end;
+
+  { Functors for default types. } 
+  TEqualFunctorByte = 
+    class(specialize TDefaultEqualFunctor<Byte>);
+  TEqualFunctorShortInt = 
+    class(specialize TDefaultEqualFunctor<ShortInt>);
+  TEqualFunctorWord = 
+    class(specialize TDefaultEqualFunctor<Word>);
+  TEqualFunctorSmallInt = 
+    class(specialize TDefaultEqualFunctor<SmallInt>);
+  TEqualFunctorInteger = 
+    class(specialize TDefaultEqualFunctor<Integer>);
+  TEqualFunctorDWord = 
+    class(specialize TDefaultEqualFunctor<DWord>);
+  TEqualFunctorCardinal = 
+    class(specialize TDefaultEqualFunctor<Cardinal>);
+  TEqualFunctorLongWord = 
+    class(specialize TDefaultEqualFunctor<LongWord>);
+  TEqualFunctorLongInt = 
+    class(specialize TDefaultEqualFunctor<LongInt>);
+  TEqualFunctorQWord = 
+    class(specialize TDefaultEqualFunctor<QWord>);
+  TEqualFunctorInt64 = 
+    class(specialize TDefaultEqualFunctor<Int64>);
+  TEqualFunctorSingle = 
+    class(specialize TDefaultEqualFunctor<Single>);
+  TEqualFunctorReal = 
+    class(specialize TDefaultEqualFunctor<Real>);
+  TEqualFunctorDouble = 
+    class(specialize TDefaultEqualFunctor<Double>);
+  TEqualFunctorExtended = 
+    class(specialize TDefaultEqualFunctor<Extended>);
+  TEqualFunctorCurrency = 
+    class(specialize TDefaultEqualFunctor<Currency>);
+  TEqualFunctorBoolean = 
+    class(specialize TDefaultEqualFunctor<Boolean>);
+  TEqualFunctorChar = 
+    class(specialize TDefaultEqualFunctor<Char>);
+  TEqualFunctorWideChar = 
+    class(specialize TDefaultEqualFunctor<WideChar>);  
+  TEqualFunctorString = 
+    class(specialize TDefaultEqualFunctor<String>);
+  TEqualFunctorWideString = 
+    class(specialize TDefaultEqualFunctor<WideString>);
 
 implementation
 
-function TDefaultBinaryLessFunctor.Call(AValue1, AValue2 : V) : Integer;
+function TDefaultEqualFunctor.Call(AValue1, AValue2 : V) : Integer;
 begin
   if AValue1 < AValue2 then
   begin
-    Result := 1;
+    Result := -1;
   end else if AValue2 < AValue1 then
   begin
-    Result := -1
+    Result := 1
   end else
   begin
     Result := 0;
   end;
 end;
 
-function TDefaultBinaryLogicLessFunctor.Call(AValue1, AValue2 : V) : Boolean;
+function TDefaultLessFunctor.Call(AValue1, AValue2 : V) : Boolean;
 begin
   Result := AValue1 < AValue2;
 end;
 
-function TDefaultBinaryGreaterFunctor.Call(AValue1, AValue2 : V) : Integer;
-begin
-  if AValue1 > AValue2 then
-  begin
-    Result := 1;
-  end else if AValue2 > AValue1 then
-  begin
-    Result := -1
-  end else
-  begin
-    Result := 0;
-  end;
-end;
-
-function TDefaultBinaryLogicGreaterFunctor.Call(AValue1, AValue2 : V) : Boolean;
+function TDefaultGreaterFunctor.Call(AValue1, AValue2 : V) : Boolean;
 begin
   Result := AValue1 > AValue2;
+end;
+
+function TDefaultEqualFunctor.Call(AValue1, AValue2 : V) : Boolean;
+begin
+  Result := AValue1 = AValue2;
 end;
 
 end.
