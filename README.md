@@ -40,3 +40,27 @@ type
 ```
 
 [TUnaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) class and [TBinaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) provides functor structure, like in C++ language.
+
+##### TDataSize
+
+```pascal
+uses
+  utils.datasize;
+
+type
+  TDataSize = class
+```
+
+[TDataSize](https://github.com/isemenkov/pascalutils/blob/master/source/utils.datasize.pas) class manipulate data sizes.
+
+##### TTimeInterval
+
+```pascal
+uses
+  utils.timeinterval;
+
+type
+  TTimeInterval = class
+```
+
+[TTimeInterval](https://github.com/isemenkov/pascalutils/blob/master/source/utils.timeinterval.pas) class manipulate time intervals.
