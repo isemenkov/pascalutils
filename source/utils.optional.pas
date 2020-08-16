@@ -43,10 +43,10 @@ type
   generic TOptional<T> = class
   public
     { Create new Optional with None type }
-    constructor Create;
+    constructor Create; overload;
 
     { Create new Optional with Some type }
-    constructor Create (AValue : T);
+    constructor Create (AValue : T); overload;
 
     { Return true if optional contains value }
     function IsSome : Boolean;
