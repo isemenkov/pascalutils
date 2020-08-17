@@ -41,6 +41,9 @@ type
   public
     type
       TSelfPair = specialize TPair<T1, T2>;
+  protected
+    FFirst : T1;
+    FSecond : T2;
   public
     { Create pair with default values of T1 and T2 } 
     constructor Create; overload;
@@ -51,14 +54,11 @@ type
     { Create pair from exiting pair. }
     constructor Create (APair : TSelfPair); overload;
 
-    { Return first pair value. }
-    function First : T1; {$IFNDEF DEBUG}inline;{$ENDIF}
+    { Pair first value. }
+    property First : T1 read FFirst write FFirst;
 
-    { Return second pair value. }
-    function Second : T2; {$IFNDEF DEBUG}inline;{$ENDIF} 
-  protected
-    FFirst : T1;
-    FSecond : T2;
+    { Pair second value. }
+    property Second : T2 read FSecond write FSecond;
   end;
 
 implementation
@@ -80,16 +80,6 @@ constructor TPair.Create (APair : TSelfPair);
 begin
   FFirst := APair.First;
   FSecond := APair.Second;
-end;
-
-function TPair.First : T1;
-begin
-  Result := FFirst;
-end;
-
-function TPair.Second : T2;
-begin
-  Result := FSecond;
 end;
 
 end.
