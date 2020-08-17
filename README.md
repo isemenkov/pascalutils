@@ -64,3 +64,15 @@ type
 ```
 
 [TTimeInterval](https://github.com/isemenkov/pascalutils/blob/master/source/utils.timeinterval.pas) class manipulate time intervals.
+
+##### TPair
+
+```pascal
+
+uses
+  utils.pair;
+
+type
+  generic TPair<T1, T2> = class
+```
+[TPair](https://github.com/isemenkov/pascalutils/blob/master/source/utils.pair.pas) class contains pair of values like in C++ language.

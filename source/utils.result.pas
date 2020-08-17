@@ -45,7 +45,7 @@ type
   { Contains result value or error type like in GO or Rust lang }
   generic TResult<V, E> = class
   public
-    { Create new rsult contains value }
+    { Create new result contains value }
     constructor CreateValue (AValue : V);
 
     { Create new result contains error }
