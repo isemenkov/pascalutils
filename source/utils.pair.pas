@@ -67,6 +67,8 @@ implementation
 
 constructor TPair.Create;
 begin
+  FFirst := Default(T1);
+  FSecond := Default(T2);
   inherited Create;
 end;
 
