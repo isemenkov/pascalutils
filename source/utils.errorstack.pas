@@ -45,8 +45,9 @@ type
     codes. }
   generic TArrayErrorStack<T> = class
   {$IFDEF USE_OPTIONAL}
-  type
-    TOptionalError = specialize TOptional<T>;
+  public
+    type
+      TOptionalError = specialize TOptional<T>;
   {$ENDIF}
   public
     constructor Create;
@@ -70,7 +71,42 @@ type
     FAlloced : Cardinal;
   end;
 
+  { TListErrorStack is generic stack over list of T which contains errors 
+    codes. }
+  generic TListErrorStack<T> = class
+  {$IFDEF USE_OPTIONAL}
+  public
+    type
+      TOptionalError = specialize TOptional<T>;
+  {$ENDIF}
+  protected
+    { Item enty type }
+    PListEntry = ^TListEntry;
+    TListEntry = record
+      Value : T;
+      Next : PListEntry;
+    end;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    { Push error to stack }
+    procedure Push (AError : T);
+
+    { Return top error and remove it from stack. Raise EErrorNotExists exception
+      if stack is empty. }
+    function Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF};
+
+    { Stack count elements }
+    function Count : Cardinal;
+  protected
+    FFirstNode : PListEntry;
+    FLength : Cardinal;
+  end;
+
 implementation
+
+{ TArrayErrorStack }
 
 constructor TArrayErrorStack.Create;
 begin
@@ -119,7 +155,7 @@ begin
   if FLength = 0 then
   begin
     {$IFNDEF USE_OPTIONAL}
-    raise EErrorNotExists.Create('Error not exists.');
+    raise EErrorNotExists.Create('Errors not exists.');
     {$ELSE}
     Exit(TOptionalError.Create);
     {$ENDIF}
@@ -130,6 +166,63 @@ begin
 end;
 
 function TArrayErrorStack.Count : Cardinal;
+begin
+  Result := FLength;
+end;
+
+{ TListErrorStack }
+
+constructor TListErrorStack.Create;
+begin
+  FFirstNode := nil;
+  FLength := 0;
+end;
+
+destructor TListErrorStack.Destroy;
+var
+  NextNode : PListEntry;
+begin
+  while FFirstNode <> nil then
+  begin
+    NextNode := FFirstNode^.Next;
+    Dispose(FFirstNode);
+    FFirstNode := NextNode;
+  end;
+end;
+
+procedure TListErrorStack.Push (AError : T);
+var
+  NewNode : PListEntry;
+begin
+  New(NewNode);
+  NewNode^.Value := T;
+  NewNode^.Next := FFirstNode;
+  FFirstNode := NewNode;
+  Inc(FLength);  
+end;
+
+function TListErrorStack.Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError
+  {$ENDIF}
+var
+  CurrNode : PListEntry;
+begin
+  if FFirstNode = nil then
+  begin
+    {$IFNDEF USE_OPTIONAL}
+    raise EErrorNotExists.Create('Errors not exists.');
+    {$ELSE}
+    Exit(TOptionalError.Create);
+    {$ENDIF}
+  end;
+
+  Result := FFirstNode^.Value;
+  CurrNode := FFirstNode;
+  FFirstNode := FFirstNode^.Next;
+  Dispose(CurrNode);
+  Dec(FLength);
+end;
+
+function TListErrorStack.Count : Cardinal;
 begin
   Result := FLength;
 end;
