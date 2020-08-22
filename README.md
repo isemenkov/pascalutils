@@ -77,16 +77,16 @@ type
 ```
 [TPair](https://github.com/isemenkov/pascalutils/blob/master/source/utils.pair.pas) class contains pair of values like in C++ language.
 
-##### TArrayErrorStack, TListErrorStack
+##### TArrayErrorsStack, TListErrorsStack
 
 ```pascal
 
 uses
-  utils.errorstack;
+  utils.errorsstack;
 
 type
-  generic TArrayErrorStack<T> = class
-  generic TListErrorStack<T> = class
+  generic TArrayErrorsStack<T> = class
+  generic TListErrorsStack<T> = class
 ```
 
-[TArrayErrorStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorstack.pas) is generic stack over array of T and [TListErrorStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorstack.pas) is generic stack over list of T classes which contains errors codes.
+[TArrayErrorsStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorsstack.pas) is generic stack over array of T and [TListErrorsStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorsstack.pas) is generic stack over list of T classes which contains errors codes.

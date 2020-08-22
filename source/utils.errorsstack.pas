@@ -23,7 +23,7 @@
 (*                                                                            *)
 (******************************************************************************)
 
-unit utils.errorstack;
+unit utils.errorsstack;
 
 {$mode objfpc}{$H+}
 {$IFOPT D+}
@@ -41,14 +41,15 @@ type
   EErrorNotExists = class(Exception);
   {$ENDIF}
 
-  { TArrayErrorStack is generic stack over array of T which contains errors 
+  { TArrayErrorsStack is generic stack over array of T which contains errors 
     codes. }
-  generic TArrayErrorStack<T> = class
-  {$IFDEF USE_OPTIONAL}
+  generic TArrayErrorsStack<T> = class
   public
     type
+      {$IFDEF USE_OPTIONAL}
       TOptionalError = specialize TOptional<T>;
-  {$ENDIF}
+      {$ENDIF}
+      TErrorsEnumerator = class;
   public
     constructor Create;
     destructor Destroy; override;
@@ -62,6 +63,37 @@ type
 
     { Stack count elements }
     function Count : Cardinal;
+
+    { Return enumerator for in operator. }
+    function GetEnumerator : TErrorsEnumerator;
+  public
+    type
+      PErrorsDynArray = ^TErrorsDynArray;
+      TErrorsDynArray = array of T;  
+
+      { TArrayErrorsStack enumerator }  
+      TErrorsEnumerator = class
+      protected
+        { Return enumerator for in operator }
+        function GetEnumerator : TErrorsEnumerator;
+
+        { Get error }
+        function GetCurrent : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError
+          {$ENDIF};
+      public
+        constructor Create (Arr : PErrorsDynArray; Len : Cardinal);
+
+        { Return True if can move to next item }
+        function MoveNext : Boolean;
+
+        { Return current item and move pointer to next item. }
+        property Current : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF}
+          read GetCurrent;
+      protected
+        FErrors : PErrorsDynArray;
+        FLength : Cardinal;
+        FPosition : Integer;
+      end;
   protected
     { Reallocate the array to the new size }
     function Enlarge : Boolean;
@@ -71,14 +103,15 @@ type
     FAlloced : Cardinal;
   end;
 
-  { TListErrorStack is generic stack over list of T which contains errors 
+  { TListErrorsStack is generic stack over list of T which contains errors 
     codes. }
-  generic TListErrorStack<T> = class
-  {$IFDEF USE_OPTIONAL}
+  generic TListErrorsStack<T> = class
   public
     type
+      {$IFDEF USE_OPTIONAL}
       TOptionalError = specialize TOptional<T>;
-  {$ENDIF}
+      {$ENDIF}
+      TErrorsEnumerator = class;
   protected
     { Item enty type }
     PListEntry = ^TListEntry;
@@ -99,6 +132,29 @@ type
 
     { Stack count elements }
     function Count : Cardinal;
+  public
+    type
+      { TListErrorsStack enumerator }  
+      TErrorsEnumerator = class
+      protected
+        { Return enumerator for in operator }
+        function GetEnumerator : TErrorsEnumerator;
+
+        { Get error }
+        function GetCurrent : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError
+          {$ENDIF};
+      public
+        constructor Create (FirstEntry : PListEntry);
+
+        { Return True if can move to next item }
+        function MoveNext : Boolean;
+
+        { Return current item and move pointer to next item. }
+        property Current : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF}
+          read GetCurrent;
+      protected
+        FNode : PListEntry;
+      end;
   protected
     FFirstNode : PListEntry;
     FLength : Cardinal;
@@ -106,22 +162,58 @@ type
 
 implementation
 
-{ TArrayErrorStack }
+{ TArrayErrorsStack.TErrorsEnumerator }
 
-constructor TArrayErrorStack.Create;
+constructor TArrayErrorsStack.TErrorsEnumerator.Create (Arr : PErrorsDynArray;
+  Len : Cardinal);
+begin
+  FErrors := Arr;
+  FLength := Len;
+  FPosition := 0;
+end;
+
+function TArrayErrorsStack.TErrorsEnumerator.GetEnumerator : TErrorsEnumerator;
+begin
+  Result := Self;
+end;
+
+function TArrayErrorsStack.TErrorsEnumerator.GetCurrent : 
+  {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF}
+begin
+  if FPosition > FLength then
+  begin
+    {$IFNDEF USE_OPTIONAL}
+    raise EErrorNotExists.Create('Errors not exists.');
+    {$ELSE}
+    Exit(TOptionalError.Create);
+    {$ENDIF}
+  end;
+
+  Result := FErrors[FPosition];
+  Inc(FPosition);
+end;
+
+function TArrayErrorsStack.TErrorsEnumerator.MoveNext : Boolean;
+begin
+  Result := FPosition < FLength;
+end;
+
+{ TArrayErrorsStack }
+
+constructor TArrayErrorsStack.Create;
 begin
   SetLength(FData, 16);
   FAlloced := 16;
   FLength := 0;
 end;
 
-destructor TArrayErrorStack.Destroy;
+destructor TArrayErrorsStack.Destroy;
 begin
   SetLength(FData, 0);
   inherited Destroy;
 end;
 
-function TArrayErrorStack.Enlarge : Boolean;
+function TArrayErrorsStack.Enlarge : Boolean;
 var
   NewSize : Cardinal;
 begin
@@ -135,7 +227,7 @@ begin
   Result := True;  
 end;
 
-procedure TArrayErrorStack.Push (AError : T);
+procedure TArrayErrorsStack.Push (AError : T);
 begin
   if FLength + 1 > FAlloced then
   begin
@@ -149,7 +241,7 @@ begin
   Inc(FLength);
 end;
 
-function TArrayErrorStack.Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError
+function TArrayErrorsStack.Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError
   {$ENDIF};
 begin
   if FLength = 0 then
@@ -165,20 +257,58 @@ begin
   Dec(FLength);
 end;
 
-function TArrayErrorStack.Count : Cardinal;
+function TArrayErrorsStack.Count : Cardinal;
 begin
   Result := FLength;
 end;
 
-{ TListErrorStack }
+function TArrayErrorsStack.GetEnumerator : TErrorsEnumerator;
+begin
+  Result := TErrorsEnumerator.Create(@FData, FLength);
+end;
 
-constructor TListErrorStack.Create;
+{ TListErrorsStack.TErrorsEnumerator }
+
+constructor TListErrorsStack.TErrorsEnumerator.Create (FirstEntry : PListEntry);
+begin
+  FNode := FirstEntry;
+end;
+
+function TListErrorsStack.TErrorsEnumerator.GetEnumerator : TErrorsEnumerator;
+begin
+  Result := Self;
+end;
+
+function TListErrorsStack.TErrorsEnumerator.GetCurrent : 
+  {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF}
+begin
+  if FNode = nil then
+  begin
+    {$IFNDEF USE_OPTIONAL}
+    raise EErrorNotExists.Create('Errors not exists.');
+    {$ELSE}
+    Exit(TOptionalError.Create);
+    {$ENDIF}
+  end;
+
+  Result := FNode^.Value;
+  FNode := FNode^.Next;
+end;
+
+function TListErrorsStack.TErrorsEnumerator.MoveNext : Boolean;
+begin
+  Result := FNode <> nil;
+end;
+
+{ TListErrorsStack }
+
+constructor TListErrorsStack.Create;
 begin
   FFirstNode := nil;
   FLength := 0;
 end;
 
-destructor TListErrorStack.Destroy;
+destructor TListErrorsStack.Destroy;
 var
   NextNode : PListEntry;
 begin
@@ -190,7 +320,7 @@ begin
   end;
 end;
 
-procedure TListErrorStack.Push (AError : T);
+procedure TListErrorsStack.Push (AError : T);
 var
   NewNode : PListEntry;
 begin
@@ -201,7 +331,7 @@ begin
   Inc(FLength);  
 end;
 
-function TListErrorStack.Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError
+function TListErrorsStack.Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError
   {$ENDIF}
 var
   CurrNode : PListEntry;
@@ -222,7 +352,7 @@ begin
   Dec(FLength);
 end;
 
-function TListErrorStack.Count : Cardinal;
+function TListErrorsStack.Count : Cardinal;
 begin
   Result := FLength;
 end;
