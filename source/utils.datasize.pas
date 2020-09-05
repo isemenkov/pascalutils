@@ -365,7 +365,7 @@ begin
       [FKilobytes.Value, FBytes.Value]) + ' KiB' + ASuffix;
   end else
   begin
-    Result := Format('%0.2d', [FBytes.Value]) + ' B' + ASuffix;
+    Result := Format('%0.1d', [FBytes.Value]) + ' B' + ASuffix;
   end;
 end;
 
