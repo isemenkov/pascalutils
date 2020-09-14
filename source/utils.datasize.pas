@@ -346,26 +346,26 @@ function TDataSize.ToString (ASuffix : string): string;
 begin
   if FTerabytes.Value > 0 then
   begin
-    Result := Format('%0.2d,%0.2d',
+    Result := Format('%0.1d,%0.2d',
       [FTerabytes.Value, FGigabytes.Value]) + ' TiB' + ASuffix;
   end else
   if FGigabytes.Value > 0 then
   begin
-    Result := Format('%0.2d,%0.2d',
+    Result := Format('%0.1d,%0.2d',
       [FGigabytes.Value, FMegabytes.Value]) + ' GiB' + ASuffix;
   end else
   if FMegabytes.Value > 0 then
   begin
-    Result := Format('%0.2d,%0.2d',
+    Result := Format('%0.1d,%0.2d',
       [FMegabytes.Value, FKilobytes.Value]) + ' MiB' + ASuffix;
   end else
   if FKilobytes.Value > 0 then
   begin
-    Result := Format('%0.2d,%0.2d',
+    Result := Format('%0.1d,%0.2d',
       [FKilobytes.Value, FBytes.Value]) + ' KiB' + ASuffix;
   end else
   begin
-    Result := Format('%0.2d', [FBytes.Value]) + ' B' + ASuffix;
+    Result := Format('%0.1d', [FBytes.Value]) + ' B' + ASuffix;
   end;
 end;
 

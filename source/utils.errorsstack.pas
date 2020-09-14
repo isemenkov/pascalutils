@@ -113,12 +113,13 @@ type
       {$ENDIF}
       TErrorsEnumerator = class;
   protected
-    { Item enty type }
-    PListEntry = ^TListEntry;
-    TListEntry = record
-      Value : T;
-      Next : PListEntry;
-    end;
+    type
+      { Item enty type }
+      PListEntry = ^TListEntry;
+      TListEntry = record
+        Value : T;
+        Next : PListEntry;
+      end;
   public
     constructor Create;
     destructor Destroy; override;
@@ -178,7 +179,7 @@ begin
 end;
 
 function TArrayErrorsStack.TErrorsEnumerator.GetCurrent : 
-  {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF}
+  {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF};
 begin
   if FPosition > FLength then
   begin
@@ -280,7 +281,7 @@ begin
 end;
 
 function TListErrorsStack.TErrorsEnumerator.GetCurrent : 
-  {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF}
+  {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF};
 begin
   if FNode = nil then
   begin
@@ -312,7 +313,7 @@ destructor TListErrorsStack.Destroy;
 var
   NextNode : PListEntry;
 begin
-  while FFirstNode <> nil then
+  while FFirstNode <> nil do
   begin
     NextNode := FFirstNode^.Next;
     Dispose(FFirstNode);
@@ -325,14 +326,14 @@ var
   NewNode : PListEntry;
 begin
   New(NewNode);
-  NewNode^.Value := T;
+  NewNode^.Value := AError;
   NewNode^.Next := FFirstNode;
   FFirstNode := NewNode;
   Inc(FLength);  
 end;
 
 function TListErrorsStack.Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError
-  {$ENDIF}
+  {$ENDIF};
 var
   CurrNode : PListEntry;
 begin
