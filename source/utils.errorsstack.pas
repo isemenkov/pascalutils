@@ -133,6 +133,9 @@ type
 
     { Stack count elements }
     function Count : Cardinal;
+
+    { Return enumerator for in operator. }
+    function GetEnumerator : TErrorsEnumerator;
   public
     type
       { TListErrorsStack enumerator }  
@@ -356,6 +359,11 @@ end;
 function TListErrorsStack.Count : Cardinal;
 begin
   Result := FLength;
+end;
+
+function TListErrorsStack.GetEnumerator : TErrorsEnumerator;
+begin
+  Result := TErrorsEnumerator.Create(FFirstNode);
 end;
 
 end.
