@@ -106,6 +106,17 @@ type
     class(specialize TDefaultCompareFunctor<WideString>);
 
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                            Unsortable Compare functor                         
+    
+    Functor which can use to unsortable elements.                  
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
+  generic TUnsortableFunctor<V> = class
+    (specialize TBinaryFunctor<V, Integer)
+  public
+    function Call(AValue1, AValue2 : V) : Integer; override;
+  end;
+
+  { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
                                 Less logic functor                             
                         
     Return True if AValue1 < AValue2.                       
@@ -284,6 +295,11 @@ begin
   begin
     Result := 0;
   end;
+end;
+
+function TUnsortableFunctor.Call (AValue1, AValue2 : V) : Integer;
+begin
+  Result := 0;
 end;
 
 function TDefaultLessFunctor.Call(AValue1, AValue2 : V) : Boolean;
