@@ -111,7 +111,7 @@ type
     Functor which can use to unsortable elements.                  
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
   generic TUnsortableFunctor<V> = class
-    (specialize TBinaryFunctor<V, Integer)
+    (specialize TBinaryFunctor<V, Integer>)
   public
     function Call(AValue1, AValue2 : V) : Integer; override;
   end;
