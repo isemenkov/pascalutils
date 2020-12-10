@@ -41,9 +41,13 @@ PascalUtils is object pascal library of utils data structures.
     * [Examples](#examples-5)
       * [Create](#create-5)
       * [Get value](#get-value-2)
-  * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
+  * [TTuple](#tuple)
     * [Examples](#examples-6)
       * [Create](#create-6)
+      * [Get value](#get-value-3)
+  * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
+    * [Examples](#examples-7)
+      * [Create](#create-7)
       * [Push](#push)
       * [Pop](#pop)
       * [Iterate](#iterate)
@@ -494,6 +498,60 @@ end;
 
   { Get second value. }
   writeln(pair.Second);
+```
+
+
+
+#### TTuple
+
+```pascal
+
+uses
+  utils.tuple;
+
+type
+  generic TTuple3<T1, T2, T3> = class
+  generic TTuple4<T1, T2, T3, T4> = class
+  generic TTuple5<T1, T2, T3, T4, T5> = class
+```
+[TTuple](https://github.com/isemenkov/pascalutils/blob/master/source/utils.tuple.pas) class contains tuple of values like in C++ language.
+
+##### Examples
+
+###### Create
+
+```pascal
+uses
+  utils.tuple;
+
+type
+  TIntTuple = specialize TTuple3<Integer, Integer, Integer>;
+
+var
+  tuple : TIntTuple;
+
+begin
+  { Create tuple with default values. }
+  tuple := TIntTuple.Create;
+
+  { Create tuple. }
+  tuple := TIntTuple.Create(2, -4, 4);
+
+  FreeAndNil(tuple);
+end;
+```
+
+###### Get value
+
+```pascal
+  { Get first value. }
+  writeln(tuple.First);
+
+  { Get second value. }
+  writeln(tuple.Second);
+
+  { Get third value. }
+  writeln(tuple.Third);
 ```
 
 
