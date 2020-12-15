@@ -113,7 +113,7 @@ type
   generic TUnsortableFunctor<V> = class
     (specialize TBinaryFunctor<V, Integer>)
   public
-    function Call(AValue1, AValue2 : V) : Integer; override;
+    function Call({%H-}AValue1, {%H-}AValue2 : V) : Integer; override;
   end;
 
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
