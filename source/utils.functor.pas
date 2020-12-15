@@ -25,25 +25,27 @@
 
 unit utils.functor;
 
-{$mode objfpc}{$H+}
-{$IFOPT D+}
-  {$DEFINE DEBUG}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+  {$IFOPT D+}
+    {$DEFINE DEBUG}
+  {$ENDIF}
 {$ENDIF}
 
 interface
 
 uses    
-  SysUtils;
+  SysUtils {$IFNDEF FPC}, System.Generics.Defaults{$ENDIF};
 
 type
   { Base unary functor }  
-  generic TUnaryFunctor<V, R> = class
+  {$IFDEF FPC}generic{$ENDIF} TUnaryFunctor<V, R> = class
   public
     function Call(AValue : V) : R; virtual; abstract;
   end;
 
   { Base binary functor }
-  generic TBinaryFunctor<V, R> = class
+  {$IFDEF FPC}generic{$ENDIF} TBinaryFunctor<V, R> = class
   public  
     function Call(AValue1, AValue2 : V) : R; virtual; abstract;
   end;
@@ -55,63 +57,67 @@ type
     value if value1 should be sorted after value2, zero if value1 and value2 are 
     equal.                  
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
-  generic TDefaultCompareFunctor<V> = 
-    class(specialize TBinaryFunctor<V, Integer>)
+  {$IFDEF FPC}generic{$ENDIF} TDefaultCompareFunctor<V> =
+    class({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Integer>)
   public
     function Call(AValue1, AValue2 : V) : Integer; override;
   end;
 
   { Functors for default types. }
   TCompareFunctorByte = 
-    class(specialize TDefaultCompareFunctor<Byte>);
-  TCompareFunctorShortInt = 
-    class(specialize TDefaultCompareFunctor<ShortInt>);
-  TCompareFunctorWord = 
-    class(specialize TDefaultCompareFunctor<Word>);
-  TCompareFunctorSmallInt = 
-    class(specialize TDefaultCompareFunctor<SmallInt>);
-  TCompareFunctorInteger = 
-    class(specialize TDefaultCompareFunctor<Integer>);
-  TCompareFunctorDWord = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Byte>);
+  TCompareFunctorShortInt =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<ShortInt>);
+  TCompareFunctorWord =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Word>);
+  TCompareFunctorSmallInt =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<SmallInt>);
+  TCompareFunctorInteger =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Integer>);
+  {$IFDEF FPC}
+  TCompareFunctorDWord =
     class(specialize TDefaultCompareFunctor<DWord>);
-  TCompareFunctorCardinal = 
-    class(specialize TDefaultCompareFunctor<Cardinal>);
-  TCompareFunctorLongWord = 
-    class(specialize TDefaultCompareFunctor<LongWord>);
-  TCompareFunctorLongInt = 
-    class(specialize TDefaultCompareFunctor<LongInt>);
-  TCompareFunctorQWord = 
+  {$ENDIF}
+  TCompareFunctorCardinal =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Cardinal>);
+  TCompareFunctorLongWord =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<LongWord>);
+  TCompareFunctorLongInt =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<LongInt>);
+  {$IFDEF FPC}
+  TCompareFunctorQWord =
     class(specialize TDefaultCompareFunctor<QWord>);
-  TCompareFunctorInt64 = 
-    class(specialize TDefaultCompareFunctor<Int64>);
-  TCompareFunctorSingle = 
-    class(specialize TDefaultCompareFunctor<Single>);
-  TCompareFunctorReal = 
-    class(specialize TDefaultCompareFunctor<Real>);
-  TCompareFunctorDouble = 
-    class(specialize TDefaultCompareFunctor<Double>);
-  TCompareFunctorExtended = 
-    class(specialize TDefaultCompareFunctor<Extended>);
-  TCompareFunctorCurrency = 
-    class(specialize TDefaultCompareFunctor<Currency>);
-  TCompareFunctorBoolean = 
-    class(specialize TDefaultCompareFunctor<Boolean>);
-  TCompareFunctorChar = 
-    class(specialize TDefaultCompareFunctor<Char>);
-  TCompareFunctorWideChar = 
-    class(specialize TDefaultCompareFunctor<WideChar>);  
-  TCompareFunctorString = 
-    class(specialize TDefaultCompareFunctor<String>);
-  TCompareFunctorWideString = 
-    class(specialize TDefaultCompareFunctor<WideString>);
+  {$ENDIF}
+  TCompareFunctorInt64 =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Int64>);
+  TCompareFunctorSingle =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Single>);
+  TCompareFunctorReal =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Real>);
+  TCompareFunctorDouble =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Double>);
+  TCompareFunctorExtended =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Extended>);
+  TCompareFunctorCurrency =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Currency>);
+  TCompareFunctorBoolean =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Boolean>);
+  TCompareFunctorChar =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Char>);
+  TCompareFunctorWideChar =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<WideChar>);
+  TCompareFunctorString =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<String>);
+  TCompareFunctorWideString =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<WideString>);
 
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
                             Unsortable Compare functor                         
     
     Functor which can use to unsortable elements.                  
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
-  generic TUnsortableFunctor<V> = class
-    (specialize TBinaryFunctor<V, Integer>)
+  {$IFDEF FPC}generic{$ENDIF} TUnsortableFunctor<V> = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Integer>)
   public
     function Call({%H-}AValue1, {%H-}AValue2 : V) : Integer; override;
   end;
@@ -121,170 +127,186 @@ type
                         
     Return True if AValue1 < AValue2.                       
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= } 
-  generic TDefaultLessFunctor<V> = 
-    class (specialize TBinaryFunctor<V, Boolean>)
+  {$IFDEF FPC}generic{$ENDIF} TDefaultLessFunctor<V> =
+    class ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Boolean>)
   public
     function Call(AValue1, AValue2 : V) : Boolean; override;
   end;
 
-  { Functors for default types. } 
+  { Functors for default types. }
   TLessFunctorByte = 
-    class(specialize TDefaultLessFunctor<Byte>);
-  TLessFunctorShortInt = 
-    class(specialize TDefaultLessFunctor<ShortInt>);
-  TLessFunctorWord = 
-    class(specialize TDefaultLessFunctor<Word>);
-  TLessFunctorSmallInt = 
-    class(specialize TDefaultLessFunctor<SmallInt>);
-  TLessFunctorInteger = 
-    class(specialize TDefaultLessFunctor<Integer>);
-  TLessFunctorDWord = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Byte>);
+  TLessFunctorShortInt =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<ShortInt>);
+  TLessFunctorWord =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Word>);
+  TLessFunctorSmallInt =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<SmallInt>);
+  TLessFunctorInteger =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Integer>);
+  {$IFDEF FPC}
+  TLessFunctorDWord =
     class(specialize TDefaultLessFunctor<DWord>);
-  TLessFunctorCardinal = 
-    class(specialize TDefaultLessFunctor<Cardinal>);
-  TLessFunctorLongWord = 
-    class(specialize TDefaultLessFunctor<LongWord>);
+  {$ENDIF}
+  TLessFunctorCardinal =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Cardinal>);
+  TLessFunctorLongWord =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<LongWord>);
   TLessFunctorLongInt = 
-    class(specialize TDefaultLessFunctor<LongInt>);
-  TLessFunctorQWord = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<LongInt>);
+  {$IFDEF FPC}
+  TLessFunctorQWord =
     class(specialize TDefaultLessFunctor<QWord>);
-  TLessFunctorInt64 = 
-    class(specialize TDefaultLessFunctor<Int64>);
-  TLessFunctorSingle = 
-    class(specialize TDefaultLessFunctor<Single>);
-  TLessFunctorReal = 
-    class(specialize TDefaultLessFunctor<Real>);
-  TLessFunctorDouble = 
-    class(specialize TDefaultLessFunctor<Double>);
-  TLessFunctorExtended = 
-    class(specialize TDefaultLessFunctor<Extended>);
-  TLessFunctorCurrency = 
-    class(specialize TDefaultLessFunctor<Currency>);
-  TLessFunctorBoolean = 
-    class(specialize TDefaultLessFunctor<Boolean>);
-  TLessFunctorChar = 
-    class(specialize TDefaultLessFunctor<Char>);
-  TLessFunctorWideChar = 
-    class(specialize TDefaultLessFunctor<WideChar>);  
-  TLessFunctorString = 
-    class(specialize TDefaultLessFunctor<String>);
-  TLessFunctorWideString = 
-    class(specialize TDefaultLessFunctor<WideString>);
+  {$ENDIF}
+  TLessFunctorInt64 =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Int64>);
+  TLessFunctorSingle =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Single>);
+  TLessFunctorReal =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Real>);
+  TLessFunctorDouble =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Double>);
+  TLessFunctorExtended =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Extended>);
+  TLessFunctorCurrency =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Currency>);
+  TLessFunctorBoolean =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Boolean>);
+  TLessFunctorChar =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Char>);
+  TLessFunctorWideChar =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<WideChar>);
+  TLessFunctorString =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<String>);
+  TLessFunctorWideString =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<WideString>);
 
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
                               Greater logic functor                             
                         
     Return True if AValue1 > AValue2.                       
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= } 
-  generic TDefaultGreaterFunctor<V> = 
-    class (specialize TBinaryFunctor<V, Boolean>)
+  {$IFDEF FPC}generic{$ENDIF} TDefaultGreaterFunctor<V> =
+    class ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Boolean>)
   public
     function Call(AValue1, AValue2 : V) : Boolean; override;
   end;
 
-  { Functors for default types. } 
-  TGreaterFunctorByte = 
-    class(specialize TDefaultGreaterFunctor<Byte>);
-  TGreaterFunctorShortInt = 
-    class(specialize TDefaultGreaterFunctor<ShortInt>);
-  TGreaterFunctorWord = 
-    class(specialize TDefaultGreaterFunctor<Word>);
-  TGreaterFunctorSmallInt = 
-    class(specialize TDefaultGreaterFunctor<SmallInt>);
-  TGreaterFunctorInteger = 
-    class(specialize TDefaultGreaterFunctor<Integer>);
-  TGreaterFunctorDWord = 
+  { Functors for default types. }
+  TGreaterFunctorByte =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Byte>);
+  TGreaterFunctorShortInt =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<ShortInt>);
+  TGreaterFunctorWord =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Word>);
+  TGreaterFunctorSmallInt =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<SmallInt>);
+  TGreaterFunctorInteger =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Integer>);
+  {$IFDEF FPC}
+  TGreaterFunctorDWord =
     class(specialize TDefaultGreaterFunctor<DWord>);
-  TGreaterFunctorCardinal = 
-    class(specialize TDefaultGreaterFunctor<Cardinal>);
-  TGreaterFunctorLongWord = 
-    class(specialize TDefaultGreaterFunctor<LongWord>);
-  TGreaterFunctorLongInt = 
-    class(specialize TDefaultGreaterFunctor<LongInt>);
-  TGreaterFunctorQWord = 
+  {$ENDIF}
+  TGreaterFunctorCardinal =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Cardinal>);
+  TGreaterFunctorLongWord =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<LongWord>);
+  TGreaterFunctorLongInt =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<LongInt>);
+  {$IFDEF FPC}
+  TGreaterFunctorQWord =
     class(specialize TDefaultGreaterFunctor<QWord>);
-  TGreaterFunctorInt64 = 
-    class(specialize TDefaultGreaterFunctor<Int64>);
-  TGreaterFunctorSingle = 
-    class(specialize TDefaultGreaterFunctor<Single>);
-  TGreaterFunctorReal = 
-    class(specialize TDefaultGreaterFunctor<Real>);
-  TGreaterFunctorDouble = 
-    class(specialize TDefaultGreaterFunctor<Double>);
-  TGreaterFunctorExtended = 
-    class(specialize TDefaultGreaterFunctor<Extended>);
-  TGreaterFunctorCurrency = 
-    class(specialize TDefaultGreaterFunctor<Currency>);
-  TGreaterFunctorBoolean = 
-    class(specialize TDefaultGreaterFunctor<Boolean>);
-  TGreaterFunctorChar = 
-    class(specialize TDefaultGreaterFunctor<Char>);
-  TGreaterFunctorWideChar = 
-    class(specialize TDefaultGreaterFunctor<WideChar>);  
-  TGreaterFunctorString = 
-    class(specialize TDefaultGreaterFunctor<String>);
-  TGreaterFunctorWideString = 
-    class(specialize TDefaultGreaterFunctor<WideString>);
+  {$ENDIF}
+  TGreaterFunctorInt64 =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Int64>);
+  TGreaterFunctorSingle =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Single>);
+  TGreaterFunctorReal =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Real>);
+  TGreaterFunctorDouble =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Double>);
+  TGreaterFunctorExtended =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Extended>);
+  TGreaterFunctorCurrency =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Currency>);
+  TGreaterFunctorBoolean =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Boolean>);
+  TGreaterFunctorChar =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Char>);
+  TGreaterFunctorWideChar =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<WideChar>);
+  TGreaterFunctorString =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<String>);
+  TGreaterFunctorWideString =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<WideString>);
 
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
                                Equal logic functor                              
                         
     Return True if AValue1 = AValue2.                       
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= } 
-  generic TDefaultEqualFunctor<V> = 
-    class (specialize TBinaryFunctor<V, Boolean>)
+  {$IFDEF FPC}generic{$ENDIF} TDefaultEqualFunctor<V> =
+    class ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Boolean>)
   public
     function Call(AValue1, AValue2 : V) : Boolean; override;
   end;
 
   { Functors for default types. } 
   TEqualFunctorByte = 
-    class(specialize TDefaultEqualFunctor<Byte>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Byte>);
   TEqualFunctorShortInt = 
-    class(specialize TDefaultEqualFunctor<ShortInt>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<ShortInt>);
   TEqualFunctorWord = 
-    class(specialize TDefaultEqualFunctor<Word>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Word>);
   TEqualFunctorSmallInt = 
-    class(specialize TDefaultEqualFunctor<SmallInt>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<SmallInt>);
   TEqualFunctorInteger = 
-    class(specialize TDefaultEqualFunctor<Integer>);
-  TEqualFunctorDWord = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Integer>);
+  {$IFDEF FPC}
+  TEqualFunctorDWord =
     class(specialize TDefaultEqualFunctor<DWord>);
+  {$ENDIF}
   TEqualFunctorCardinal = 
-    class(specialize TDefaultEqualFunctor<Cardinal>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Cardinal>);
   TEqualFunctorLongWord = 
-    class(specialize TDefaultEqualFunctor<LongWord>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<LongWord>);
   TEqualFunctorLongInt = 
-    class(specialize TDefaultEqualFunctor<LongInt>);
-  TEqualFunctorQWord = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<LongInt>);
+  {$IFDEF FPC}
+  TEqualFunctorQWord =
     class(specialize TDefaultEqualFunctor<QWord>);
+  {$ENDIF}
   TEqualFunctorInt64 = 
-    class(specialize TDefaultEqualFunctor<Int64>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Int64>);
   TEqualFunctorSingle = 
-    class(specialize TDefaultEqualFunctor<Single>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Single>);
   TEqualFunctorReal = 
-    class(specialize TDefaultEqualFunctor<Real>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Real>);
   TEqualFunctorDouble = 
-    class(specialize TDefaultEqualFunctor<Double>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Double>);
   TEqualFunctorExtended = 
-    class(specialize TDefaultEqualFunctor<Extended>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Extended>);
   TEqualFunctorCurrency = 
-    class(specialize TDefaultEqualFunctor<Currency>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Currency>);
   TEqualFunctorBoolean = 
-    class(specialize TDefaultEqualFunctor<Boolean>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Boolean>);
   TEqualFunctorChar = 
-    class(specialize TDefaultEqualFunctor<Char>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Char>);
   TEqualFunctorWideChar = 
-    class(specialize TDefaultEqualFunctor<WideChar>);  
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<WideChar>);
   TEqualFunctorString = 
-    class(specialize TDefaultEqualFunctor<String>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<String>);
   TEqualFunctorWideString = 
-    class(specialize TDefaultEqualFunctor<WideString>);
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<WideString>);
 
 implementation
 
-function TDefaultCompareFunctor.Call(AValue1, AValue2 : V) : Integer;
+function TDefaultCompareFunctor{$IFNDEF FPC}<V>{$ENDIF}
+  .Call(AValue1, AValue2 : V) : Integer;
 begin
+  {$IFNDEF FPC}
+    Result := TComparer<V>.Default.Compare(AValue1, AValue2);
+  {$ELSE}
   if AValue1 < AValue2 then
   begin
     Result := -1;
@@ -295,26 +317,43 @@ begin
   begin
     Result := 0;
   end;
+  {$ENDIF}
 end;
 
-function TUnsortableFunctor.Call (AValue1, AValue2 : V) : Integer;
+function TUnsortableFunctor{$IFNDEF FPC}<V>{$ENDIF}
+  .Call (AValue1, AValue2 : V) : Integer;
 begin
   Result := 0;
 end;
 
-function TDefaultLessFunctor.Call(AValue1, AValue2 : V) : Boolean;
+function TDefaultLessFunctor{$IFNDEF FPC}<V>{$ENDIF}
+  .Call(AValue1, AValue2 : V) : Boolean;
 begin
+  {$IFNDEF FPC}
+  Result := TComparer<V>.Default.Compare(AValue1, AValue2) < 1;
+  {$ELSE}
   Result := AValue1 < AValue2;
+  {$ENDIF}
 end;
 
-function TDefaultGreaterFunctor.Call(AValue1, AValue2 : V) : Boolean;
+function TDefaultGreaterFunctor{$IFNDEF FPC}<V>{$ENDIF}
+  .Call(AValue1, AValue2 : V) : Boolean;
 begin
+  {$IFNDEF FPC}
+  Result := TComparer<V>.Default.Compare(AValue1, AValue2) > 1;
+  {$ELSE}
   Result := AValue1 > AValue2;
+  {$ENDIF}
 end;
 
-function TDefaultEqualFunctor.Call(AValue1, AValue2 : V) : Boolean;
+function TDefaultEqualFunctor{$IFNDEF FPC}<V>{$ENDIF}
+  .Call(AValue1, AValue2 : V) : Boolean;
 begin
+  {$IFNDEF FPC}
+  Result := TComparer<V>.Default.Compare(AValue1, AValue2) = 0;
+  {$ELSE}
   Result := AValue1 = AValue2;
+  {$ENDIF}
 end;
 
 end.

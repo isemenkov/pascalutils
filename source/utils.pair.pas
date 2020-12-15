@@ -25,9 +25,11 @@
 
 unit utils.pair;
 
-{$mode objfpc}{$H+}
-{$IFOPT D+}
-  {$DEFINE DEBUG}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+  {$IFOPT D+}
+    {$DEFINE DEBUG}
+  {$ENDIF}
 {$ENDIF}
 
 interface
@@ -37,10 +39,10 @@ uses
 
 type
   { Contains pair of values like in C++ language. }
-  generic TPair<T1, T2> = class
+  {$IFDEF FPC}generic{$ENDIF} TPair<T1, T2> = class
   public
     type
-      TSelfPair = specialize TPair<T1, T2>;
+      TSelfPair = {$IFDEF FPC}specialize{$ENDIF} TPair<T1, T2>;
   protected
     FFirst : T1;
     FSecond : T2;
@@ -65,20 +67,21 @@ implementation
 
 { TPair generic }
 
-constructor TPair.Create;
+constructor TPair{$IFNDEF FPC}<T1, T2>{$ENDIF}.Create;
 begin
   FFirst := Default(T1);
   FSecond := Default(T2);
   inherited Create;
 end;
 
-constructor TPair.Create (AFirst : T1; ASecond : T2);
+constructor TPair{$IFNDEF FPC}<T1, T2>{$ENDIF}.Create (AFirst : T1; ASecond :
+  T2);
 begin
   FFirst := AFirst;
   FSecond := ASecond;
 end;
 
-constructor TPair.Create (APair : TSelfPair);
+constructor TPair{$IFNDEF FPC}<T1, T2>{$ENDIF}.Create (APair : TSelfPair);
 begin
   FFirst := APair.First;
   FSecond := APair.Second;
