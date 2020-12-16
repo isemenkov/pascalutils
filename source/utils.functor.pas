@@ -27,9 +27,9 @@ unit utils.functor;
 
 {$IFDEF FPC}
   {$mode objfpc}{$H+}
-  {$IFOPT D+}
-    {$DEFINE DEBUG}
-  {$ENDIF}
+{$ENDIF}
+{$IFOPT D+}
+  {$DEFINE DEBUG}
 {$ENDIF}
 
 interface

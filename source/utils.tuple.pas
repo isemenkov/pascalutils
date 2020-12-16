@@ -25,7 +25,9 @@
 
 unit utils.tuple;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+{$ENDIF}
 {$IFOPT D+}
   {$DEFINE DEBUG}
 {$ENDIF}
@@ -37,10 +39,10 @@ uses
 
 type
   { Contains tuple of values like in C++ language. }
-  generic TTuple3<T1, T2, T3> = class
+  {$IFDEF FPC}generic{$ENDIF} TTuple3<T1, T2, T3> = class
   public
     type
-      TSelfTuple3 = specialize TTuple3<T1, T2, T3>;
+      TSelfTuple3 = {$IFDEF FPC}specialize{$ENDIF} TTuple3<T1, T2, T3>;
   protected
     FFirst : T1;
     FSecond : T2;
@@ -65,10 +67,10 @@ type
     property Third : T3 read FThird write FThird;
   end;
 
-  generic TTuple4<T1, T2, T3, T4> = class
+  {$IFDEF FPC}generic{$ENDIF} TTuple4<T1, T2, T3, T4> = class
   public
     type
-      TSelfTuple4 = specialize TTuple4<T1, T2, T3, T4>;
+      TSelfTuple4 = {$IFDEF FPC}specialize{$ENDIF} TTuple4<T1, T2, T3, T4>;
   protected
     FFirst : T1;
     FSecond : T2;
@@ -98,10 +100,10 @@ type
     property Fourth : T4 read FFourth write FFourth;
   end;
 
-  generic TTuple5<T1, T2, T3, T4, T5> = class
+  {$IFDEF FPC}generic{$ENDIF} TTuple5<T1, T2, T3, T4, T5> = class
   public
     type
-      TSelfTuple5 = specialize TTuple5<T1, T2, T3, T4, T5>;
+      TSelfTuple5 = {$IFDEF FPC}specialize{$ENDIF} TTuple5<T1, T2, T3, T4, T5>;
   protected
     FFirst : T1;
     FSecond : T2;
@@ -139,7 +141,7 @@ implementation
 
 { TTuple3 generic }
 
-constructor TTuple3.Create;
+constructor TTuple3{$IFNDEF FPC}<T1, T2, T3>{$ENDIF}.Create;
 begin
   FFirst := Default(T1);
   FSecond := Default(T2);
@@ -147,14 +149,16 @@ begin
   inherited Create;
 end;
 
-constructor TTuple3.Create (AFirst : T1; ASecond : T2; AThird : T3);
+constructor TTuple3{$IFNDEF FPC}<T1, T2, T3>{$ENDIF}.Create (AFirst : T1; 
+  ASecond : T2; AThird : T3);
 begin
   FFirst := AFirst;
   FSecond := ASecond;
   FThird := AThird;
 end;
 
-constructor TTuple3.Create (ATuple : TSelfTuple3);
+constructor TTuple3{$IFNDEF FPC}<T1, T2, T3>{$ENDIF}.Create (ATuple : 
+  TSelfTuple3);
 begin
   FFirst := ATuple.First;
   FSecond := ATuple.Second;
@@ -163,7 +167,7 @@ end;
 
 { TTuple4 generic }
 
-constructor TTuple4.Create;
+constructor TTuple4{$IFNDEF FPC}<T1, T2, T3, T4>{$ENDIF}.Create;
 begin
   FFirst := Default(T1);
   FSecond := Default(T2);
@@ -172,8 +176,8 @@ begin
   inherited Create;
 end;
 
-constructor TTuple4.Create (AFirst : T1; ASecond : T2; AThird : T3; AFourth : 
-  T4);
+constructor TTuple4{$IFNDEF FPC}<T1, T2, T3, T4>{$ENDIF}.Create (AFirst : T1; 
+  ASecond : T2; AThird : T3; AFourth : T4);
 begin
   FFirst := AFirst;
   FSecond := ASecond;
@@ -181,7 +185,8 @@ begin
   FFourth := AFourth;
 end;
 
-constructor TTuple4.Create (ATuple : TSelfTuple4);
+constructor TTuple4{$IFNDEF FPC}<T1, T2, T3, T4>{$ENDIF}.Create (ATuple : 
+  TSelfTuple4);
 begin
   FFirst := ATuple.First;
   FSecond := ATuple.Second;
@@ -191,7 +196,7 @@ end;
 
 { TTuple5 generic }
 
-constructor TTuple5.Create;
+constructor TTuple5{$IFNDEF FPC}<T1, T2, T3, T4, T5>{$ENDIF}.Create;
 begin
   FFirst := Default(T1);
   FSecond := Default(T2);
@@ -201,8 +206,8 @@ begin
   inherited Create;
 end;
 
-constructor TTuple5.Create (AFirst : T1; ASecond : T2; AThird : T3; AFourth : 
-  T4; AFifth : T5);
+constructor TTuple5{$IFNDEF FPC}<T1, T2, T3, T4, T5>{$ENDIF}.Create (AFirst : 
+  T1; ASecond : T2; AThird : T3; AFourth : T4; AFifth : T5);
 begin
   FFirst := AFirst;
   FSecond := ASecond;
@@ -211,7 +216,8 @@ begin
   FFifth := AFifth;
 end;
 
-constructor TTuple5.Create (ATuple : TSelfTuple5);
+constructor TTuple5{$IFNDEF FPC}<T1, T2, T3, T4, T5>{$ENDIF}.Create (ATuple : 
+  TSelfTuple5);
 begin
   FFirst := ATuple.First;
   FSecond := ATuple.Second;

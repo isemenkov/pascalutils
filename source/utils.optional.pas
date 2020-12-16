@@ -25,7 +25,9 @@
 
 unit utils.optional;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+{$ENDIF}
 {$IFOPT D+}
   {$DEFINE DEBUG}
 {$ENDIF}
@@ -40,7 +42,7 @@ type
   TNoneValueException = class(Exception); 
 
   { Optional class type which can contains some value or none, like Rust lang }
-  generic TOptional<T> = class
+  {$IFDEF FPC}generic{$ENDIF} TOptional<T> = class
   public
     { Create new Optional with None type }
     constructor Create; overload;
@@ -73,28 +75,28 @@ implementation
 
 { TOptional generic }
 
-constructor TOptional.Create;
+constructor TOptional{$IFNDEF FPC}<T>{$ENDIF}.Create;
 begin
   FValue.Ok := False;
 end;
 
-constructor TOptional.Create (AValue : T);
+constructor TOptional{$IFNDEF FPC}<T>{$ENDIF}.Create (AValue : T);
 begin
   FValue.Ok := True;
   FValue.Value := AValue;
 end;
 
-function TOptional.IsSome : Boolean;
+function TOptional{$IFNDEF FPC}<T>{$ENDIF}.IsSome : Boolean;
 begin
   Result := FValue.Ok;
 end;
 
-function TOptional.IsNone : Boolean;
+function TOptional{$IFNDEF FPC}<T>{$ENDIF}.IsNone : Boolean;
 begin
   Result := not FValue.Ok;
 end;
 
-function TOptional.Unwrap : T;
+function TOptional{$IFNDEF FPC}<T>{$ENDIF}.Unwrap : T;
 begin
   if IsSome then
   begin

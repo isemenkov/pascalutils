@@ -25,7 +25,9 @@
 
 unit utils.datasize;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+{$ENDIF}
 {$IFOPT D+}
   {$DEFINE DEBUG}
 {$ENDIF}
@@ -45,7 +47,7 @@ type
       TKilobyteRange = 0 .. 1023;
       TMegabyteRange = 0 .. 1023;
       TGigabyteRange = 0 .. 1023;
-      TTerabyteRange = type QWord;
+      TTerabyteRange = type Int64;
 
       { TByte }
 
@@ -124,79 +126,79 @@ type
     FGigabytes : TGigabyte;
     FTerabytes : TTerabyte;
 
-    function GetBytes : QWord; 
+    function GetBytes : Int64; 
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
-    procedure SetBytes (ASize : QWord); 
+    procedure SetBytes (ASize : Int64); 
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
-    function GetKilobytes : QWord; 
+    function GetKilobytes : Int64; 
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
-    procedure SetKilobytes (ASize : QWord); 
+    procedure SetKilobytes (ASize : Int64); 
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
-    function GetMegabytes : QWord; 
+    function GetMegabytes : Int64; 
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
-    procedure SetMegabytes (ASize : QWord); 
+    procedure SetMegabytes (ASize : Int64); 
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
-    function GetGigabytes : QWord; 
+    function GetGigabytes : Int64; 
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
-    procedure SetGigabytes (ASize : QWord); 
+    procedure SetGigabytes (ASize : Int64); 
       {$IFNDEF DEBUG}inline;{$ENDIF}
 
-    function GetTerabytes : QWord;
+    function GetTerabytes : Int64;
       {$IFNDEF DEBUG}inline;{$ENDIF}
 
-    procedure SetTerabytes (ASize : QWord);
+    procedure SetTerabytes (ASize : Int64);
       {$IFNDEF DEBUG}inline;{$ENDIF}
   public
     constructor Create;
     destructor Destroy; override;
 
-    function ToBytes : QWord; 
+    function ToBytes : Int64; 
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
-    function ToKilobytes : QWord; 
+    function ToKilobytes : Int64; 
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
-    function ToMegabytes : QWord; 
+    function ToMegabytes : Int64; 
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
-    function ToGigabytes : QWord; 
+    function ToGigabytes : Int64; 
       {$IFNDEF DEBUG}inline;{$ENDIF}
 
-    function ToTerabytes : QWord;
+    function ToTerabytes : Int64;
       {$IFNDEF DEBUG}inline;{$ENDIF}
     
     function {%H-}ToString (ASuffix : string = '') : string;
       {$IFNDEF DEBUG}inline;{$ENDIF}
 
-    property Bytes : QWord read GetBytes write SetBytes;
-    property b : QWord read GetBytes write SetBytes;
-    property Kilobytes : QWord read GetKilobytes write SetKilobytes;
-    property KiB : QWord read GetKilobytes write SetKilobytes;
-    property Megabytes : QWord read GetMegabytes write SetMegabytes;
-    property MiB : QWord read GetMegabytes write SetMegabytes;
-    property Gigabytes : QWord read GetGigabytes write SetGigabytes;
-    property GiB : QWord read GetGigabytes write SetGigabytes;
-    property Terabytes : QWord read GetTerabytes write SetTerabytes;
-    property TiB : QWord read GetTerabytes write SetTerabytes;
+    property Bytes : Int64 read GetBytes write SetBytes;
+    property b : Int64 read GetBytes write SetBytes;
+    property Kilobytes : Int64 read GetKilobytes write SetKilobytes;
+    property KiB : Int64 read GetKilobytes write SetKilobytes;
+    property Megabytes : Int64 read GetMegabytes write SetMegabytes;
+    property MiB : Int64 read GetMegabytes write SetMegabytes;
+    property Gigabytes : Int64 read GetGigabytes write SetGigabytes;
+    property GiB : Int64 read GetGigabytes write SetGigabytes;
+    property Terabytes : Int64 read GetTerabytes write SetTerabytes;
+    property TiB : Int64 read GetTerabytes write SetTerabytes;
   end;
 
 implementation
 
 { TDataSize }
 
-function TDataSize.GetBytes: QWord;
+function TDataSize.GetBytes: Int64;
 begin
   Result := FBytes.Value;
 end;
 
-procedure TDataSize.SetBytes(ASize: QWord);
+procedure TDataSize.SetBytes(ASize: Int64);
 begin
   if ASize <= High(TByteRange) then
   begin
@@ -208,12 +210,12 @@ begin
   end;
 end;
 
-function TDataSize.GetKilobytes: QWord;
+function TDataSize.GetKilobytes: Int64;
 begin
   Result := FKilobytes.Value;
 end;
 
-procedure TDataSize.SetKilobytes(ASize: QWord);
+procedure TDataSize.SetKilobytes(ASize: Int64);
 begin
   if ASize <= High(TKilobyteRange) then
   begin
@@ -225,12 +227,12 @@ begin
   end;
 end;
 
-function TDataSize.GetMegabytes: QWord;
+function TDataSize.GetMegabytes: Int64;
 begin
   Result := FMegabytes.Value;
 end;
 
-procedure TDataSize.SetMegabytes(ASize: QWord);
+procedure TDataSize.SetMegabytes(ASize: Int64);
 begin
   if ASize <= High(TMegabyteRange) then
   begin
@@ -242,12 +244,12 @@ begin
   end;
 end;
 
-function TDataSize.GetGigabytes: QWord;
+function TDataSize.GetGigabytes: Int64;
 begin
   Result := FGigabytes.Value;
 end;
 
-procedure TDataSize.SetGigabytes(ASize: QWord);
+procedure TDataSize.SetGigabytes(ASize: Int64);
 begin
   if ASize <= High(TGigabyteRange) then
   begin
@@ -259,12 +261,12 @@ begin
   end;
 end;
 
-function TDataSize.GetTerabytes : QWord;
+function TDataSize.GetTerabytes : Int64;
 begin
   Result := FTerabytes.Value;
 end;
 
-procedure TDataSize.SetTerabytes (ASize : QWord);
+procedure TDataSize.SetTerabytes (ASize : Int64);
 begin
   FTerabytes.Value := ASize;
 end;
@@ -289,7 +291,7 @@ begin
   inherited Destroy;
 end;
 
-function TDataSize.ToBytes: QWord;
+function TDataSize.ToBytes: Int64;
 begin
   Result := 0;
   if FTerabytes.Value > 0 then
@@ -304,7 +306,7 @@ begin
     Result := Result + FBytes.Value;
 end;
 
-function TDataSize.ToKilobytes: QWord;
+function TDataSize.ToKilobytes: Int64;
 begin
   Result := 0;
   if FTerabytes.Value > 0 then
@@ -317,7 +319,7 @@ begin
     Result := Result + FKilobytes.Value;
 end;
 
-function TDataSize.ToMegabytes: QWord;
+function TDataSize.ToMegabytes: Int64;
 begin
   Result := 0;
   if FTerabytes.Value > 0 then
@@ -328,7 +330,7 @@ begin
     Result := Result + FMegabytes.Value;
 end;
 
-function TDataSize.ToGigabytes: QWord;
+function TDataSize.ToGigabytes: Int64;
 begin
   Result := 0;
   if FTerabytes.Value > 0 then
@@ -337,7 +339,7 @@ begin
     Result := Result + FGigabytes.Value;
 end;
 
-function TDataSize.ToTerabytes : QWord;
+function TDataSize.ToTerabytes : Int64;
 begin
   Result := FTerabytes.Value;
 end;

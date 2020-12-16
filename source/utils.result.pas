@@ -25,7 +25,9 @@
 
 unit utils.result;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+{$ENDIF}
 {$IFOPT D+}
   {$DEFINE DEBUG}
 {$ENDIF}
@@ -43,7 +45,7 @@ type
   TErrorNotExistException = class(Exception);  
 
   { Contains result value or error type like in GO or Rust lang }
-  generic TResult<V, E> = class
+  {$IFDEF FPC}generic{$ENDIF} TResult<V, E> = class
   public
     { Create new result contains value }
     constructor CreateValue (AValue : V);
@@ -85,7 +87,7 @@ type
   end;
   
   { Contains Ok flag or error type }
-  generic TVoidResult<E> = class
+  {$IFDEF FPC}generic{$ENDIF} TVoidResult<E> = class
   public
     { Create new none result }
     constructor CreateValue;
@@ -123,7 +125,7 @@ implementation
 
 { TResult generic }
 
-constructor TResult.CreateValue (AValue : V);
+constructor TResult{$IFNDEF FPC}<V, E>{$ENDIF}.CreateValue (AValue : V);
 begin
   FValue.Ok := True;
   New(FValue.Value);
@@ -131,7 +133,7 @@ begin
   FValue.Error := nil;
 end;
 
-constructor TResult.CreateError (AError : E);
+constructor TResult{$IFNDEF FPC}<V, E>{$ENDIF}.CreateError (AError : E);
 begin
   FValue.Ok := False;
   New(FValue.Error);
@@ -139,7 +141,7 @@ begin
   FValue.Error^ := AError;
 end;
 
-destructor TResult.Destroy;
+destructor TResult{$IFNDEF FPC}<V, E>{$ENDIF}.Destroy;
 begin
   if IsOk then
   begin
@@ -152,17 +154,17 @@ begin
   inherited Destroy;
 end;
 
-function TResult.IsOk : Boolean;
+function TResult{$IFNDEF FPC}<V, E>{$ENDIF}.IsOk : Boolean;
 begin
   Result := FValue.Ok;
 end;
 
-function TResult.IsErr : Boolean;
+function TResult{$IFNDEF FPC}<V, E>{$ENDIF}.IsErr : Boolean;
 begin
   Result := not FValue.Ok;
 end;
 
-function TResult.Value : V;
+function TResult{$IFNDEF FPC}<V, E>{$ENDIF}.Value : V;
 begin
   if IsOk then
   begin
@@ -173,7 +175,7 @@ begin
   end;
 end;
 
-function TResult.Error : E;
+function TResult{$IFNDEF FPC}<V, E>{$ENDIF}.Error : E;
 begin
   if IsErr then
   begin
@@ -186,20 +188,20 @@ end;
 
 { TVoidResult }
 
-constructor TVoidResult.CreateValue;
+constructor TVoidResult{$IFNDEF FPC}<E>{$ENDIF}.CreateValue;
 begin
   FValue.Ok := True;
   FValue.Error := nil;
 end;
 
-constructor TVoidResult.CreateError (AError : E);
+constructor TVoidResult{$IFNDEF FPC}<E>{$ENDIF}.CreateError (AError : E);
 begin
   FValue.Ok := False;
   New(FValue.Error);
   FValue.Error^ := AError;
 end;
 
-destructor TVoidResult.Destroy;
+destructor TVoidResult{$IFNDEF FPC}<E>{$ENDIF}.Destroy;
 begin
   if not IsOk then
   begin
@@ -209,17 +211,17 @@ begin
   inherited Destroy;
 end;
 
-function TVoidResult.IsOk : Boolean;
+function TVoidResult{$IFNDEF FPC}<E>{$ENDIF}.IsOk : Boolean;
 begin
   Result := FValue.Ok;
 end;
 
-function TVoidResult.IsErr : Boolean;
+function TVoidResult{$IFNDEF FPC}<E>{$ENDIF}.IsErr : Boolean;
 begin
   Result := not FValue.Ok;
 end;
 
-function TVoidResult.Error : E;
+function TVoidResult{$IFNDEF FPC}<E>{$ENDIF}.Error : E;
 begin
   if IsErr then
   begin

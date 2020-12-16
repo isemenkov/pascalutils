@@ -25,7 +25,9 @@
 
 unit utils.timeinterval;
 
-{$mode objfpc}{$H+}
+{$IFDEF FPC}
+  {$mode objfpc}{$H+}
+{$ENDIF}
 {$IFOPT D+}
   {$DEFINE DEBUG}
 {$ENDIF}
@@ -45,7 +47,7 @@ type
       TMillisecondRange = 0 .. 999;
       TSecondRange = 0 .. 59;
       TMinuteRange = 0 .. 59;
-      THourRange = type QWord;
+      THourRange = type Int64;
 
       { TMicrosecond }
 
@@ -125,38 +127,38 @@ type
     FMinutes : TMinute;
     FHours : THour;
 
-    function GetMicroseconds : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
-    procedure SetMicroseconds (AValue : Qword); {$IFNDEF DEBUG}inline;{$ENDIF}
+    function GetMicroseconds : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
+    procedure SetMicroseconds (AValue : Int64); {$IFNDEF DEBUG}inline;{$ENDIF}
     function GetMilliseconds : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
-    procedure SetMilliseconds (AValue : QWord); {$IFNDEF DEBUG}inline;{$ENDIF}
-    function GetSeconds : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
-    procedure SetSeconds (AValue : QWord); {$IFNDEF DEBUG}inline;{$ENDIF}
+    procedure SetMilliseconds (AValue : Int64); {$IFNDEF DEBUG}inline;{$ENDIF}
+    function GetSeconds : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
+    procedure SetSeconds (AValue : Int64); {$IFNDEF DEBUG}inline;{$ENDIF}
     function GetMinutes : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
-    procedure SetMinutes (AValue : QWord); {$IFNDEF DEBUG}inline;{$ENDIF}
-    function GetHours : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
-    procedure SetHours (AValue : QWord); {$IFNDEF DEBUG}inline;{$ENDIF}
+    procedure SetMinutes (AValue : Int64); {$IFNDEF DEBUG}inline;{$ENDIF}
+    function GetHours : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
+    procedure SetHours (AValue : Int64); {$IFNDEF DEBUG}inline;{$ENDIF}
   public
     constructor Create;
     destructor Destroy; override;
 
-    function ToMicroseconds : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
-    function ToMilliseconds : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
-    function ToSeconds : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
-    function ToMinutes : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
-    function ToHours : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
+    function ToMicroseconds : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
+    function ToMilliseconds : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
+    function ToSeconds : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
+    function ToMinutes : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
+    function ToHours : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
     function {%H-}ToString(ASuffix : string = '') : string;
       {$IFNDEF DEBUG}inline;{$ENDIF}
 
-    property Microseconds : QWord read GetMicroseconds write SetMicroseconds;
-    property us : QWord read GetMicroseconds write SetMicroseconds;
-    property Milliseconds : QWord read GetMilliseconds write SetMilliseconds;
-    property ms : QWord read GetMilliseconds write SetMilliseconds;
-    property Seconds : QWord read GetSeconds write SetSeconds;
-    property s : QWord read GetSeconds write SetSeconds;
-    property Minutes : QWord read GetMinutes write SetMinutes;
-    property m : QWord read GetMinutes write SetMinutes;
-    property Hours : QWord read GetHours write SetHours;
-    property h : QWord read GetHours write SetHours;
+    property Microseconds : Int64 read GetMicroseconds write SetMicroseconds;
+    property us : Int64 read GetMicroseconds write SetMicroseconds;
+    property Milliseconds : Int64 read GetMilliseconds write SetMilliseconds;
+    property ms : Int64 read GetMilliseconds write SetMilliseconds;
+    property Seconds : Int64 read GetSeconds write SetSeconds;
+    property s : Int64 read GetSeconds write SetSeconds;
+    property Minutes : Int64 read GetMinutes write SetMinutes;
+    property m : Int64 read GetMinutes write SetMinutes;
+    property Hours : Int64 read GetHours write SetHours;
+    property h : Int64 read GetHours write SetHours;
   end;
 
 implementation
@@ -182,12 +184,12 @@ begin
   inherited Destroy;
 end;
 
-function TTimeInterval.GetMicroseconds: QWord;
+function TTimeInterval.GetMicroseconds: Int64;
 begin
   Result := FMicroseconds.Value;
 end;
 
-procedure TTimeInterval.SetMicroseconds(AValue: Qword);
+procedure TTimeInterval.SetMicroseconds(AValue: Int64);
 begin
   if AValue <= High(TMicrosecondRange) then
   begin
@@ -199,12 +201,12 @@ begin
   end;
 end;
 
-function TTimeInterval.GetMilliseconds: QWord;
+function TTimeInterval.GetMilliseconds: Int64;
 begin
   Result := FMilliseconds.Value;
 end;
 
-procedure TTimeInterval.SetMilliseconds(AValue: QWord);
+procedure TTimeInterval.SetMilliseconds(AValue: Int64);
 begin
   if AValue <= High(TMillisecondRange) then
   begin
@@ -216,12 +218,12 @@ begin
   end;
 end;
 
-function TTimeInterval.GetSeconds: QWord;
+function TTimeInterval.GetSeconds: Int64;
 begin
   Result := FSeconds.Value;
 end;
 
-procedure TTimeInterval.SetSeconds(AValue: QWord);
+procedure TTimeInterval.SetSeconds(AValue: Int64);
 begin
   if AValue <= High(TSecondRange) then
   begin
@@ -233,12 +235,12 @@ begin
   end;
 end;
 
-function TTimeInterval.GetMinutes: QWord;
+function TTimeInterval.GetMinutes: Int64;
 begin
   Result := FMinutes.Value;
 end;
 
-procedure TTimeInterval.SetMinutes(AValue: QWord);
+procedure TTimeInterval.SetMinutes(AValue: Int64);
 begin
   if AValue <= High(TMinuteRange) then
   begin
@@ -250,12 +252,12 @@ begin
   end;
 end;
 
-function TTimeInterval.GetHours: QWord;
+function TTimeInterval.GetHours: Int64;
 begin
   Result := FHours.Value;
 end;
 
-procedure TTimeInterval.SetHours(AValue: QWord);
+procedure TTimeInterval.SetHours(AValue: Int64);
 begin
   FHours.Value := AValue;
 end;
@@ -267,7 +269,7 @@ begin
     FMicroseconds.Value]) + ASuffix;
 end;
 
-function TTimeInterval.ToMicroseconds: QWord;
+function TTimeInterval.ToMicroseconds: Int64;
 begin
   Result := 0;
   if FHours.Value > 0 then
@@ -282,7 +284,7 @@ begin
     Result := Result + FMicroseconds.Value;
 end;
 
-function TTimeInterval.ToMilliseconds: QWord;
+function TTimeInterval.ToMilliseconds: Int64;
 begin
   Result := 0;
   if FHours.Value > 0 then
@@ -295,7 +297,7 @@ begin
     Result := Result + FMilliseconds.Value;
 end;
 
-function TTimeInterval.ToSeconds: QWord;
+function TTimeInterval.ToSeconds: Int64;
 begin
   Result := 0;
   if FHours.Value > 0 then
@@ -306,7 +308,7 @@ begin
     Result := Result + FSeconds.Value;
 end;
 
-function TTimeInterval.ToMinutes: QWord;
+function TTimeInterval.ToMinutes: Int64;
 begin
   Result := 0;
   if FHours.Value > 0 then
@@ -315,7 +317,7 @@ begin
     Result := Result + FMinutes.Value;
 end;
 
-function TTimeInterval.ToHours: QWord;
+function TTimeInterval.ToHours: Int64;
 begin
   Result := FHours.Value;
 end;
