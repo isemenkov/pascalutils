@@ -75,8 +75,8 @@ type
           read GetCurrent;
       protected
         FErrors : PErrorsDynArray;
-        FLength : Cardinal;
-        FPosition : Integer;
+        FLength : LongInt;
+        FPosition : LongInt;
       end;
   public
     constructor Create;
@@ -90,7 +90,7 @@ type
     function Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF};
 
     { Stack count elements }
-    function Count : Cardinal;
+    function Count : LongInt;
 
     { Return enumerator for in operator. }
     function GetEnumerator : TErrorsEnumerator;
@@ -99,8 +99,8 @@ type
     function Enlarge : Boolean;
   protected
     FData : array of T;
-    FLength : Cardinal;
-    FAlloced : Cardinal;
+    FLength : LongInt;
+    FAlloced : LongInt;
   end;
 
   { TListErrorsStack is generic stack over list of T which contains errors 
@@ -153,13 +153,13 @@ type
     function Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF};
 
     { Stack count elements }
-    function Count : Cardinal;
+    function Count : LongInt;
 
     { Return enumerator for in operator. }
     function GetEnumerator : TErrorsEnumerator;
   protected
     FFirstNode : PListEntry;
-    FLength : Cardinal;
+    FLength : LongInt;
   end;
 
 implementation
@@ -193,7 +193,7 @@ begin
     {$ENDIF}
   end;
 
-  Result := FErrors[FPosition];
+  Result := FErrors^[FPosition];
   Inc(FPosition);
 end;
 
@@ -262,7 +262,7 @@ begin
   Dec(FLength);
 end;
 
-function TArrayErrorsStack{$IFNDEF FPC}<T>{$ENDIF}.Count : Cardinal;
+function TArrayErrorsStack{$IFNDEF FPC}<T>{$ENDIF}.Count : LongInt;
 begin
   Result := FLength;
 end;
@@ -361,7 +361,7 @@ begin
   Dec(FLength);
 end;
 
-function TListErrorsStack{$IFNDEF FPC}<T>{$ENDIF}.Count : Cardinal;
+function TListErrorsStack{$IFNDEF FPC}<T>{$ENDIF}.Count : LongInt;
 begin
   Result := FLength;
 end;
