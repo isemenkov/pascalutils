@@ -106,6 +106,14 @@ type
   { TListErrorsStack is generic stack over list of T which contains errors 
     codes. }
   {$IFDEF FPC}generic{$ENDIF} TListErrorsStack<T> = class
+  protected
+    type
+      { Item enty type }
+      PListEntry = ^TListEntry;
+      TListEntry = record
+        Value : T;
+        Next : PListEntry;
+      end;
   public
     type
       {$IFDEF USE_OPTIONAL}
@@ -132,14 +140,6 @@ type
           read GetCurrent;
       protected
         FNode : PListEntry;
-      end;
-  protected
-    type
-      { Item enty type }
-      PListEntry = ^TListEntry;
-      TListEntry = record
-        Value : T;
-        Next : PListEntry;
       end;
   public
     constructor Create;
