@@ -111,7 +111,28 @@ type
       {$IFDEF USE_OPTIONAL}
       TOptionalError = {$IFDEF FPC}specialize{$ENDIF} TOptional<T>;
       {$ENDIF}
-      TErrorsEnumerator = class;
+
+      { TListErrorsStack enumerator }  
+      TErrorsEnumerator = class
+      protected
+        { Return enumerator for in operator }
+        function GetEnumerator : TErrorsEnumerator;
+
+        { Get error }
+        function GetCurrent : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError
+          {$ENDIF};
+      public
+        constructor Create (FirstEntry : PListEntry);
+
+        { Return True if can move to next item }
+        function MoveNext : Boolean;
+
+        { Return current item and move pointer to next item. }
+        property Current : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF}
+          read GetCurrent;
+      protected
+        FNode : PListEntry;
+      end;
   protected
     type
       { Item enty type }
@@ -136,29 +157,6 @@ type
 
     { Return enumerator for in operator. }
     function GetEnumerator : TErrorsEnumerator;
-  public
-    type
-      { TListErrorsStack enumerator }  
-      TErrorsEnumerator = class
-      protected
-        { Return enumerator for in operator }
-        function GetEnumerator : TErrorsEnumerator;
-
-        { Get error }
-        function GetCurrent : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError
-          {$ENDIF};
-      public
-        constructor Create (FirstEntry : PListEntry);
-
-        { Return True if can move to next item }
-        function MoveNext : Boolean;
-
-        { Return current item and move pointer to next item. }
-        property Current : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF}
-          read GetCurrent;
-      protected
-        FNode : PListEntry;
-      end;
   protected
     FFirstNode : PListEntry;
     FLength : Cardinal;
