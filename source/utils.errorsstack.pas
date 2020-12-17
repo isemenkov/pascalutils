@@ -51,29 +51,11 @@ type
       {$IFDEF USE_OPTIONAL}
       TOptionalError = {$IFDEF FPC}specialize{$ENDIF} TOptional<T>;
       {$ENDIF}
-      TErrorsEnumerator = class;
-  public
-    constructor Create;
-    destructor Destroy; override;
 
-    { Push error to stack }
-    procedure Push (AError : T);
-
-    { Return top error and remove it from stack. Raise EErrorNotExists exception
-      if stack is empty. }
-    function Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF};
-
-    { Stack count elements }
-    function Count : Cardinal;
-
-    { Return enumerator for in operator. }
-    function GetEnumerator : TErrorsEnumerator;
-  public
-    type
       PErrorsDynArray = ^TErrorsDynArray;
-      TErrorsDynArray = array of T;  
+      TErrorsDynArray = array of T;
 
-      { TArrayErrorsStack enumerator }  
+      { TArrayErrorsStack enumerator } 
       TErrorsEnumerator = class
       protected
         { Return enumerator for in operator }
@@ -96,6 +78,22 @@ type
         FLength : Cardinal;
         FPosition : Integer;
       end;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    { Push error to stack }
+    procedure Push (AError : T);
+
+    { Return top error and remove it from stack. Raise EErrorNotExists exception
+      if stack is empty. }
+    function Pop : {$IFNDEF USE_OPTIONAL}T{$ELSE}TOptionalError{$ENDIF};
+
+    { Stack count elements }
+    function Count : Cardinal;
+
+    { Return enumerator for in operator. }
+    function GetEnumerator : TErrorsEnumerator;
   protected
     { Reallocate the array to the new size }
     function Enlarge : Boolean;
