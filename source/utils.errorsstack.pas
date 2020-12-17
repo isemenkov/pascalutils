@@ -271,7 +271,7 @@ begin
   Result := FLength;
 end;
 
-function TArrayErrorsStack{$IFNDEF FPC}<T>{$ENDIF}GetEnumerator : 
+function TArrayErrorsStack{$IFNDEF FPC}<T>{$ENDIF}.GetEnumerator : 
   TErrorsEnumerator;
 begin
   Result := TErrorsEnumerator.Create(@FData, FLength);
