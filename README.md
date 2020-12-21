@@ -1,7 +1,7 @@
 PascalUtils
 ==========
 
-PascalUtils is object pascal library of utils data structures.
+PascalUtils is delphi and object pascal library of utils data structures.
 
 
 ### Table of contents
@@ -57,16 +57,24 @@ PascalUtils is object pascal library of utils data structures.
 
 ### Requirements
 
+* [Embarcadero (R) Rad Studio](https://www.embarcadero.com)
 * [Free Pascal Compiler](http://freepascal.org)
 * [Lazarus IDE](http://www.lazarus.freepascal.org/) (optional)
 
-Library is tested with latest stable FreePascal Compiler (currently 3.2.0) and Lazarus IDE (currently 2.0.10) on Ubuntu Linux 5.8.0-33-generic x86_64 and Embarcadero (R) Delphi 10.3 on Windows 7 Service Pack 1 (Version 6.1, Build 7601, 64-bit Edition).
+
+
+Library is tested for 
+
+- Embarcadero (R) Delphi 10.3 on Windows 7 Service Pack 1 (Version 6.1, Build 7601, 64-bit Edition)
+- FreePascal Compiler (3.2.0) and Lazarus IDE (2.0.10) on Ubuntu Linux 5.8.0-33-generic x86_64
 
 
 
 ### Installation
 
-Get the sources and add the *source* directory to the *fpc.cfg* file.
+
+Get the sources and add the *source* directory to the project search path. 
+For FPC add the *source* directory to the *fpc.cfg* file.
 
 
 
@@ -101,7 +109,7 @@ uses
   utils.optional;
 
 type
-  TIntegerOptional = specialize TOptional<Integer>;
+  TIntegerOptional = {$IFDEF FPC}type specialize{$ENDIF} TOptional<Integer>;
 
 var
   opt_int : TIntegerOptional;
@@ -158,7 +166,7 @@ uses
   utils.result;
 
 type
-  TIntStrResult = specialize TResult<Integer, String>;
+  TIntStrResult = {$IFDEF FPC}type specialize{$ENDIF} TResult<Integer, String>;
 
 var
   res : TIntStrResult;
@@ -218,7 +226,7 @@ uses
   utils.functor;
 
 type
-  TMoreIntegerFunctor = class(specialize TBinaryFunctor<Integer, Boolean>)
+  TMoreIntegerFunctor = class({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Integer, Boolean>)
   public
     function Call(AValue1, AValue2 : Integer) : Boolean; override;
   end;
@@ -474,7 +482,7 @@ uses
   utils.pair;
 
 type
-  TIntIntPair = specialize TPair<Integer, Integer>;
+  TIntIntPair = {$IFDEF FPC}type specialize{$ENDIF} TPair<Integer, Integer>;
 
 var
   pair : TIntIntPair;
@@ -525,7 +533,7 @@ uses
   utils.tuple;
 
 type
-  TIntTuple = specialize TTuple3<Integer, Integer, Integer>;
+  TIntTuple = {$IFDEF FPC}type specialize{$ENDIF} TTuple3<Integer, Integer, Integer>;
 
 var
   tuple : TIntTuple;
@@ -578,7 +586,7 @@ uses
   utils.errorsstack;
 
 type
-  TStringErrorsStack = specialize TArrayErrorsStack<String>;
+  TStringErrorsStack = {$IFDEF FPC}type specialize{$ENDIF} TArrayErrorsStack<String>;
 
 var
   errors : TStringErrorsStack;
