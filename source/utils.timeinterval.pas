@@ -55,9 +55,9 @@ type
       private
         FMicroseconds : TMicrosecondRange;
       public
-        constructor Create;
-        constructor Create (AInterval : TMicrosecondRange);
-        constructor Create (AInterval : TMicrosecond);
+        constructor Create; overload;
+        constructor Create (AInterval : TMicrosecondRange); overload;
+        constructor Create (AInterval : TMicrosecond); overload;
         destructor Destroy; override;
 
         property Value : TMicrosecondRange read FMicroseconds
@@ -70,9 +70,9 @@ type
       private
         FMilliseconds : TMillisecondRange;
       public
-        constructor Create;
-        constructor Create (AInterval : TMillisecondRange);
-        constructor Create (AInterval : TMillisecond);
+        constructor Create; overload;
+        constructor Create (AInterval : TMillisecondRange); overload;
+        constructor Create (AInterval : TMillisecond); overload;
         destructor Destroy; override;
 
         property Value : TMillisecondRange read FMilliseconds
@@ -85,9 +85,9 @@ type
       private
         FSeconds : TSecondRange;
       public
-        constructor Create;
-        constructor Create (AInterval : TSecondRange);
-        constructor Create (AInterval : TSecond);
+        constructor Create; overload;
+        constructor Create (AInterval : TSecondRange); overload;
+        constructor Create (AInterval : TSecond); overload;
         destructor Destroy; override;
 
         property Value : TSecondRange read FSeconds write FSeconds;
@@ -99,9 +99,9 @@ type
       private
         FMinutes : TMinuteRange;
       public
-        constructor Create;
-        constructor Create (AInterval : TMinuteRange);
-        constructor Create (AInterval : TMinute);
+        constructor Create; overload;
+        constructor Create (AInterval : TMinuteRange); overload;
+        constructor Create (AInterval : TMinute); overload;
         destructor Destroy; override;
 
         property Value : TMinuteRange read FMinutes write FMinutes;
@@ -113,9 +113,9 @@ type
       private
         FHours : THourRange;
       public
-        constructor Create;
-        constructor Create (AInterval : THourRange);
-        constructor Create (AInterval : THour);
+        constructor Create; overload;
+        constructor Create (AInterval : THourRange); overload;
+        constructor Create (AInterval : THour); overload;
         destructor Destroy; override;
 
         property Value : THourRange read FHours write FHours;
@@ -129,11 +129,11 @@ type
 
     function GetMicroseconds : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
     procedure SetMicroseconds (AValue : Int64); {$IFNDEF DEBUG}inline;{$ENDIF}
-    function GetMilliseconds : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
+    function GetMilliseconds : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
     procedure SetMilliseconds (AValue : Int64); {$IFNDEF DEBUG}inline;{$ENDIF}
     function GetSeconds : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
     procedure SetSeconds (AValue : Int64); {$IFNDEF DEBUG}inline;{$ENDIF}
-    function GetMinutes : QWord; {$IFNDEF DEBUG}inline;{$ENDIF}
+    function GetMinutes : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
     procedure SetMinutes (AValue : Int64); {$IFNDEF DEBUG}inline;{$ENDIF}
     function GetHours : Int64; {$IFNDEF DEBUG}inline;{$ENDIF}
     procedure SetHours (AValue : Int64); {$IFNDEF DEBUG}inline;{$ENDIF}

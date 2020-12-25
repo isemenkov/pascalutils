@@ -55,9 +55,9 @@ type
       private
         FBytes : TByteRange;
       public
-        constructor Create;
-        constructor Create (ASize : TByteRange);
-        constructor Create (ASize : TByte);
+        constructor Create; overload;
+        constructor Create (ASize : TByteRange); overload;
+        constructor Create (ASize : TByte); overload;
         destructor Destroy; override;
 
         property Value : TByteRange read FBytes write FBytes;
@@ -69,9 +69,9 @@ type
       private
         FKilobytes : TKilobyteRange;
       public
-        constructor Create;
-        constructor Create (ASize : TKilobyteRange);
-        constructor Create (ASize : TKilobyte);
+        constructor Create; overload;
+        constructor Create (ASize : TKilobyteRange); overload;
+        constructor Create (ASize : TKilobyte); overload;
         destructor Destroy; override;
 
         property Value : TKilobyteRange read FKilobytes write FKilobytes;
@@ -83,9 +83,9 @@ type
       private
         FMegabytes : TMegabyteRange;
       public
-        constructor Create;
-        constructor Create (ASize : TMegabyteRange);
-        constructor Create (ASize : TMegabyte);
+        constructor Create; overload;
+        constructor Create (ASize : TMegabyteRange); overload;
+        constructor Create (ASize : TMegabyte); overload;
         destructor Destroy; override;
 
         property Value : TMegabyteRange read FMegabytes write FMegabytes;
@@ -97,9 +97,9 @@ type
       private
         FGigabytes : TGigabyteRange;
       public
-        constructor Create;
-        constructor Create (ASize : TGigabyteRange);
-        constructor Create (ASize : TGigabyte);
+        constructor Create; overload;
+        constructor Create (ASize : TGigabyteRange); overload;
+        constructor Create (ASize : TGigabyte); overload;
         destructor Destroy; override;
 
         property Value : TGigabyteRange read FGigabytes write FGigabytes;
@@ -111,9 +111,9 @@ type
       private
         FTerabytes : TTerabyteRange;
       public
-        constructor Create;
-        constructor Create (ASize : TTerabyteRange);
-        constructor Create (ASize : TTerabyte);
+        constructor Create; overload;
+        constructor Create (ASize : TTerabyteRange); overload;
+        constructor Create (ASize : TTerabyte); overload;
         destructor Destroy; override;
 
         property Value : TTerabyteRange read FTerabytes write FTerabytes;
