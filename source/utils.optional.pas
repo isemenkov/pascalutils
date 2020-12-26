@@ -1,6 +1,6 @@
 (******************************************************************************)
 (*                                PascalUtils                                 *)
-(*              object pascal library of utils data structures                *)
+(*          delphi and object pascal library of utils data structures         *)
 (*                                                                            *)
 (* Copyright (c) 2020                                       Ivan Semenkov     *)
 (* https://github.com/isemenkov/pascalutils                 ivan@semenkov.pro *)
