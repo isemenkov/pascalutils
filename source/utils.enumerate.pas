@@ -68,41 +68,17 @@ type
 
   { Common bidirectional iterator. }
   {$IFDEF FPC}generic{$ENDIF} TBidirectionalIterator<V> = class
+    ({$IFDEF FPC}specialize{$ENDIF} TForwardIterator<V>)
   public
-    { Return true if iterator has correct value. }
-    function HasValue : Boolean; virtual; abstract;
-
-    { Retrieve the next entry. }
-    function Next : TBidirectionalIterator{$IFNDEF FPC}<V>{$ENDIF}; virtual; 
-      abstract;
-
     { Retrieve the previous entry. }
     function Prev : TBidirectionalIterator{$IFNDEF FPC}<V>{$ENDIF}; virtual;
       abstract;
-
-    { Return True if we can move to next element. }
-    function MoveNext : Boolean; virtual; abstract;
-
-    { Return enumerator for in operator. }
-    function GetEnumerator : TBidirectionalIterator{$IFNDEF FPC}<V>{$ENDIF}; 
-      virtual; abstract;
-  protected
-    { Get item value. }
-    function GetValue : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
-      {$ENDIF}; virtual; abstract;
-
-    { Return current item iterator and move it to next. }
-    function GetCurrent : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
-      {$ENDIF}; virtual; abstract;
-  public
-    property Current : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue{$ENDIF}
-      read GetCurrent;
   end;
 
   { Class adds counter to an iterable and returns it (the enumerate object) like
     in a Python language. }
   {$IFDEF FPC}generic{$ENDIF} TEnumerator<V; Iterator{$IFNDEF FPC}
-    : TBidirectionalIterator<V>{$ENDIF}> = class
+    : TForwardIterator<V>{$ENDIF}> = class
   public
     type 
       TIterator = class
@@ -178,7 +154,7 @@ end;
 function TEnumerator{$IFNDEF FPC}<V, Iterator>{$ENDIF}.TIterator.Next : 
   TIterator;
 begin
-  Result := TIterator.Create(FInnerIterator.Next, FIndex + 1);
+  Result := TIterator.Create(Iterator(FInnerIterator.Next), FIndex + 1);
 end;
 
 function TEnumerator{$IFNDEF FPC}<V, Iterator>{$ENDIF}.TIterator.MoveNext : 
