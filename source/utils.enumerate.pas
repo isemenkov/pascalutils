@@ -38,108 +38,174 @@ uses
   SysUtils;
 
 type
+  { Common forward iterator. }
+  {$IFDEF FPC}generic{$ENDIF} TForwardIterator<V> = class
+  public
+    { Return true if iterator has correct value. }
+    function HasValue : Boolean; virtual; abstract;
+
+    { Retrieve the next entry. }
+    function Next : TForwardIterator{$IFNDEF FPC}<V>{$ENDIF}; virtual; abstract;
+
+    { Return True if we can move to next element. }
+    function MoveNext : Boolean; virtual; abstract;
+
+    { Return enumerator for in operator. }
+    function GetEnumerator : TForwardIterator{$IFNDEF FPC}<V>{$ENDIF}; virtual;
+      abstract;
+  protected
+    { Get item value. }
+    function GetValue : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
+      {$ENDIF}; virtual; abstract;
+
+    { Return current item iterator and move it to next. }
+    function GetCurrent : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
+      {$ENDIF}; virtual; abstract;
+  public
+    property Current : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue{$ENDIF}
+      read GetCurrent;
+  end;
+
+  { Common bidirectional iterator. }
+  {$IFDEF FPC}generic{$ENDIF} TBidirectionalIterator<V> = class
+    ({$IFDEF FPC}specialize{$ENDIF} TForwardIterator<V>)
+  public
+    { Retrieve the previous entry. }
+    function Prev : TBidirectionalIterator{$IFNDEF FPC}<V>{$ENDIF}; virtual;
+      abstract;
+  end;
+
   { Class adds counter to an iterable and returns it (the enumerate object) like
     in a Python language. }
-  {$IFDEF FPC}generic{$ENDIF} TEnumerate<Iterator> = class
-  protected
+  {$IFDEF FPC}generic{$ENDIF} TEnumerator<V> = class
+  public
     type
-      TIterator = class
-      protected  
+      TCommonIterator = {$IFDEF FPC}specialize{$ENDIF} TForwardIterator<V>;
+  protected
+    type  
+      TIterator = class(TCommonIterator)
+      public
+        constructor Create (AIterator : TCommonIterator; AIndex : Integer);
+
+        { Return true if iterator has correct value. }
+        function HasValue : Boolean; override;
+
+        { Retrieve the next entry. }
+        function Next : TIterator; reintroduce;
+
+        { Return True if we can move to next element. }
+        function MoveNext : Boolean; override;
+
         { Return enumerator for in operator. }
-        function GetEnumerator : TIterator;
+        function GetEnumerator : TIterator; reintroduce;
+      protected
+        { Get item value. }
+        function GetValue : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
+          {$ENDIF}; override;
 
-        { Get current iterator. }
-        function GetCurrent : TIterator;
+        { Return current item iterator and move it to next. }
+        function GetCurrent : {$IFNDEF USE_OPTIONAL}TIterator{$ELSE}
+          TOptionalValue{$ENDIF}; reintroduce;
 
-        { Get current index. }
-        function GetIndex : Integer; 
-          {$IFDEF DEBUG}inline;{$ENDIF}
-
-        { Get current iterator. }
-        function GetValue : Iterator;
+        { Return current item index. }
+        function GetIndex : Integer;
           {$IFDEF DEBUG}inline;{$ENDIF}
       public
-        constructor Create (AStartIterator : Iterator; AStart : Integer);
-
-        { Return True if can move to next item. }
-        function MoveNext : Boolean;
-
-        { Return current item and move pointer to next item. }
-        property Current : TIterator read GetCurrent;
-
-        { Return current iterable object index. }
         property Index : Integer read GetIndex;
-
-        { Return current iterable object iterator. }
-        property Value : Iterator read GetValue;
       protected
-        FIterator : Iterator;
+        FInnerIterator : TCommonIterator;
         FIndex : Integer;
       end;
   public
-    constructor Create (AIterableObject : Iterator; AStart : Integer = 0);
-    
+    constructor Create (AIterator : TCommonIterator; AStartIndex : Integer = 0);
+
+    { Return True if we can move to next element. }
+    function MoveNext : Boolean;
+
     { Return enumerator for in operator. }
     function GetEnumerator : TIterator;
   protected
-    FIterableObject : Iterator;
-    FStartIndex : Integer;
+    { Return current item iterator and move it to next. }
+    function GetCurrent : TIterator;
+  public
+    property Current : TIterator read GetCurrent;
+  protected
+    FIterator : TIterator; 
   end;
 
 implementation
 
-{ TEnumerate.TIterator }
+{ TEnumerator.TIterator }
 
-constructor TEnumerate{$IFNDEF FPC}<Iterator>{$ENDIF}.TIterator.Create(
-  AStartIterator : Iterator; AStart : Integer);
+constructor TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.TIterator.Create (AIterator :
+  TCommonIterator; AIndex : Integer);
 begin
-  FIterator := AStartIterator;
-  FIndex := AStart;
+  FInnerIterator := AIterator;
+  FIndex := AIndex;
 end;
 
-function TEnumerate{$IFNDEF FPC}<Iterator>{$ENDIF}.TIterator.GetIndex :
-  Integer;
+function TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.TIterator.HasValue : Boolean;
+begin
+  Result := FInnerIterator.HasValue;
+end;
+
+function TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.TIterator.Next : TIterator;
+begin
+  Result := TIterator.Create(FInnerIterator.Next, FIndex + 1);
+end;
+
+function TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.TIterator.MoveNext : Boolean;
+begin
+  Result := FInnerIterator.HasValue;
+end;
+
+function TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.TIterator.GetEnumerator : 
+  TIterator;
+begin
+  Result := TIterator.Create(FInnerIterator, FIndex);
+end;
+
+function TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.TIterator.GetValue : 
+  {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue{$ENDIF};
+begin
+  Result := FInnerIterator.GetValue;
+end;
+
+function TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.TIterator.GetCurrent : 
+  {$IFNDEF USE_OPTIONAL}TIterator{$ELSE}TOptionalValue{$ENDIF};
+begin
+  Result := TIterator.Create(FInnerIterator, FIndex);
+  FInnerIterator := FInnerIterator.Next;
+  Inc(FIndex);
+end;
+
+function TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.TIterator.GetIndex : Integer;
 begin
   Result := FIndex;
 end;
 
-function TEnumerate{$IFNDEF FPC}<Iterator>{$ENDIF}.TIterator.GetValue :
-  Iterator;
+{ TEnumerator }
+
+constructor TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.Create (AIterator : 
+  TCommonIterator; AStartIndex : Integer);
 begin
-  Result := FIterator;
+  FIterator := TIterator.Create(AIterator, AStartIndex);
 end;
 
-function TEnumerate{$IFNDEF FPC}<Iterator>{$ENDIF}.TIterator.GetEnumerator :
-  TIterator;
-begin
-  Result := TIterator.Create(FIterator, FIndex);
-end;
-
-function TEnumerate{$IFNDEF FPC}<Iterator>{$ENDIF}.TIterator.MoveNext :
-  Boolean;
+function TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.MoveNext : Boolean;
 begin
   Result := FIterator.MoveNext;
 end;
 
-function TEnumerate{$IFNDEF FPC}<Iterator>{$ENDIF}.TIterator.GetCurrent :
-  TIterator;
+function TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.GetEnumerator : TIterator;
 begin
-  Result := TIterator.Create(FIterator.GetCurrent, FIndex + 1);
-  Inc(FIndex);
+  Result := FIterator;
+  FIterator := FIterator.Next;
 end;
 
-{ TEnumerate }
-
-constructor TEnumerate{$IFNDEF FPC}<Iterator>{$ENDIF}.Create (AIterableObject : 
-  Iterator; AStart : Integer);
+function TEnumerator{$IFNDEF FPC}<V>{$ENDIF}.GetCurrent : TIterator;
 begin
-  FIterableObject := AIterableObject;
-  FStartIndex := AStart;
-end;
-
-function TEnumerate{$IFNDEF FPC}<Iterator>{$ENDIF}.GetEnumerator : TIterator;
-begin
-  Result := TIterator.Create(FIterableObject, FStartIndex);
+  Result := FIterator;
 end;
 
 end.
