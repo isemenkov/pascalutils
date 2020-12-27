@@ -35,11 +35,16 @@ unit utils.enumerate;
 interface
 
 uses
-  SysUtils;
+  SysUtils {$IFDEF USE_OPTIONAL}, utils.optional{$ENDIF};
 
 type
   { Common forward iterator. }
   {$IFDEF FPC}generic{$ENDIF} TForwardIterator<V, Iterator> = class
+  public
+    type
+      {$IFDEF USE_OPTIONAL}
+      TOptionalValue = {$IFDEF FPC}specialize{$ENDIF} TOptional<V>;
+      {$ENDIF}
   public
     { Return true if iterator has correct value. }
     function HasValue : Boolean; virtual; abstract;
@@ -80,7 +85,11 @@ type
   {$IFDEF FPC}generic{$ENDIF} TEnumerator<V; Iterator
     {$IFNDEF FPC}: TForwardIterator<V, Iterator>{$ENDIF}> = class
   public
-    type 
+    type
+      {$IFDEF USE_OPTIONAL}
+      TOptionalValue = {$IFDEF FPC}specialize{$ENDIF} TOptional<V>;
+      {$ENDIF}
+
       TIterator = class
       public
         constructor Create (AIterator : Iterator; AIndex : Integer);
@@ -109,7 +118,8 @@ type
           {$IFDEF DEBUG}inline;{$ENDIF}
       public
         property Index : Integer read GetIndex;
-        property Value : V read GetValue;
+        property Value : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
+          {$ENDIF} read GetValue;
 
         property Current : TIterator read GetCurrent;
       protected
@@ -175,7 +185,7 @@ begin
 end;
 
 function TEnumerator{$IFNDEF FPC}<V, Iterator>{$ENDIF}.TIterator.GetCurrent : 
-  {$IFNDEF USE_OPTIONAL}TIterator{$ELSE}TOptionalValue{$ENDIF};
+  TIterator;
 begin
   Result := TIterator.Create(FInnerIterator, FIndex);
   FInnerIterator := Iterator(FInnerIterator.Next);
