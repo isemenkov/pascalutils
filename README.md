@@ -51,7 +51,10 @@ PascalUtils is delphi and object pascal library of utils data structures.
       * [Push](#push)
       * [Pop](#pop)
       * [Iterate](#iterate)
-
+  * [TForwardIterator, TBidirectionalIterator](#tforwarditerator-tbidirectionaliterator)
+    * [Examples](#examples-8)
+  * [TEnumerator](#tenumerator)
+    * [Examples](#examples-9)
 
 
 
@@ -624,4 +627,80 @@ begin
   begin
     writeln(err);
   end;
+```
+
+
+
+#### TForwardIterator, TBidirectionalIterator
+
+```pascal
+uses
+  utils.enumerate;
+
+type
+  generic TForwardIterator<V, Iterator> = class
+  generic TBidirectionalIterator<V, Iterator> = class
+```
+
+[TForwardIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) and [TBidirectionalIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) is a base classes for custom iterators.
+
+##### Examples
+
+```pascal
+uses
+  utils.enumerate;
+
+type
+  TIterator = class; { Fix for FreePascal compiler. }
+  TIterator = class({$IFDEF FPC}specialize{$ENDIF} TForwardIterator<Integer, TIterator>)
+    { ... class methods ... }
+  end;
+```
+
+```pascal
+uses
+  utils.enumerate;
+
+type
+  TIterator = class; { Fix for FreePascal compiler. }
+  TIterator = class({$IFDEF FPC}specialize{$ENDIF} TBidirectionalIterator<Integer, TIterator>)
+    { ... class methods ... }
+  end;
+```
+
+
+
+#### TEnumerator
+
+```pascal
+uses
+  utils.enumerate;
+
+type
+  generic TEnumerator<V, Iterator> = class
+```
+
+[TEnumerator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) class adds counter to an iterable objects what have iterator based on [TForwardIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) or [TBidirectionalIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) and returns it (the enumerate object) like in a Python language.
+
+##### Examples
+
+```pascal
+uses
+  utils.enumerate, container.arraylist, utils.functor;
+
+type
+  TIntegerArrayList = {$IFDEF FPC}specialize{$ENDIF} TArrayList<Integer, TCompareFunctorInteger>;
+
+  TArrEnumerator = {$IFDEF FPC}specialize{$ENDIF} TEnumerator<Integer, TIntegerArrayList.TIterator>;
+
+var
+  Arr : TIntegerArrayList;
+  ArrIterator : TArrEnumerator.TIterator;
+  Index, Value : Integer;
+
+for ArrIterator in TArrEnumerator.Create(Arr.FirstEntry) do
+begin
+  Index := ArrIterator.Index;
+  Value := ArrIterator.Value;
+end;
 ```
