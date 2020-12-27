@@ -53,7 +53,7 @@ PascalUtils is delphi and object pascal library of utils data structures.
       * [Iterate](#iterate)
   * [TForwardIterator, TBidirectionalIterator](#tforwarditerator-tbidirectionaliterator)
     * [Examples](#examples-8)
-  * [TEnumerator](#tenumerator)
+  * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
     * [Examples](#examples-9)
 
 
@@ -670,17 +670,20 @@ type
 
 
 
-#### TEnumerator
+#### TEnumerator, TFilterEnumerator
 
 ```pascal
 uses
-  utils.enumerate;
+  utils.enumerate, utils.functor;
 
 type
   generic TEnumerator<V, Iterator> = class
+  generic TFilterEnumerator<V, Iterator, FUnaryFunctor> = class
 ```
 
 [TEnumerator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) class adds counter to an iterable objects what have iterator based on [TForwardIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) or [TBidirectionalIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) and returns it (the enumerate object) like in a Python language.
+
+[TFilterEnumerator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) class provides filtering enumerator by UnaryFunctor.
 
 ##### Examples
 
@@ -701,6 +704,35 @@ var
 for ArrIterator in TArrEnumerator.Create(Arr.FirstEntry) do
 begin
   Index := ArrIterator.Index;
+  Value := ArrIterator.Value;
+end;
+```
+
+```pascal
+uses
+  utils.enumerate, container.arraylist, utils.functor;
+
+type
+  TIntegerArrayList = {$IFDEF FPC}specialize{$ENDIF} TArrayList<Integer, TCompareFunctorInteger>;
+
+  TFilterIntegerOddFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TUnaryFunctor<Integer, Boolean>)
+  public
+    function Call(AValue : Integer) : Boolean; override;
+    begin
+      Result := (AValue mod 2) = 1;
+    end;
+  end;
+
+  TArrOddFilterEnumerator = {$IFDEF FPC}specialize{$ENDIF} TEnumerator<Integer, TIntegerArrayList.TIterator, TFilterIntegerOddFunctor>;
+
+var
+  Arr : TIntegerArrayList;
+  ArrIterator : TArrOddFilterEnumerator.TIterator;
+  Index, Value : Integer;
+
+for ArrIterator in TArrOddFilterEnumerator.Create(Arr.FirstEntry) do
+begin
   Value := ArrIterator.Value;
 end;
 ```

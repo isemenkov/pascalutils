@@ -35,7 +35,7 @@ unit utils.enumerate;
 interface
 
 uses
-  SysUtils {$IFDEF USE_OPTIONAL}, utils.optional{$ENDIF};
+  SysUtils, utils.functor {$IFDEF USE_OPTIONAL}, utils.optional{$ENDIF};
 
 type
   { Common forward iterator. }
@@ -143,6 +143,65 @@ type
     FIterator : TIterator; 
   end;
 
+  { Create filtering enumerator to an iterable object. }
+  {$IFDEF FPC}generic{$ENDIF} TFilterEnumerator<V; Iterator
+    {$IFNDEF FPC}: TForwardIterator<V, Iterator>{$ENDIF}; 
+    Functor{$IFNDEF FPC}: TUnaryFunctor<V, Boolean>{$ENDIF}> = class
+  public
+    type
+      {$IFDEF USE_OPTIONAL}
+      TOptionalValue = {$IFDEF FPC}specialize{$ENDIF} TOptional<V>;
+      {$ENDIF}
+
+      TIterator = class
+      public
+        constructor Create (AIterator : Iterator; AFilter : Functor);
+
+        { Return true if iterator has correct value. }
+        function HasValue : Boolean;
+
+        { Retrieve the next entry. }
+        function Next : TIterator;
+
+        { Return True if we can move to next element. }
+        function MoveNext : Boolean;
+
+        { Return enumerator for in operator. }
+        function GetEnumerator : TIterator;
+      protected
+        { Get item value. }
+        function GetValue : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
+          {$ENDIF};
+
+        { Return current item iterator and move it to next. }
+        function GetCurrent : TIterator;
+      public
+        property Value : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
+          {$ENDIF} read GetValue;
+
+        property Current : TIterator read GetCurrent;
+      protected
+        FInnerIterator : Iterator;
+        FFunctor : Functor;
+      end;
+  public
+    constructor Create (AIterator : Iterator; AFilter : Functor);
+
+    { Return True if we can move to next element. }
+    function MoveNext : Boolean;
+
+    { Return enumerator for in operator. }
+    function GetEnumerator : TIterator;
+  protected
+    { Return current item iterator and move it to next. }
+    function GetCurrent : TIterator;
+  public
+    property Current : TIterator read GetCurrent;
+  protected
+    FIterator : TIterator; 
+    FFunctor : Functor;
+  end;
+
 implementation
 
 { TEnumerator.TIterator }
@@ -219,6 +278,96 @@ begin
 end;
 
 function TEnumerator{$IFNDEF FPC}<V, Iterator>{$ENDIF}.GetCurrent : TIterator;
+begin
+  Result := FIterator;
+end;
+
+{ TFilterEnumerator.TIterator }
+
+constructor TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .TIterator.Create (AIterator : Iterator; AFilter : Functor);
+begin
+  FInnerIterator := AIterator;
+  FFunctor := AFilter;
+end;
+
+function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .TIterator.HasValue : Boolean;
+begin
+  Result := FInnerIterator.HasValue;
+end;
+
+function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .TIterator.Next : TIterator;
+begin
+  Result := TIterator.Create(Iterator(FInnerIterator.Next), FFunctor);
+end;
+
+function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .TIterator.MoveNext : Boolean;
+var
+  Iter : Iterator;
+begin
+  Iter := Iterator(FInnerIterator);
+  while Iter.HasValue and (not Boolean(FFunctor.Call(Iter.GetValue))) do
+  begin
+    Iter := Iter.Next;
+  end;
+
+  Result := Iter.HasValue;
+end;
+
+function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .TIterator.GetEnumerator : TIterator;
+begin
+  Result := TIterator.Create(FInnerIterator, FFunctor);
+end;
+
+function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .TIterator.GetValue : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue{$ENDIF};
+begin
+  Result := FInnerIterator.GetValue;
+end;
+
+function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .TIterator.GetCurrent : TIterator;
+var
+  Iter : Iterator;
+begin
+  Iter := Iterator(FInnerIterator);
+  while Iter.HasValue and (not Boolean(FFunctor.Call(Iter.GetValue))) do
+  begin
+    Iter := Iter.Next;
+  end;
+
+  Result := TIterator.Create(Iter, FFunctor);
+  FInnerIterator := Iter.Next;
+end;
+
+{ TFilterEnumerator }
+
+constructor TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .Create (AIterator : Iterator; AFilter : Functor);
+begin
+  FIterator := TIterator.Create(AIterator, AFilter);
+  FFunctor := AFilter;
+end;
+
+function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .MoveNext : Boolean;
+begin
+  Result := FIterator.MoveNext;
+end;
+
+function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .GetEnumerator : TIterator;
+begin
+  Result := FIterator;
+  FIterator := FIterator.Next;
+end;
+
+function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .GetCurrent : TIterator;
 begin
   Result := FIterator;
 end;
