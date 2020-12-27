@@ -39,20 +39,20 @@ uses
 
 type
   { Common forward iterator. }
-  {$IFDEF FPC}generic{$ENDIF} TForwardIterator<V> = class
+  {$IFDEF FPC}generic{$ENDIF} TForwardIterator<V, Iterator> = class
   public
     { Return true if iterator has correct value. }
     function HasValue : Boolean; virtual; abstract;
 
     { Retrieve the next entry. }
-    function Next : TForwardIterator{$IFNDEF FPC}<V>{$ENDIF}; virtual; abstract;
+    function Next : Iterator; 
+      virtual; abstract;
 
     { Return True if we can move to next element. }
     function MoveNext : Boolean; virtual; abstract;
 
     { Return enumerator for in operator. }
-    function GetEnumerator : TForwardIterator{$IFNDEF FPC}<V>{$ENDIF}; virtual;
-      abstract;
+    function GetEnumerator : Iterator; virtual; abstract;
   protected
     { Get item value. }
     function GetValue : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
@@ -67,18 +67,18 @@ type
   end;
 
   { Common bidirectional iterator. }
-  {$IFDEF FPC}generic{$ENDIF} TBidirectionalIterator<V> = class
-    ({$IFDEF FPC}specialize{$ENDIF} TForwardIterator<V>)
+  {$IFDEF FPC}generic{$ENDIF} TBidirectionalIterator<V, Iterator> = class 
+    ({$IFDEF FPC}specialize{$ENDIF} TForwardIterator<V, Iterator>)
   public
     { Retrieve the previous entry. }
-    function Prev : TBidirectionalIterator{$IFNDEF FPC}<V>{$ENDIF}; virtual;
-      abstract;
+    function Prev : Iterator;
+      virtual; abstract;
   end;
 
   { Class adds counter to an iterable and returns it (the enumerate object) like
     in a Python language. }
-  {$IFDEF FPC}generic{$ENDIF} TEnumerator<V; Iterator{$IFNDEF FPC}
-    : TForwardIterator<V>{$ENDIF}> = class
+  {$IFDEF FPC}generic{$ENDIF} TEnumerator<V; Iterator
+    {$IFNDEF FPC}: TForwardIterator<V, Iterator>{$ENDIF}> = class
   public
     type 
       TIterator = class
@@ -102,8 +102,7 @@ type
           {$ENDIF};
 
         { Return current item iterator and move it to next. }
-        function GetCurrent : {$IFNDEF USE_OPTIONAL}TIterator{$ELSE}
-          TOptionalValue{$ENDIF};
+        function GetCurrent : TIterator;
 
         { Return current item index. }
         function GetIndex : Integer;
