@@ -55,6 +55,8 @@ PascalUtils is delphi and object pascal library of utils data structures.
     * [Examples](#examples-8)
   * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
     * [Examples](#examples-9)
+  * [TAccumulate](#taccumulate)
+    * [Examples](#examples-10)
 
 
 
@@ -724,7 +726,8 @@ type
     end;
   end;
 
-  TArrOddFilterEnumerator = {$IFDEF FPC}specialize{$ENDIF} TEnumerator<Integer, TIntegerArrayList.TIterator, TFilterIntegerOddFunctor>;
+  TArrOddFilterEnumerator = {$IFDEF FPC}specialize{$ENDIF} TEnumerator<Integer, 
+    TIntegerArrayList.TIterator, TFilterIntegerOddFunctor>;
 
 var
   Arr : TIntegerArrayList;
@@ -735,4 +738,31 @@ for ArrIterator in TArrOddFilterEnumerator.Create(Arr.FirstEntry) do
 begin
   Value := ArrIterator.Value;
 end;
+```
+
+
+
+#### TAccumulate
+
+```pascal
+uses
+  utils.functional;
+
+type
+  generic TAccumulate<V, Iterator, Functor> = class
+```
+
+[TAccumulate](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functional.pas) accumulated values using binary functions (specified via the Functor argument) like in a Python language.
+
+```pascal
+uses
+  utils.functional;
+
+type
+  TIntegerArrayList = {$IFDEF FPC}specialize{$ENDIF} TArrayList<Integer,    
+    TCompareFunctorInteger>;
+  TIntegerAdditionalAccumalate = {$IFDEF FPC}specialize{$ENDIF} 
+    TAccumulate<Integer, TIntegerArrayList.TIterator, TAdditionIntegerFunctor>;
+
+  writeln(TIntegerAdditionalAccumalate.Create(arr.FirstEntry, 0));
 ```
