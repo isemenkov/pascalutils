@@ -1,7 +1,7 @@
 PascalUtils
 ==========
 
-PascalUtils is delphi and object pascal library of utils data structures.
+PascalUtils is an object library for delphi and FreePascal of data structures that implements syntactic sugar similar to that of other modern languages as far as syntax allows.
 
 
 ### Table of contents
@@ -20,37 +20,39 @@ PascalUtils is delphi and object pascal library of utils data structures.
       * [Create](#create-1)
       * [Check state](#check-state-1)
       * [Get value](#get-value-1)
-  * [TUnaryFunctor, TBinaryFunctor](#tunaryfunctor-tbinaryfunctor)
-    * [Examples](#examples-2)
-      * [Specialize](#specialize)
-      * [Create](#create-2)
-      * [Run](#run)
   * [TDataSize](#tdatasize)
-    * [Examples](#examples-3)
-      * [Create](#create-3)
+    * [Examples](#examples-2)
+      * [Create](#create-2)
       * [Set value](#set-value)
       * [Get value](#get-value-2)
       * [Convert](#convert)
   * [TTimeInterval](#ttime-interval)
-    * [Examples](#examples-4)
-      * [Create](#create-4)
+    * [Examples](#examples-3)
+      * [Create](#create-3)
       * [Set value](#set-value-1)
       * [Get value](#get-value-3)
       * [Convert](#convert-1)
   * [TPair](#tpair)
-    * [Examples](#examples-5)
-      * [Create](#create-5)
+    * [Examples](#examples-4)
+      * [Create](#create-4)
       * [Get value](#get-value-4)
   * [TTuple](#ttuple)
+    * [Examples](#examples-5)
+      * [Create](#create-5)
+      * [Get value](#get-value-5)
+* [Errors processing](#errors-processing)
+  * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
     * [Examples](#examples-6)
       * [Create](#create-6)
-      * [Get value](#get-value-5)
-  * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
-    * [Examples](#examples-7)
-      * [Create](#create-7)
       * [Push](#push)
       * [Pop](#pop)
       * [Iterate](#iterate)
+* [Iterators](#iterators)
+  * [TUnaryFunctor, TBinaryFunctor](#tunaryfunctor-tbinaryfunctor)
+    * [Examples](#examples-7)
+      * [Specialize](#specialize)
+      * [Create](#create-7)
+      * [Run](#run)
   * [TForwardIterator, TBidirectionalIterator](#tforwarditerator-tbidirectionaliterator)
     * [Examples](#examples-8)
   * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
@@ -569,6 +571,8 @@ end;
 
 
 
+### Errors processing
+
 #### TArrayErrorsStack, TListErrorsStack
 
 ```pascal
@@ -632,6 +636,8 @@ begin
 ```
 
 
+
+### Iterators
 
 #### TForwardIterator, TBidirectionalIterator
 
@@ -752,7 +758,7 @@ type
   generic TAccumulate<V, Iterator, Functor> = class
 ```
 
-[TAccumulate](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functional.pas) accumulated values using binary functions (specified via the Functor argument) like in a Python language.
+[TAccumulate](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functional.pas) accumulated values using binary functions (specified via the Functor argument).
 
 ```pascal
 uses
@@ -764,5 +770,5 @@ type
   TIntegerAdditionalAccumalate = {$IFDEF FPC}specialize{$ENDIF} 
     TAccumulate<Integer, TIntegerArrayList.TIterator, TAdditionIntegerFunctor>;
 
-  writeln(TIntegerAdditionalAccumalate.Create(arr.FirstEntry, 0));
+  writeln(TIntegerAdditionalAccumalate.Create(arr.FirstEntry, 0).Value);
 ```
