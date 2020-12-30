@@ -709,10 +709,12 @@ var
   ArrIterator : TArrEnumerator.TIterator;
   Index, Value : Integer;
 
-for ArrIterator in TArrEnumerator.Create(Arr.FirstEntry) do
 begin
-  Index := ArrIterator.Index;
-  Value := ArrIterator.Value;
+  for ArrIterator in TArrEnumerator.Create(Arr.FirstEntry) do
+  begin
+    Index := ArrIterator.Index;
+    Value := ArrIterator.Value;
+  end;
 end;
 ```
 
@@ -740,9 +742,11 @@ var
   ArrIterator : TArrOddFilterEnumerator.TIterator;
   Index, Value : Integer;
 
-for ArrIterator in TArrOddFilterEnumerator.Create(Arr.FirstEntry) do
 begin
-  Value := ArrIterator.Value;
+  for ArrIterator in TArrOddFilterEnumerator.Create(Arr.FirstEntry) do
+  begin
+    Value := ArrIterator.Value;
+  end;
 end;
 ```
 
@@ -770,5 +774,7 @@ type
   TIntegerAdditionalAccumalate = {$IFDEF FPC}specialize{$ENDIF} 
     TAccumulate<Integer, TIntegerArrayList.TIterator, TAdditionIntegerFunctor>;
 
+begin
   writeln(TIntegerAdditionalAccumalate.Create(arr.FirstEntry, 0).Value);
+end;
 ```

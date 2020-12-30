@@ -170,6 +170,106 @@ type
   public
     function Call (AValue1, AValue2 : WideString) : WideString; override;
   end;
+
+  TMultiplicationByteFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Byte, Byte>)
+  public
+    function Call (AValue1, AValue2 : Byte) : Byte; override;
+  end;  
+
+  TMultiplicationShortIntFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<ShortInt, ShortInt>)
+  public
+    function Call (AValue1, AValue2 : ShortInt) : ShortInt; override;
+  end;  
+
+  TMultiplicationWordFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Word, Word>)
+  public
+    function Call (AValue1, AValue2 : Word) : Word; override;
+  end;
+
+  TMultiplicationSmallIntFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<SmallInt, SmallInt>)
+  public
+    function Call (AValue1, AValue2 : SmallInt) : SmallInt; override;
+  end;
+
+  TMultiplicationIntegerFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Integer, Integer>)
+  public
+    function Call (AValue1, AValue2 : Integer) : Integer; override;
+  end;
+
+  {$IFDEF FPC}
+  TMultiplicationDWordFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<DWord, DWord>)
+  public
+    function Call (AValue1, AValue2 : DWord) : DWord; override;
+  end;
+  {$ENDIF}
+
+  TMultiplicationCardinalFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Cardinal, Cardinal>)
+  public
+    function Call (AValue1, AValue2 : Cardinal) : Cardinal; override;
+  end;
+
+  TMultiplicationLongWordFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<LongWord, LongWord>)
+  public
+    function Call (AValue1, AValue2 : LongWord) : LongWord; override;
+  end;
+
+  TMultiplicationLongIntFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<LongInt, LongInt>)
+  public
+    function Call (AValue1, AValue2 : LongInt) : LongInt; override;
+  end;
+
+  {$IFDEF FPC}
+  TMultiplicationQWordFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<QWord, QWord>)
+  public
+    function Call (AValue1, AValue2 : QWord) : QWord; override;
+  end;
+  {$ENDIF}
+
+  TMultiplicationInt64Functor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Int64, Int64>)
+  public
+    function Call (AValue1, AValue2 : Int64) : Int64; override;
+  end;
+
+  TMultiplicationSingleFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Single, Single>)
+  public
+    function Call (AValue1, AValue2 : Single) : Single; override;
+  end;
+
+  TMultiplicationRealFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Real, Real>)
+  public
+    function Call (AValue1, AValue2 : Real) : Real; override;
+  end;
+
+  TMultiplicationDoubleFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Double, Double>)
+  public
+    function Call (AValue1, AValue2 : Double) : Double; override;
+  end;
+
+  TMultiplicationExtendedFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Extended, Extended>)
+  public
+    function Call (AValue1, AValue2 : Extended) : Extended; override;
+  end;
+
+  TMultiplicationCurrencyFunctor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Currency, Currency>)
+  public
+    function Call (AValue1, AValue2 : Currency) : Currency; override;
+  end;
     
 implementation
 
@@ -287,6 +387,98 @@ function TAdditionWideStringFunctor.Call (AValue1, AValue2 : WideString) :
   WideString;
 begin
   Result := AValue1 + AValue2;
+end;
+
+function TMultiplicationByteFunctor.Call (AValue1, AValue2 : Byte) : Byte;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationShortIntFunctor.Call (AValue1, AValue2 : ShortInt) : 
+  ShortInt;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationWordFunctor.Call (AValue1, AValue2 : Word) : Word;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationSmallIntFunctor.Call (AValue1, AValue2 : SmallInt) : 
+  SmallInt;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationIntegerFunctor.Call (AValue1, AValue2 : Integer) : 
+  Integer;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+{$IFDEF FPC}
+function TMultiplicationDWordFunctor.Call (AValue1, AValue2 : DWord) : DWord;
+begin
+  Result := AValue1 * AValue2;
+end;
+{$ENDIF}
+
+function TMultiplicationCardinalFunctor.Call (AValue1, AValue2 : Cardinal) : 
+  Cardinal;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationLongWordFunctor.Call (AValue1, AValue2 : LongWord) : 
+  LongWord;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationLongIntFunctor.Call (AValue1, AValue2 : LongInt) : 
+  LongInt;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+{$IFDEF FPC}
+function TMultiplicationQWordFunctor.Call (AValue1, AValue2 : QWord) : QWord;
+begin
+  Result := AValue1 * AValue2;
+end;
+{$ENDIF}
+
+function TMultiplicationInt64Functor.Call (AValue1, AValue2 : Int64) : Int64;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationSingleFunctor.Call (AValue1, AValue2 : Single) : Single;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationRealFunctor.Call (AValue1, AValue2 : Real) : Real;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationDoubleFunctor.Call (AValue1, AValue2 : Double) : Double;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationExtendedFunctor.Call (AValue1, AValue2 : Extended) : 
+  Extended;
+begin
+  Result := AValue1 * AValue2;
+end;
+
+function TMultiplicationCurrencyFunctor.Call (AValue1, AValue2 : Currency) : 
+  Currency;
+begin
+  Result := AValue1 * AValue2;
 end;
 
 end.
