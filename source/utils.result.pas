@@ -130,14 +130,12 @@ begin
   FValue.Ok := True;
   New(FValue.Value);
   FValue.Value^ := AValue;
-  FValue.Error := nil;
 end;
 
 constructor TResult{$IFNDEF FPC}<V, E>{$ENDIF}.CreateError (AError : E);
 begin
   FValue.Ok := False;
   New(FValue.Error);
-  FValue.Value := nil;
   FValue.Error^ := AError;
 end;
 
