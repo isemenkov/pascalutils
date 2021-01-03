@@ -66,7 +66,7 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
 
 * [Embarcadero (R) Rad Studio](https://www.embarcadero.com)
 * [Free Pascal Compiler](http://freepascal.org)
-* [Lazarus IDE](http://www.lazarus.freepascal.org/) (optional)
+* [Lazarus IDE](http://www.lazarus.freepascal.org/)
 
 
 
@@ -80,8 +80,7 @@ Library is tested for
 ### Installation
 
 
-Get the sources and add the *source* directory to the project search path. 
-For FPC add the *source* directory to the *fpc.cfg* file.
+Get the sources and add the *source* directory to the project search path.  For FPC add the *source* directory to the *fpc.cfg* file.
 
 
 
@@ -97,6 +96,8 @@ Add the unit you want to use to the `uses` clause.
 
 #### TOptional
 
+[TOptional](https://github.com/isemenkov/pascalutils/blob/master/source/utils.optional.pas) class represents an optional value: every TOptional is contains a value, or does not, like in Rust lang.
+
 ```pascal
 uses
   utils.optional;
@@ -105,7 +106,7 @@ type
   generic TOptional<T> = class
 ```
 
-[TOptional](https://github.com/isemenkov/pascalutils/blob/master/source/utils.optional.pas) class contains some value or none, like Rust lang.
+
 
 ##### Examples
 
@@ -153,6 +154,8 @@ end;
 
 #### TResult
 
+Result types typically contain either a returned value or an error, and could provide first-class encapsulation of the common (value, err) pattern ubiquitous throughout Go programs.
+
 ```pascal
 uses
   utils.result;
@@ -162,7 +165,7 @@ type
   generic TVoidResult<E> = class
 ```
 
-[TResult](https://github.com/isemenkov/pascalutils/blob/master/source/utils.result.pas) class contains result value or error type like in GO or Rust lang. [TVoidResult](https://github.com/isemenkov/pascalutils/blob/master/source/utils.result.pas) class contains Ok flag or error type.
+
 
 ##### Examples
 
@@ -213,6 +216,8 @@ end;
 
 #### TUnaryFunctor, TBinaryFunctor
 
+Functors are objects that can be treated as though they are a functions. This objects to be used with the syntax like a regular function call, and therefore its type can be used as template parameter when a generic function type is expected.
+
 ```pascal
 uses
   utils.functor;
@@ -223,6 +228,8 @@ type
 ```
 
 [TUnaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) class and [TBinaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) provides functor structure, like in C++ language.
+
+
 
 ##### Examples
 
@@ -271,6 +278,8 @@ end;
 
 #### TDataSize
 
+[TDataSize](https://github.com/isemenkov/pascalutils/blob/master/source/utils.datasize.pas) class provide the interface to manipulate data sizes.
+
 ```pascal
 uses
   utils.datasize;
@@ -279,7 +288,7 @@ type
   TDataSize = class
 ```
 
-[TDataSize](https://github.com/isemenkov/pascalutils/blob/master/source/utils.datasize.pas) class manipulate sizes.
+
 
 ##### Examples
 
@@ -371,6 +380,8 @@ end;
 
 #### TTimeInterval
 
+[TTimeInterval](https://github.com/isemenkov/pascalutils/blob/master/source/utils.timeinterval.pas) class provide the interface to manipulate time intervals.
+
 ```pascal
 uses
   utils.timeinterval;
@@ -379,7 +390,7 @@ type
   TTimeInterval = class
 ```
 
-[TTimeInterval](https://github.com/isemenkov/pascalutils/blob/master/source/utils.timeinterval.pas) class manipulate time intervals.
+
 
 
 ##### Examples
@@ -467,8 +478,9 @@ end;
 
 
 
-
 #### TPair
+
+[TPair](https://github.com/isemenkov/pascalutils/blob/master/source/utils.pair.pas) class couples together a pair of values, which may be of different types (T1 and T2). The individual values can be accessed through its public members first and second, like in C++ language.
 
 ```pascal
 
@@ -478,7 +490,7 @@ uses
 type
   generic TPair<T1, T2> = class
 ```
-[TPair](https://github.com/isemenkov/pascalutils/blob/master/source/utils.pair.pas) class contains pair of values like in C++ language.
+
 
 ##### Examples
 
@@ -519,6 +531,8 @@ end;
 
 #### TTuple
 
+[TTuple](https://github.com/isemenkov/pascalutils/blob/master/source/utils.tuple.pas) is an object capable to hold a collection of elements. Each element can be of a different type, like in C++ language.
+
 ```pascal
 
 uses
@@ -529,7 +543,7 @@ type
   generic TTuple4<T1, T2, T3, T4> = class
   generic TTuple5<T1, T2, T3, T4, T5> = class
 ```
-[TTuple](https://github.com/isemenkov/pascalutils/blob/master/source/utils.tuple.pas) class contains tuple of values like in C++ language.
+
 
 ##### Examples
 
@@ -575,6 +589,8 @@ end;
 
 #### TArrayErrorsStack, TListErrorsStack
 
+[TArrayErrorsStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorsstack.pas) is generic stack over array of T and [TListErrorsStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorsstack.pas) is generic stack over list of T classes which contains errors codes.
+
 ```pascal
 uses
   utils.errorsstack;
@@ -584,7 +600,7 @@ type
   generic TListErrorsStack<T> = class
 ```
 
-[TArrayErrorsStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorsstack.pas) is generic stack over array of T and [TListErrorsStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorsstack.pas) is generic stack over list of T classes which contains errors codes.
+
 
 ##### Examples
 
@@ -641,6 +657,8 @@ begin
 
 #### TForwardIterator, TBidirectionalIterator
 
+[TForwardIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) and [TBidirectionalIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) is a base classes for custom iterators.
+
 ```pascal
 uses
   utils.enumerate;
@@ -650,7 +668,7 @@ type
   generic TBidirectionalIterator<V, Iterator> = class
 ```
 
-[TForwardIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) and [TBidirectionalIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) is a base classes for custom iterators.
+
 
 ##### Examples
 
@@ -680,6 +698,10 @@ type
 
 #### TEnumerator, TFilterEnumerator
 
+[TEnumerator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) class adds counter to an iterable objects what have iterator based on [TForwardIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) or [TBidirectionalIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) and returns it (the enumerate object) like in a Python language.
+
+[TFilterEnumerator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) class provides filtering enumerator by UnaryFunctor.
+
 ```pascal
 uses
   utils.enumerate, utils.functor;
@@ -689,9 +711,7 @@ type
   generic TFilterEnumerator<V, Iterator, FUnaryFunctor> = class
 ```
 
-[TEnumerator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) class adds counter to an iterable objects what have iterator based on [TForwardIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) or [TBidirectionalIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) and returns it (the enumerate object) like in a Python language.
 
-[TFilterEnumerator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) class provides filtering enumerator by UnaryFunctor.
 
 ##### Examples
 
@@ -754,6 +774,8 @@ end;
 
 #### TAccumulate
 
+[TAccumulate](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functional.pas) accumulated values using binary functions (specified via the Functor argument).
+
 ```pascal
 uses
   utils.functional;
@@ -762,7 +784,7 @@ type
   generic TAccumulate<V, Iterator, Functor> = class
 ```
 
-[TAccumulate](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functional.pas) accumulated values using binary functions (specified via the Functor argument).
+
 
 ```pascal
 uses
