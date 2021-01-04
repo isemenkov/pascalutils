@@ -2,7 +2,7 @@
 (*                                PascalUtils                                 *)
 (*          delphi and object pascal library of utils data structures         *)
 (*                                                                            *)
-(* Copyright (c) 2020                                       Ivan Semenkov     *)
+(* Copyright (c) 2020 - 2021                                Ivan Semenkov     *)
 (* https://github.com/isemenkov/pascalutils                 ivan@semenkov.pro *)
 (*                                                          Ukraine           *)
 (******************************************************************************)
@@ -547,7 +547,8 @@ constructor TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.Create
 begin
   FInnerIterator := AIterator;
   FFunctor := AFunctor;
-  FValue := FFunctor.Call(AIterator.GetValue);
+  if AIterator.HasValue then  
+    FValue := FFunctor.Call(AIterator.GetValue);
 end;
 
 function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.HasValue :
@@ -585,7 +586,8 @@ function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.GetCurrent :
 begin
   Result := TIterator.Create(FInnerIterator, FFunctor);
   FInnerIterator := Iterator(FInnerIterator.Next);
-  FValue := FFunctor.Call(FInnerIterator.GetValue);
+  if FInnerIterator.HasValue then
+    FValue := FFunctor.Call(FInnerIterator.GetValue);
 end;
 
 { TMap }
