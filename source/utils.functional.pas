@@ -56,6 +56,65 @@ type
     property Value : V read FValue;
   end;
 
+  { Map applying the given functor to each item of a given iterable object. }
+  {$IFDEF FPC}generic{$ENDIF} TMap<V; Iterator 
+    {$IFNDEF FPC}: TForwardIterator<V, Iterator>{$ENDIF};
+    Functor{$IFNDEF FPC}: constructor, TUnaryFunctor<V, V>{$ENDIF}> = class
+  public
+    type
+      {$IFDEF USE_OPTIONAL}
+      TOptionalValue = {$IFDEF FPC}specialize{$ENDIF} TOptional<V>;
+      {$ENDIF}
+
+      TIterator = class
+      public
+        constructor Create (AIterator : Iterator; AFunctor : Functor);
+
+        { Return true if iterator has correct value. }
+        function HasValue : Boolean;
+
+        { Retrieve the next entry. }
+        function Next : TIterator;
+
+        { Return True if we can move to next element. }
+        function MoveNext : Boolean;
+
+        { Return enumerator for in operator. }
+        function GetEnumerator : TIterator;
+      protected
+        { Get item value. }
+        function GetValue : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
+          {$ENDIF};
+
+        { Return current item iterator and move it to next. }
+        function GetCurrent : TIterator;
+      public
+        property Value : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
+          {$ENDIF} read GetValue;
+
+        property Current : TIterator read GetCurrent;
+      protected
+        FValue : V;
+        FInnerIterator : Iterator;
+        FFunctor : Functor;
+      end;
+  public 
+    constructor Create (AIterator : Iterator; AFunctor : Functor);
+
+    { Return True if we can move to next element. }
+    function MoveNext : Boolean;
+
+    { Return enumerator for in operator. }
+    function GetEnumerator : TIterator;
+  protected
+    { Return current item iterator and move it to next. }
+    function GetCurrent : TIterator;
+  public
+    property Current : TIterator read GetCurrent;
+  protected
+    FIterator : TIterator;
+  end; 
+
   { Accumulate functors for default data types.
     Delphi generics do not support arithmetic operators that act on generic 
     types. }
@@ -479,6 +538,80 @@ function TMultiplicationCurrencyFunctor.Call (AValue1, AValue2 : Currency) :
   Currency;
 begin
   Result := AValue1 * AValue2;
+end;
+
+{ TMap }
+
+constructor TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.Create
+  (AIterator : Iterator; AFunctor : Functor);
+begin
+  FInnerIterator := AIterator;
+  FFunctor := AFunctor;
+  FValue := FFunctor.Call(AIterator.GetValue);
+end;
+
+function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.HasValue :
+  Boolean;
+begin
+  Result := FInnerIterator.HasValue;
+end;
+
+function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.Next :
+  TIterator;
+begin
+  Result := TIterator.Create(FInnerIterator.Next, FFunctor);
+end;
+
+function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.MoveNext :
+  Boolean;
+begin
+  Result := FInnerIterator.MoveNext;
+end;
+
+function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.GetEnumerator
+  : TIterator;
+begin
+  Result := TIterator.Create(FInnerIterator, FFunctor);
+end;
+
+function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.GetValue :
+  {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue{$ENDIF};
+begin
+  Result := FValue;
+end;
+
+function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.GetCurrent :
+  TIterator;
+begin
+  Result := TIterator.Create(FInnerIterator, FFunctor);
+  FInnerIterator := Iterator(FInnerIterator.Next);
+  FValue := FFunctor.Call(FInnerIterator.GetValue);
+end;
+
+{ TMap }
+
+constructor TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.Create
+  (AIterator : Iterator; AFunctor : Functor);
+begin
+  FIterator := TIterator.Create(AIterator, AFunctor);
+end;
+
+function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.MoveNext : Boolean;
+begin
+  Result := FIterator.MoveNext;
+end;
+
+function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.GetEnumerator :
+  TIterator;
+begin
+  Result := FIterator;
+  FIterator := FIterator.Next;
+end;
+
+function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.GetCurrent : 
+  TIterator;
+begin
+  Result := FIterator;
 end;
 
 end.

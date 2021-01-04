@@ -59,6 +59,8 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
     * [Examples](#examples-9)
   * [TAccumulate](#taccumulate)
     * [Examples](#examples-10)
+  * [TMap](#tmap)
+    * [Examples](#examples-11)
 
 
 
@@ -689,7 +691,8 @@ uses
 
 type
   TIterator = class; { Fix for FreePascal compiler. }
-  TIterator = class({$IFDEF FPC}specialize{$ENDIF} TBidirectionalIterator<Integer, TIterator>)
+  TIterator = class({$IFDEF FPC}specialize{$ENDIF}     
+    TBidirectionalIterator<Integer, TIterator>)
     { ... class methods ... }
   end;
 ```
@@ -708,8 +711,9 @@ uses
 
 type
   generic TEnumerator<V, Iterator> = class
-  generic TFilterEnumerator<V, Iterator, FUnaryFunctor> = class
+  generic TFilterEnumerator<V, Iterator, Functor> = class
 ```
+Functor is based on [utils.functor.TUnaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) interface and used to filtering item value.
 
 
 
@@ -778,17 +782,18 @@ end;
 
 ```pascal
 uses
-  utils.functional;
+  utils.functional, utils.functor;
 
 type
   generic TAccumulate<V, Iterator, Functor> = class
 ```
+Functor is based on [utils.functor.TUnaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) interface and used to accumulate the result value.
 
 
 
 ```pascal
 uses
-  utils.functional;
+  container.arraylist, utils.functor, utils.functional;
 
 type
   TIntegerArrayList = {$IFDEF FPC}specialize{$ENDIF} TArrayList<Integer,    
@@ -798,5 +803,53 @@ type
 
 begin
   writeln(TIntegerAdditionalAccumalate.Create(arr.FirstEntry, 0).Value);
+end;
+```
+
+
+
+#### TMap
+
+[TMap](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functional.pas) applying the given functor to each item of a given iterable object).
+
+```pascal
+uses
+  utils.functional, utils.functor;
+
+type
+  generic TMap<V, Iterator, Functor> = class
+```
+Functor is based on [utils.functor.TUnaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) interface and used to modify item value.
+
+
+```pascal
+uses
+  container.arraylist, utils.functor, utils.functional;
+
+type
+  TIntegerArrayList = {$IFDEF FPC}specialize{$ENDIF} TArrayList<Integer,    
+    TCompareFunctorInteger>;
+
+  TIntegerPow2Functor = class
+    ({$IFDEF FPC}specialize{$ENDIF} TUnaryFunctor<Integer, Integer>)
+  public
+    function Call (AValue : Integer) : Integer;
+    begin
+      Result := AValue * AValue;
+    end;
+  end;
+
+  TIntegerArrayListMap = {$IFDEF FPC}specialize{$ENDIF} 
+    TMap<Integer, TIntegerArrayList.TIterator, TIntegerPow2Functor>;
+
+var
+  arr : TIntegerArrayList;
+  iter : TIntegerArrayListMap.TIterator;
+begin
+  arr := TIntegerArrayList.Create;
+
+  for iter in TIntegerArrayListMap.Create(arr.FirstEntry, 
+    TIntegerPow2Functor.Create) do
+    writeln(iter.Value);
 end;
 ```
