@@ -106,6 +106,8 @@ type
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<Char>);
   TCompareFunctorWideChar =
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<WideChar>);
+  TCompareFunctorAnsiString =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<AnsiString>);
   TCompareFunctorString =
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultCompareFunctor<String>);
   TCompareFunctorWideString =
@@ -176,6 +178,8 @@ type
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<Char>);
   TLessFunctorWideChar =
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<WideChar>);
+  TLessFunctorAnsiString =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<AnsiString>);
   TLessFunctorString =
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultLessFunctor<String>);
   TLessFunctorWideString =
@@ -235,6 +239,8 @@ type
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<Char>);
   TGreaterFunctorWideChar =
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<WideChar>);
+  TGreaterFunctorAnsiString =
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<AnsiString>);
   TGreaterFunctorString =
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultGreaterFunctor<String>);
   TGreaterFunctorWideString =
@@ -294,6 +300,8 @@ type
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<Char>);
   TEqualFunctorWideChar = 
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<WideChar>);
+  TEqualFunctorAnsiString = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<AnsiString>);
   TEqualFunctorString = 
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<String>);
   TEqualFunctorWideString = 
