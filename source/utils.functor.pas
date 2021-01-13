@@ -35,7 +35,7 @@ unit utils.functor;
 interface
 
 uses    
-  SysUtils {$IFNDEF FPC}, System.Generics.Defaults{$ENDIF};
+  SysUtils, utils.pair{$IFNDEF FPC}, System.Generics.Defaults{$ENDIF};
 
 type
   { Base unary functor }  
@@ -306,6 +306,92 @@ type
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<String>);
   TEqualFunctorWideString = 
     class({$IFDEF FPC}specialize{$ENDIF} TDefaultEqualFunctor<WideString>);
+  
+  { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                                Pair key compare functor                                
+    
+    Return a negative value if pair 1 key value should be sorted before pair 2 
+    key value, a positive value if pair 1 key value should be sorted after 
+    pair 2 key value, zero if pair 1 key value and pair 2 key value 2 are equal.                  
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
+  {$IFDEF FPC}generic{$ENDIF} TDefaultPairKeyCompareFunctor<K, V> =
+    class({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor
+    <{$IFDEF FPC}specialize{$ENDIF} TPair<K, V>, Integer>)
+  public
+    function Call (AValue1, AValue2 : {$IFDEF FPC}specialize{$ENDIF} TPair<K, 
+      V>) : Integer; override;
+  end;
+
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Byte, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<ShortInt, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Word, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<SmallInt, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorInteger<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Integer, 
+    V>);
+  {$IFDEF FPC}
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<DWord, 
+    V>);
+  {$ENDIF}
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Cardinal, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<LongWord, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<LongInt, 
+    V>);
+  {$IFDEF FPC}
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<QWord, 
+    V>);
+  {$ENDIF}
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Int64, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Single, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Real, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Double, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Extended, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Currency, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Boolean, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<Char, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<WideChar, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} 
+    TDefaultPairKeyCompareFunctor<AnsiString, V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorString<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TDefaultPairKeyCompareFunctor<String, 
+    V>);
+  {$IFDEF FPC}generic{$ENDIF} TPairKeyCompareFunctorByte<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} 
+    TDefaultPairKeyCompareFunctor<WideString, V>);
 
 implementation
 
@@ -361,6 +447,26 @@ begin
   Result := TComparer<V>.Default.Compare(AValue1, AValue2) = 0;
   {$ELSE}
   Result := AValue1 = AValue2;
+  {$ENDIF}
+end;
+
+function TDefaultPairKeyCompareFunctor{$IFNDEF FPC}<K, V>{$ENDIF}
+  .Call(AValue1, AValue2 : {$IFDEF FPC}specialize{$ENDIF} TPair<K, V>) : 
+  Integer;
+begin
+  {$IFNDEF FPC}
+    Result := TComparer<K>.Default.Compare(AValue1.First, AValue2.First);
+  {$ELSE}
+  if AValue1.First < AValue2.First then
+  begin
+    Result := -1;
+  end else if AValue2.First < AValue1.First then
+  begin
+    Result := 1
+  end else
+  begin
+    Result := 0;
+  end;
   {$ENDIF}
 end;
 
