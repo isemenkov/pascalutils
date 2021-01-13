@@ -35,7 +35,8 @@ unit utils.enumerate;
 interface
 
 uses
-  SysUtils, utils.functor {$IFDEF USE_OPTIONAL}, utils.optional{$ENDIF};
+  SysUtils{$IFDEF USE_OPTIONAL}, utils.optional{$ENDIF}
+  {$IFNDEF FPC}, utils.functor{$ENDIF};
 
 type
   { Common forward iterator. }

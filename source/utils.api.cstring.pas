@@ -47,7 +47,7 @@ type
         constructor Create (AString : String); overload;
         constructor Create (AString : PAnsiChar); overload;
 
-        function ToString : String;
+        function ToString : String; override;
         function ToPAnsiChar : PAnsiChar;
         function ToUniquePAnsiChar : PAnsiChar;
         function Length : Integer; 
