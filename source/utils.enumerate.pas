@@ -310,7 +310,8 @@ var
   Iter : Iterator;
 begin
   Iter := Iterator(FInnerIterator);
-  while Iter.HasValue and (not Boolean(FFunctor.Call(Iter.GetValue))) do
+  while Iter.HasValue and (not Boolean(FFunctor.Call(Iter.GetValue
+    {$IFDEF USE_OPTIONAL}.Unwrap{$ENDIF}))) do
   begin
     Iter := Iter.Next;
   end;
@@ -336,7 +337,8 @@ var
   Iter : Iterator;
 begin
   Iter := Iterator(FInnerIterator);
-  while Iter.HasValue and (not Boolean(FFunctor.Call(Iter.GetValue))) do
+  while Iter.HasValue and (not Boolean(FFunctor.Call(Iter.GetValue
+    {$IFDEF USE_OPTIONAL}.Unwrap{$ENDIF}))) do
   begin
     Iter := Iter.Next;
   end;

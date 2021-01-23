@@ -344,7 +344,8 @@ begin
 
   while AIterator.MoveNext do
   begin
-    FValue := Func.Call(FValue, AIterator.GetValue);
+    FValue := Func.Call(FValue, AIterator.GetValue
+      {$IFDEF USE_OPTIONAL}.Unwrap{$ENDIF});
     AIterator := AIterator.Next;
   end;
 
@@ -548,7 +549,8 @@ begin
   FInnerIterator := AIterator;
   FFunctor := AFunctor;
   if AIterator.HasValue then  
-    FValue := FFunctor.Call(AIterator.GetValue);
+    FValue := FFunctor.Call(AIterator.GetValue
+    {$IFDEF USE_OPTIONAL}.Unwrap{$ENDIF});
 end;
 
 function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.HasValue :
@@ -578,7 +580,8 @@ end;
 function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.GetValue :
   {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue{$ENDIF};
 begin
-  Result := FValue;
+  Result := {$IFNDEF USE_OPTIONAL}FValue{$ELSE}TOptionalValue.Create(FValue)
+    {$ENDIF};
 end;
 
 function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.TIterator.GetCurrent :
@@ -587,7 +590,8 @@ begin
   Result := TIterator.Create(FInnerIterator, FFunctor);
   FInnerIterator := Iterator(FInnerIterator.Next);
   if FInnerIterator.HasValue then
-    FValue := FFunctor.Call(FInnerIterator.GetValue);
+    FValue := FFunctor.Call(FInnerIterator.GetValue
+    {$IFDEF USE_OPTIONAL}.Unwrap{$ENDIF});
 end;
 
 { TMap }
