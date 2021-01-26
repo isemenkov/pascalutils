@@ -35,7 +35,8 @@ unit utils.enumerate;
 interface
 
 uses
-  SysUtils, utils.functor {$IFDEF USE_OPTIONAL}, utils.optional{$ENDIF};
+  SysUtils{$IFDEF USE_OPTIONAL}, utils.optional{$ENDIF}
+  {$IFNDEF FPC}, utils.functor{$ENDIF};
 
 type
   { Common forward iterator. }
@@ -309,7 +310,8 @@ var
   Iter : Iterator;
 begin
   Iter := Iterator(FInnerIterator);
-  while Iter.HasValue and (not Boolean(FFunctor.Call(Iter.GetValue))) do
+  while Iter.HasValue and (not Boolean(FFunctor.Call(Iter.GetValue
+    {$IFDEF USE_OPTIONAL}.Unwrap{$ENDIF}))) do
   begin
     Iter := Iter.Next;
   end;
@@ -335,7 +337,8 @@ var
   Iter : Iterator;
 begin
   Iter := Iterator(FInnerIterator);
-  while Iter.HasValue and (not Boolean(FFunctor.Call(Iter.GetValue))) do
+  while Iter.HasValue and (not Boolean(FFunctor.Call(Iter.GetValue
+    {$IFDEF USE_OPTIONAL}.Unwrap{$ENDIF}))) do
   begin
     Iter := Iter.Next;
   end;

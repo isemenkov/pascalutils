@@ -47,8 +47,9 @@ type
         constructor Create (AString : String); overload;
         constructor Create (AString : PAnsiChar); overload;
 
-        function ToString : String;
+        function ToString : String; override;
         function ToPAnsiChar : PAnsiChar;
+        function ToUniquePAnsiChar : PAnsiChar;
         function Length : Integer; 
       protected
         FString : String; 
@@ -82,6 +83,11 @@ end;
 function API.CString.ToPAnsiChar : PAnsiChar;
 begin
   Result := PAnsiChar({$IFNDEF FPC}Utf8Encode{$ENDIF}(FString));
+end;
+
+function API.CString.ToUniquePAnsiChar : PAnsiChar;
+begin
+  Result := {$IFNDEF FPC}System.AnsiStrings.{$ENDIF}StrNew(ToPAnsiChar);
 end;
 
 function API.CString.Length : Integer;
