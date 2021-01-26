@@ -51,7 +51,7 @@ type
     FValue : T;
   protected
     { Return concreate variant item value. }
-    function Value : T; virtual; reintroduce;
+    function Value : T;
   end;
 
   {$IFDEF FPC}generic{$ENDIF} TVariant2<T1, T2> = class
@@ -77,10 +77,10 @@ type
     function GetValue : TVariantValue;
 
     { Set variant value to T1. }
-    procedure SetValue (AValue : T1);
+    procedure SetValue (AValue : T1); overload;
 
     { Set variant value to T2. }
-    procedure SetValue (AValue : T2);
+    procedure SetValue (AValue : T2); overload;
   protected
     type
       { Variant T1 data type. }
@@ -98,7 +98,7 @@ type
       { Variant data container. }
       TValueData = record
       ValueType : TValueType;
-      case Byte of
+      case TValueType of
         VALUE_TYPE1 : (Value1 : PValue1);
         VALUE_TYPE2 : (Value2 : PValue2);
       end;
@@ -112,38 +112,38 @@ implementation
 
 { TVariantResultValue }
 
-constructor TVariantResultValue.Create (AValue : T);
+constructor TVariantResultValue{$IFNDEF FPC}<T>{$ENDIF}.Create (AValue : T);
 begin
   inherited Create;
   FValue := AValue;
 end;
 
-destructor TVariantResultValue.Destroy;
+destructor TVariantResultValue{$IFNDEF FPC}<T>{$ENDIF}.Destroy;
 begin
   inherited Destroy;
 end;
 
-function TVariantResultValue.Value : T;
+function TVariantResultValue{$IFNDEF FPC}<T>{$ENDIF}.Value : T;
 begin
   Result := FValue;
 end;
 
 { TVariant2 }
 
-constructor TVariant2.Create;
+constructor TVariant2{$IFNDEF FPC}<T1, T2>{$ENDIF}.Create;
 begin
   FValue.ValueType := VALUE_TYPE1;
   New(FValue.Value1);
   FValue.Value1^.Value := Default(T1);
 end;
 
-destructor TVariant2.Destroy;
+destructor TVariant2{$IFNDEF FPC}<T1, T2>{$ENDIF}.Destroy;
 begin
   DeleteValue;
   inherited Destroy;
 end;
 
-procedure TVariant2.DeleteValue;
+procedure TVariant2{$IFNDEF FPC}<T1, T2>{$ENDIF}.DeleteValue;
 begin
   case FValue.ValueType of
     VALUE_TYPE1 : begin
@@ -155,12 +155,12 @@ begin
   end;
 end;
 
-function TVariant2.GetType : TValueType;
+function TVariant2{$IFNDEF FPC}<T1, T2>{$ENDIF}.GetType : TValueType;
 begin
   Result := FValue.ValueType;
 end;
 
-function TVariant2.GetValue : TVariantValue;
+function TVariant2{$IFNDEF FPC}<T1, T2>{$ENDIF}.GetValue : TVariantValue;
 begin
   case FValue.ValueType of
     VALUE_TYPE1 : begin
@@ -174,7 +174,7 @@ begin
   raise Exception.Create('ErrorMessage');
 end;
 
-procedure TVariant2.SetValue (AValue : T1);
+procedure TVariant2{$IFNDEF FPC}<T1, T2>{$ENDIF}.SetValue (AValue : T1);
 begin
   if FValue.ValueType <> VALUE_TYPE1 then
   begin  
@@ -186,7 +186,7 @@ begin
   FValue.Value1^.Value := AValue;
 end;
 
-procedure TVariant2.SetValue (AValue : T2);
+procedure TVariant2{$IFNDEF FPC}<T1, T2>{$ENDIF}.SetValue (AValue : T2);
 begin
   if FValue.ValueType <> VALUE_TYPE2 then
   begin

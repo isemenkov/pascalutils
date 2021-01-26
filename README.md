@@ -631,7 +631,7 @@ end;
 ###### Get type
 
 ```pascal
-  { Set variant value type. }
+  { Get variant value type. }
   varValue.GetType;
 ```
 
