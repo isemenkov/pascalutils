@@ -40,27 +40,33 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
     * [Examples](#examples-5)
       * [Create](#create-5)
       * [Get value](#get-value-5)
-* [Errors processing](#errors-processing)
-  * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
+  * [TVariant2](#tvariant2)
     * [Examples](#examples-6)
       * [Create](#create-6)
+      * [GetType](#gettype)
+      * [SetValue](#setvalue)
+      * [GetValue](#getvalue)
+* [Errors processing](#errors-processing)
+  * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
+    * [Examples](#examples-7)
+      * [Create](#create-7)
       * [Push](#push)
       * [Pop](#pop)
       * [Iterate](#iterate)
 * [Iterators](#iterators)
   * [TUnaryFunctor, TBinaryFunctor](#tunaryfunctor-tbinaryfunctor)
-    * [Examples](#examples-7)
+    * [Examples](#examples-8)
       * [Specialize](#specialize)
-      * [Create](#create-7)
+      * [Create](#create-8)
       * [Run](#run)
   * [TForwardIterator, TBidirectionalIterator](#tforwarditerator-tbidirectionaliterator)
-    * [Examples](#examples-8)
-  * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
     * [Examples](#examples-9)
-  * [TAccumulate](#taccumulate)
+  * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
     * [Examples](#examples-10)
-  * [TMap](#tmap)
+  * [TAccumulate](#taccumulate)
     * [Examples](#examples-11)
+  * [TMap](#tmap)
+    * [Examples](#examples-12)
 
 
 
@@ -583,6 +589,70 @@ end;
 
   { Get third value. }
   writeln(tuple.Third);
+```
+
+
+
+#### TVariant2
+
+[TVariant2](https://github.com/isemenkov/pascalutils/blob/master/source/utils.variant.pas) is class template which represents a type-safe union. An instance of TVariant2 at any given time either holds a value of one of its alternative types.
+
+```pascal
+
+uses
+  utils.variant;
+
+type
+  generic TVariant2<T1, T2> = class
+```
+
+##### Examples
+
+###### Create
+
+```pascal
+uses
+  utils.variant;
+
+type
+  TIntStrVariant = {$IFDEF FPC}type specialize{$ENDIF} TVariant2<Integer, String>;
+
+var
+  varValue : TIntStrVariant;
+
+begin
+  { Create variant with default first type value. }
+  varValue := TIntStrVariant.Create;
+
+  FreeAndNil(varValue);
+end;
+```
+
+###### Get type
+
+```pascal
+  { Set variant value type. }
+  varValue.GetType;
+```
+
+###### Set value
+
+```pascal
+  { Set first value. }
+  varValue.SetValue(21);
+
+  { Set second value. }
+  varValue.SetValue('test string');
+```
+
+###### Get value
+
+```pascal
+  { Get current integer value. }
+  writeln(TIntStrVariant.TVariantValue1(varValue.GetValue).Value);
+
+  { Get current string value. }
+  writeln(TIntStrVariant.TVariantValue2(varValue.GetValue).Value);
 ```
 
 
