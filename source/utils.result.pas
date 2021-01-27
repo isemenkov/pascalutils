@@ -42,7 +42,7 @@ type
   TValueNotExistsException = class(Exception);  
 
   { Error not exists exception }
-  TErrorNotExistException = class(Exception);  
+  TErrorNotExistsException = class(Exception);  
 
   { Contains result value or error type like in GO or Rust lang }
   {$IFDEF FPC}generic{$ENDIF} TResult<V, E> = class
@@ -226,7 +226,7 @@ begin
     Result := FValue.Error^;
   end else
   begin
-    raise TErrorNotExistException.Create('Error not exists');
+    raise TErrorNotExistsException.Create('Error not exists');
   end;
 end;
 

@@ -77,3 +77,6 @@ lib/
 
 # Application bundle for Mac OS
 *.app/
+
+# wiki pages
+wiki/

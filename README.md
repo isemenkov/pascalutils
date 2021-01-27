@@ -11,62 +11,54 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
 * [Usage](#usage)
 * [Data structures](#data-structures)
   * [TOptional](#toptional)
+  * [TResult](#tresult)
+  * [TDataSize](#tdatasize)
     * [Examples](#examples)
       * [Create](#create)
-      * [Check state](#check-state)
-      * [Get value](#get-value)
-  * [TResult](#tresult)
-    * [Examples](#examples-1)
-      * [Create](#create-1)
-      * [Check state](#check-state-1)
-      * [Get value](#get-value-1)
-  * [TDataSize](#tdatasize)
-    * [Examples](#examples-2)
-      * [Create](#create-2)
       * [Set value](#set-value)
-      * [Get value](#get-value-2)
+      * [Get value](#get-value)
       * [Convert](#convert)
   * [TTimeInterval](#ttime-interval)
-    * [Examples](#examples-3)
-      * [Create](#create-3)
+    * [Examples](#examples-1)
+      * [Create](#create-1)
       * [Set value](#set-value-1)
-      * [Get value](#get-value-3)
+      * [Get value](#get-value-1)
       * [Convert](#convert-1)
   * [TPair](#tpair)
+    * [Examples](#examples-2)
+      * [Create](#create-2)
+      * [Get value](#get-value-2)
+  * [TTuple](#ttuple)
+    * [Examples](#examples-3)
+      * [Create](#create-3)
+      * [Get value](#get-value-3)
+  * [TVariant2](#tvariant2)
     * [Examples](#examples-4)
       * [Create](#create-4)
-      * [Get value](#get-value-4)
-  * [TTuple](#ttuple)
-    * [Examples](#examples-5)
-      * [Create](#create-5)
-      * [Get value](#get-value-5)
-  * [TVariant2](#tvariant2)
-    * [Examples](#examples-6)
-      * [Create](#create-6)
       * [GetType](#gettype)
       * [SetValue](#setvalue)
       * [GetValue](#getvalue)
 * [Errors processing](#errors-processing)
   * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
-    * [Examples](#examples-7)
-      * [Create](#create-7)
+    * [Examples](#examples-5)
+      * [Create](#create-5)
       * [Push](#push)
       * [Pop](#pop)
       * [Iterate](#iterate)
 * [Iterators](#iterators)
   * [TUnaryFunctor, TBinaryFunctor](#tunaryfunctor-tbinaryfunctor)
-    * [Examples](#examples-8)
+    * [Examples](#examples-6)
       * [Specialize](#specialize)
-      * [Create](#create-8)
+      * [Create](#create-6)
       * [Run](#run)
   * [TForwardIterator, TBidirectionalIterator](#tforwarditerator-tbidirectionaliterator)
-    * [Examples](#examples-9)
+    * [Examples](#examples-7)
   * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
-    * [Examples](#examples-10)
+    * [Examples](#examples-8)
   * [TAccumulate](#taccumulate)
-    * [Examples](#examples-11)
+    * [Examples](#examples-9)
   * [TMap](#tmap)
-    * [Examples](#examples-12)
+    * [Examples](#examples-10)
 
 
 
@@ -114,49 +106,7 @@ type
   generic TOptional<T> = class
 ```
 
-
-
-##### Examples
-
-###### Create
-
-```pascal
-uses
-  utils.optional;
-
-type
-  TIntegerOptional = {$IFDEF FPC}type specialize{$ENDIF} TOptional<Integer>;
-
-var
-  opt_int : TIntegerOptional;
-
-begin
-  { Create none value. }
-  opt_int := TIntegerOptional.Create;
-
-  { Create integer value. }
-  opt_int := TIntegerOptional.Create(4);
-
-  FreeAndNil(opt_int);
-end;
-```
-
-###### Check state
-
-```pascal
-  { Check if value is present. }
-  if opt_int.IsSome then
-
-  { Check if is value isn't. }
-  if opt_int.IsNone then
-```
-
-###### Get value
-
-```pascal
-  { Get stored value. }
-  writeln(opt_int.Unwrap());
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TOptional).
 
 
 
@@ -173,52 +123,7 @@ type
   generic TVoidResult<E> = class
 ```
 
-
-
-##### Examples
-
-###### Create
-
-```pascal
-uses
-  utils.result;
-
-type
-  TIntStrResult = {$IFDEF FPC}type specialize{$ENDIF} TResult<Integer, String>;
-
-var
-  res : TIntStrResult;
-
-begin
-  { Create new value. }
-  res := TIntStrResult.CreateValue(-2);
-
-  { Create new error string. }
-  res := TIntStrResult.CreateError("Something wrong!");
-
-  FreeAndNil(res);
-end;
-```
-
-###### Check state
-
-```pascal
-  { Check if value is present. }
-  if res.IsOk then
-
-  { Check if error is present. }
-  if res.IsErr then
-```
-
-###### Get value
-
-```pascal
-  { Get stored value. }
-  writeln(res.Value);
-
-  { Get stored error. }
-  writeln(res.Error);
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TResult).
 
 
 
