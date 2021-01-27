@@ -12,6 +12,7 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
 * [Data structures](#data-structures)
   * [TOptional](#toptional)
   * [TResult](#tresult)
+  * [TVoidResult](#tvoidresult)
   * [TDataSize](#tdatasize)
     * [Examples](#examples)
       * [Create](#create)
@@ -120,10 +121,25 @@ uses
   
 type
   generic TResult<V, E> = class
-  generic TVoidResult<E> = class
 ```
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TResult).
+
+
+
+#### TVoidResult
+
+TVoidResult contains Ok flag or error type like in GO or Rust languages. It is a specialized TResult type with no value.
+
+```pascal
+uses
+  utils.result;
+  
+type
+  generic TVoidResult<E> = class
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TVoidResult).
 
 
 
