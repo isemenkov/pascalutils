@@ -14,52 +14,42 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
   * [TResult](#tresult)
   * [TVoidResult](#tvoidresult)
   * [TDataSize](#tdatasize)
+  * [TTimeInterval](#ttime-interval)
+  * [TPair](#tpair)
     * [Examples](#examples)
       * [Create](#create)
-      * [Set value](#set-value)
       * [Get value](#get-value)
-      * [Convert](#convert)
-  * [TTimeInterval](#ttime-interval)
+  * [TTuple](#ttuple)
     * [Examples](#examples-1)
       * [Create](#create-1)
-      * [Set value](#set-value-1)
       * [Get value](#get-value-1)
-      * [Convert](#convert-1)
-  * [TPair](#tpair)
+  * [TVariant2](#tvariant2)
     * [Examples](#examples-2)
       * [Create](#create-2)
-      * [Get value](#get-value-2)
-  * [TTuple](#ttuple)
-    * [Examples](#examples-3)
-      * [Create](#create-3)
-      * [Get value](#get-value-3)
-  * [TVariant2](#tvariant2)
-    * [Examples](#examples-4)
-      * [Create](#create-4)
       * [GetType](#gettype)
       * [SetValue](#setvalue)
       * [GetValue](#getvalue)
 * [Errors processing](#errors-processing)
   * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
-    * [Examples](#examples-5)
-      * [Create](#create-5)
+    * [Examples](#examples-3)
+      * [Create](#create-3)
       * [Push](#push)
       * [Pop](#pop)
       * [Iterate](#iterate)
 * [Iterators](#iterators)
   * [TUnaryFunctor, TBinaryFunctor](#tunaryfunctor-tbinaryfunctor)
-    * [Examples](#examples-6)
+    * [Examples](#examples-4)
       * [Specialize](#specialize)
-      * [Create](#create-6)
+      * [Create](#create-4)
       * [Run](#run)
   * [TForwardIterator, TBidirectionalIterator](#tforwarditerator-tbidirectionaliterator)
-    * [Examples](#examples-7)
+    * [Examples](#examples-5)
   * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
-    * [Examples](#examples-8)
+    * [Examples](#examples-6)
   * [TAccumulate](#taccumulate)
-    * [Examples](#examples-9)
+    * [Examples](#examples-7)
   * [TMap](#tmap)
-    * [Examples](#examples-10)
+    * [Examples](#examples-8)
 
 
 
@@ -217,93 +207,7 @@ type
   TDataSize = class
 ```
 
-
-
-##### Examples
-
-###### Create
-
-```pascal
-uses
-  utils.datasize;
-
-var
-  size : TDataSize;
-
-begin
-  size := TDataSize.Create;
-
-  FreeAndNil(size);
-end;
-```
-
-###### Set value
-
-```pascal
-  { Set bytes. }
-  size.Bytes := 1024;
-  size.b := 512;
-
-  { Set kilobytes. }
-  size.Kilobytes := 32;
-  size.KiB := 16;
-
-  { Set megabytes. }
-  size.Megabytes := 1;
-  size.MiB := 5;
-
-  { Set gigabytes. }
-  size.Gigabytes := 7;
-  size.GiB := 3;
-
-  { Set terabytes. }
-  size.Terabytes := 0;
-  size.TiB := 120;
-```
-
-###### Get value
-
-```pascal
-  { Get bytes. }
-  writeln(size.bytes);
-  writeln(size.b);
-
-  { Get kilobytes. }
-  writeln(size.Kilobytes);
-  writeln(size.KiB);
-
-  { Get Megabytes. }
-  writeln(size.Megabytes);
-  writeln(size.MiB);
-
-  { Get gigabytes. }
-  writeln(size.Gigabytes);
-  writeln(size.GiB);
-
-  { Get Terabytes. }
-  writeln(size.Terabytes);
-  writeln(size.TiB);
-
-```
-
-###### Convert
-
-```pascal
-  { Convert to bytes. }
-  writeln(size.ToBytes);
-
-  { Convert to kilobytes. }
-  writeln(size.ToKilobytes);
-
-  { Convert to Megabytes. }
-  writeln(size.ToMegabytes);
-
-  { Convert to Gigabytes. }
-  writeln(size.ToGigabytes);
-
-  { Convert to Terabytes. }
-  writeln(size.ToTerabytes);
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TDataSize).
 
 
 
@@ -319,91 +223,7 @@ type
   TTimeInterval = class
 ```
 
-
-
-
-##### Examples
-
-###### Create
-
-```pascal
-uses
-  utils.timeinterval;
-
-var
-  interval : TTimeInterval;
-
-begin
-  interval := TTimeInterval.Create;
-end;
-```
-
-###### Set value
-
-```pascal
-  { Set microseconds. }
-  interval.Microseconds := 432;
-  interval.us := 432;
-
-  { Set milliseconds. }
-  interval.Milliseconds := 32;
-  interval.ms := 21;
-
-  { Set seconds. }
-  interval.Seconds := 59;
-  interval.s := 8;
-
-  { Set minutes. }
-  interval.Minutes := 32;
-  interval.m := 52;
-
-  { Set hours. }
-  interval.Hours := 5;
-  interval.h := 4;
-```
-
-###### Get value
-
-```pascal
-  { Get microseconds. }
-  writeln(interval.Microseconds);
-  writeln(interval.us);
-
-  { Get milliseconds. }
-  writeln(interval.Milliseconds);
-  writeln(interval.ms);
-
-  { Get seconds. }
-  writeln(interval.Seconds);
-  writeln(interval.s);
-
-  { Get minutes. }
-  writeln(interval.Minutes);
-  writeln(interval.m);
-
-  { Get hours. }
-  writeln(interval.Hours);
-  writeln(interval.h);
-```
-
-###### Convert
-
-```pascal
-  { Convert to microseconds. }
-  writeln(interval.ToMicroseconds);
-
-  { Convert to milliseconds. }
-  writeln(interval.ToMilliseconds);
-
-  { Convert to seconds. }
-  writeln(interval.ToSeconds);
-
-  { Convert to minutes. }
-  writeln(interval.ToMinutes);
-
-  { Convert to hours. }
-  writeln(interval.ToHours);
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TTimeInterval).
 
 
 
