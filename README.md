@@ -16,40 +16,34 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
   * [TDataSize](#tdatasize)
   * [TTimeInterval](#ttime-interval)
   * [TPair](#tpair)
+  * [TTuple](#ttuple)
+  * [TVariant2](#tvariant2)
     * [Examples](#examples)
       * [Create](#create)
-      * [Get value](#get-value)
-  * [TTuple](#ttuple)
-    * [Examples](#examples-1)
-      * [Create](#create-1)
-      * [Get value](#get-value-1)
-  * [TVariant2](#tvariant2)
-    * [Examples](#examples-2)
-      * [Create](#create-2)
       * [GetType](#gettype)
       * [SetValue](#setvalue)
       * [GetValue](#getvalue)
 * [Errors processing](#errors-processing)
   * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
-    * [Examples](#examples-3)
-      * [Create](#create-3)
+    * [Examples](#examples-1)
+      * [Create](#create-1)
       * [Push](#push)
       * [Pop](#pop)
       * [Iterate](#iterate)
 * [Iterators](#iterators)
   * [TUnaryFunctor, TBinaryFunctor](#tunaryfunctor-tbinaryfunctor)
-    * [Examples](#examples-4)
+    * [Examples](#examples-2)
       * [Specialize](#specialize)
-      * [Create](#create-4)
+      * [Create](#create-2)
       * [Run](#run)
   * [TForwardIterator, TBidirectionalIterator](#tforwarditerator-tbidirectionaliterator)
-    * [Examples](#examples-5)
+    * [Examples](#examples-3)
   * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
-    * [Examples](#examples-6)
+    * [Examples](#examples-4)
   * [TAccumulate](#taccumulate)
-    * [Examples](#examples-7)
+    * [Examples](#examples-5)
   * [TMap](#tmap)
-    * [Examples](#examples-8)
+    * [Examples](#examples-6)
 
 
 
@@ -240,41 +234,7 @@ type
   generic TPair<T1, T2> = class
 ```
 
-
-##### Examples
-
-###### Create
-
-```pascal
-uses
-  utils.pair;
-
-type
-  TIntIntPair = {$IFDEF FPC}type specialize{$ENDIF} TPair<Integer, Integer>;
-
-var
-  pair : TIntIntPair;
-
-begin
-  { Create pair with default values. }
-  pair := TIntIntPair.Create;
-
-  { Create pair. }
-  pair := TIntIntPair.Create(2, -4);
-
-  FreeAndNil(pair);
-end;
-```
-
-###### Get value
-
-```pascal
-  { Get first value. }
-  writeln(pair.First);
-
-  { Get second value. }
-  writeln(pair.Second);
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TPair).
 
 
 
@@ -291,46 +251,14 @@ type
   generic TTuple3<T1, T2, T3> = class
   generic TTuple4<T1, T2, T3, T4> = class
   generic TTuple5<T1, T2, T3, T4, T5> = class
+  generic TTuple6<T1, T2, T3, T4, T5, T6> = class
+  generic TTuple7<T1, T2, T3, T4, T5, T6, T7> = class
+  generic TTuple8<T1, T2, T3, T4, T5, T6, T7, T8> = class
+  generic TTuple9<T1, T2, T3, T4, T5, T6, T7, T8, T9> = class
+  generic TTuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> = class
 ```
 
-
-##### Examples
-
-###### Create
-
-```pascal
-uses
-  utils.tuple;
-
-type
-  TIntTuple = {$IFDEF FPC}type specialize{$ENDIF} TTuple3<Integer, Integer, Integer>;
-
-var
-  tuple : TIntTuple;
-
-begin
-  { Create tuple with default values. }
-  tuple := TIntTuple.Create;
-
-  { Create tuple. }
-  tuple := TIntTuple.Create(2, -4, 4);
-
-  FreeAndNil(tuple);
-end;
-```
-
-###### Get value
-
-```pascal
-  { Get first value. }
-  writeln(tuple.First);
-
-  { Get second value. }
-  writeln(tuple.Second);
-
-  { Get third value. }
-  writeln(tuple.Third);
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TTuple).
 
 
 
