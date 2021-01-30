@@ -18,27 +18,26 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
   * [TPair](#tpair)
   * [TTuple](#ttuple)
   * [TVariant](#tvariant)
+  * [TUnaryFunctor](#tunaryfunctor) 
+  * [TBinaryFunctor](#tbinaryfunctor)
+    * [TUnsortableFunctor](#tunsortablefunctor)
+    * [TDefaultCompareFunctor](#tdefaultcomparefunctor)
+    * [TDefaultLessFunctor](#tdefaultlessfunctor)
+    * [TDefaultGreaterFunctor](#tdefaultgreaterfunctor)
+    * [TDefaultEqualFunctor](#tdefaultequalfunctor)
+    * [TDefaultPairKeyCompareFunctor](#tdefaultpairkeycomparefunctor)
 * [Errors processing](#errors-processing)
-  * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
-    * [Examples](#examples-1)
-      * [Create](#create-1)
-      * [Push](#push)
-      * [Pop](#pop)
-      * [Iterate](#iterate)
+  * [TArrayErrorsStack](#tarrayerrorsstack)
+  * [TListErrorsStack](#tlisterrorsstack)
 * [Iterators](#iterators)
-  * [TUnaryFunctor, TBinaryFunctor](#tunaryfunctor-tbinaryfunctor)
-    * [Examples](#examples-2)
-      * [Specialize](#specialize)
-      * [Create](#create-2)
-      * [Run](#run)
   * [TForwardIterator, TBidirectionalIterator](#tforwarditerator-tbidirectionaliterator)
-    * [Examples](#examples-3)
+    * [Examples](#examples)
   * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
-    * [Examples](#examples-4)
+    * [Examples](#examples-1)
   * [TAccumulate](#taccumulate)
-    * [Examples](#examples-5)
+    * [Examples](#examples-2)
   * [TMap](#tmap)
-    * [Examples](#examples-6)
+    * [Examples](#examples-3)
 
 
 
@@ -119,68 +118,6 @@ type
 ```
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TVoidResult).
-
-
-
-#### TUnaryFunctor, TBinaryFunctor
-
-Functors are objects that can be treated as though they are a functions. This objects to be used with the syntax like a regular function call, and therefore its type can be used as template parameter when a generic function type is expected.
-
-```pascal
-uses
-  utils.functor;
-  
-type
-  generic TUnaryFunctor<V, R> = class
-  generic TBinaryFunctor<V, R> = class
-```
-
-[TUnaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) class and [TBinaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) provides functor structure, like in C++ language.
-
-
-
-##### Examples
-
-###### Specialize
-
-```pascal
-uses
-  utils.functor;
-
-type
-  TMoreIntegerFunctor = class({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<Integer, Boolean>)
-  public
-    function Call(AValue1, AValue2 : Integer) : Boolean; override;
-  end;
-
-  function TMoreIntegerFunctor.Call (AValue1, AValue2 : Integer) : Boolean;
-  begin
-    if AValue1 > AValue2 then
-      Result := True
-    else
-      Result := False;
-  end;
-```
-
-###### Create
-
-```pascal
-var
-  int_func : TMoreIntegerFunctor;
-
-begin
-  int_func := TMoreIntegerFunctor.Create;
-
-  FreeAndNil(int_func);
-end;
-```
-
-###### Run
-
-```pascal
-  { Run a functor. }
-  if int_func(3, -5) then
-```
 
 
 
@@ -282,11 +219,149 @@ type
 
 
 
+#### TUnaryFunctor
+
+Functor is instance of a class with member function `Call` defined. This member function allows the object to be used with the  same syntax as a regular function call, and therefore its type can be  used as template parameter when a generic function type is expected.
+
+```pascal
+uses
+  utils.functor;
+  
+type
+  generic TUnaryFunctor<V, R> = class
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TUnaryFunctor).
+
+
+
+#### TBinaryFunctor
+
+Functor is instance of a class with member function `Call` defined. This member function allows the object to be used with the  same syntax as a regular function call, and therefore its type can be  used as template parameter when a generic function type is expected.
+
+```pascal
+uses
+  utils.functor;
+  
+type
+  generic TBinaryFunctor<V, R> = class
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TBinaryFunctor).
+
+
+
+##### TUnsortablefunctor
+
+It is a special compare functor that return 0 (zero) all times. Real values not used. This functor can be used for [containers](https://github.com/isemenkov/libpasc-algorithms/wiki) for unsortable values.
+
+```pascal
+uses
+  utils.functor;
+
+type  
+  TUnsortableFunctor = 
+    class({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Integer>);
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TBinaryFunctor#tunsortablefunctor).
+
+
+
+##### TDefaultCompareFunctor
+
+It is a functor which return a negative value if AValue1 should be sorted before AValue2, a positive value if AValue1 should be sorted after AValue2, zero if AValue1 and AValue2 are equal.
+
+```pascal
+uses
+  utils.functor;
+  
+type
+  generic TDefaultCompareFunctor<V> = 
+    class({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Integer>)
+  public
+    function Call(AValue1, AValue2 : V) : Integer;
+  end;
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TBinaryFunctor#tdefaultcomparefunctor).
+
+
+
+##### TDefaultLessFunctor
+
+It is a functor which return True if AValue1 < AValue2.
+
+```pascal
+uses
+  utils.functor;
+  
+type
+  generic TDefaultLessFunctor<V> =
+    class ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Boolean>);
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TBinaryFunctor#tdefaultlessfunctor).
+
+
+
+##### TDefaultGreaterFunctor
+
+It is a functor which return True if AValue1 > AValue2.
+
+```pascal
+uses
+  utils.functor;
+  
+type
+  generic TDefaultGreaterFunctor<V> =
+    class ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Boolean>);
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TBinaryFunctor#tdefaultgreaterfunctor).
+
+
+
+##### TDefaultEqualFunctor
+
+It is a functor which return True if AValue1 = AValue2.
+
+```pascal
+uses
+  utils.functor;
+  
+type
+  generic TDefaultEqualFunctor<V> =
+    class ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Boolean>);
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TBinaryFunctor#tdefaultequalfunctor).
+
+
+
+##### TDefaultPairKeyCompareFunctor
+
+It is a functor which return a negative value if pair 1 key should be sorted before pair 2 key, a positive value if pair 1 key should be sorted after pair 2 key, zero if pair 1 key and pair 2 key are equal.
+
+```pascal
+uses
+  utils.functor, utils.pair;
+  
+uses
+  generic TDefaultPairKeyCompareFunctor<K, V> =
+    class({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor
+    <{$IFDEF FPC}specialize{$ENDIF} TPair<K, V>, Integer>)
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TBinaryFunctor#tdefaultpairkeycomparefunctor).
+
+
+
 ### Errors processing
 
-#### TArrayErrorsStack, TListErrorsStack
+#### TArrayErrorsStack
 
-[TArrayErrorsStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorsstack.pas) is generic stack over array of T and [TListErrorsStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorsstack.pas) is generic stack over list of T classes which contains errors codes.
+[TArrayErrorsStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorsstack.pas) is generic stack over array of T which contains errors codes.
 
 ```pascal
 uses
@@ -294,63 +369,31 @@ uses
 
 type
   generic TArrayErrorsStack<T> = class
-  generic TListErrorsStack<T> = class
 ```
 
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TArrayErrorsStack).
 
 
-##### Examples
 
-###### Create
+#### TListErrorsStack
+
+[TListErrorsStack](https://github.com/isemenkov/pascalutils/blob/master/source/utils.errorsstack.pas) is generic stack over list of T classes which contains errors codes.
 
 ```pascal
 uses
   utils.errorsstack;
 
 type
-  TStringErrorsStack = {$IFDEF FPC}type specialize{$ENDIF} TArrayErrorsStack<String>;
-
-var
-  errors : TStringErrorsStack;
-
-begin
-  errors := TStringErrorsStack.Create;
-
-  FreeAndNil(errors);
-end;
-
+  generic TListErrorsStack<T> = class
 ```
 
-###### Push
-
-```pascal
-  { Push error on stack. }
-  errors.Push("Something wrong!");
-```
-
-###### Pop 
-
-```pascal
-  { Pop last error. }
-  writeln(errors.Pop);
-```
-
-###### Iterate
-
-```pascal
-var
-  err : String;
-
-begin
-  for err in errors do
-  begin
-    writeln(err);
-  end;
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TListErrorsStack).
 
 
 
 ### Iterators
+
+
 
 #### TForwardIterator, TBidirectionalIterator
 
