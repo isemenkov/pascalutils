@@ -17,12 +17,7 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
   * [TTimeInterval](#ttime-interval)
   * [TPair](#tpair)
   * [TTuple](#ttuple)
-  * [TVariant2](#tvariant2)
-    * [Examples](#examples)
-      * [Create](#create)
-      * [GetType](#gettype)
-      * [SetValue](#setvalue)
-      * [GetValue](#getvalue)
+  * [TVariant](#tvariant)
 * [Errors processing](#errors-processing)
   * [TArrayErrorsStack, TListErrorsStack](#tarrayerrorsstack-tlisterrorsstack)
     * [Examples](#examples-1)
@@ -262,9 +257,9 @@ type
 
 
 
-#### TVariant2
+#### TVariant
 
-[TVariant2](https://github.com/isemenkov/pascalutils/blob/master/source/utils.variant.pas) is class template which represents a type-safe union. An instance of TVariant2 at any given time either holds a value of one of its alternative types.
+[TVariant](https://github.com/isemenkov/pascalutils/blob/master/source/utils.variant.pas) is class template which represents a type-safe union. An instance of TVariant at any given time either holds a value of one of its alternative types.
 
 ```pascal
 
@@ -273,56 +268,17 @@ uses
 
 type
   generic TVariant2<T1, T2> = class
+  generic TVariant3<T1, T2, T3> = class
+  generic TVariant4<T1, T2, T3, T4> = class
+  generic TVariant5<T1, T2, T3, T4, T5> = class
+  generic TVariant6<T1, T2, T3, T4, T5, T6> = class
+  generic TVariant7<T1, T2, T3, T4, T5, T6, T7> = class
+  generic TVariant8<T1, T2, T3, T4, T5, T6, T7, T8> = class
+  generic TVariant9<T1, T2, T3, T4, T5, T6, T7, T8, T9> = class
+  generic TVariant10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> = class
 ```
 
-##### Examples
-
-###### Create
-
-```pascal
-uses
-  utils.variant;
-
-type
-  TIntStrVariant = {$IFDEF FPC}type specialize{$ENDIF} TVariant2<Integer, String>;
-
-var
-  varValue : TIntStrVariant;
-
-begin
-  { Create variant with default first type value. }
-  varValue := TIntStrVariant.Create;
-
-  FreeAndNil(varValue);
-end;
-```
-
-###### Get type
-
-```pascal
-  { Get variant value type. }
-  varValue.GetType;
-```
-
-###### Set value
-
-```pascal
-  { Set first value. }
-  varValue.SetValue(21);
-
-  { Set second value. }
-  varValue.SetValue('test string');
-```
-
-###### Get value
-
-```pascal
-  { Get current integer value. }
-  writeln(TIntStrVariant.TVariantValue1(varValue.GetValue).Value);
-
-  { Get current string value. }
-  writeln(TIntStrVariant.TVariantValue2(varValue.GetValue).Value);
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TVariant).
 
 
 
