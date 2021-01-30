@@ -30,14 +30,14 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
   * [TArrayErrorsStack](#tarrayerrorsstack)
   * [TListErrorsStack](#tlisterrorsstack)
 * [Iterators](#iterators)
-  * [TForwardIterator, TBidirectionalIterator](#tforwarditerator-tbidirectionaliterator)
-    * [Examples](#examples)
+  * [TForwardIterator](#tforwarditerator) 
+  * [TBidirectionalIterator](#tbidirectionaliterator)
   * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
-    * [Examples](#examples-1)
+    * [Examples](#examples)
   * [TAccumulate](#taccumulate)
-    * [Examples](#examples-2)
+    * [Examples](#examples-1)
   * [TMap](#tmap)
-    * [Examples](#examples-3)
+    * [Examples](#examples-2)
 
 
 
@@ -395,9 +395,9 @@ type
 
 
 
-#### TForwardIterator, TBidirectionalIterator
+#### TForwardIterator
 
-[TForwardIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) and [TBidirectionalIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) is a base classes for custom iterators.
+[TForwardIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) is a base class for custom forward direction iterators.
 
 ```pascal
 uses
@@ -405,35 +405,25 @@ uses
 
 type
   generic TForwardIterator<V, Iterator> = class
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TForwardIterator).
+
+
+
+#### TBidirectionalIterator
+
+[TBidirectionalIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) is a base class for custom forward and backward directions iterators.
+
+```pascal
+uses
+  utils.enumerate;
+
+type
   generic TBidirectionalIterator<V, Iterator> = class
 ```
 
-
-
-##### Examples
-
-```pascal
-uses
-  utils.enumerate;
-
-type
-  TIterator = class; { Fix for FreePascal compiler. }
-  TIterator = class({$IFDEF FPC}specialize{$ENDIF} TForwardIterator<Integer, TIterator>)
-    { ... class methods ... }
-  end;
-```
-
-```pascal
-uses
-  utils.enumerate;
-
-type
-  TIterator = class; { Fix for FreePascal compiler. }
-  TIterator = class({$IFDEF FPC}specialize{$ENDIF}     
-    TBidirectionalIterator<Integer, TIterator>)
-    { ... class methods ... }
-  end;
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TBidirectionalIterator).
 
 
 
