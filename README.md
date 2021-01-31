@@ -35,9 +35,7 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
   * [TEnumerator](#tenumerator)
   * [TFilterEnumerator](#tfilterenumerator)
   * [TAccumulate](#taccumulate)
-    * [Examples](#examples)
   * [TMap](#tmap)
-    * [Examples](#examples-1)
 
 
 
@@ -472,24 +470,9 @@ uses
 type
   generic TAccumulate<V, Iterator, Functor> = class
 ```
-Functor is based on [utils.functor.TUnaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) interface and used to accumulate the result value.
+Functor is based on [utils.functor.TBinaryFunctor](https://github.com/isemenkov/pascalutils/wiki/TBinaryFunctor) interface and used to accumulate the result value.
 
-
-
-```pascal
-uses
-  container.arraylist, utils.functor, utils.functional;
-
-type
-  TIntegerArrayList = {$IFDEF FPC}specialize{$ENDIF} TArrayList<Integer,    
-    TCompareFunctorInteger>;
-  TIntegerAdditionalAccumalate = {$IFDEF FPC}specialize{$ENDIF} 
-    TAccumulate<Integer, TIntegerArrayList.TIterator, TAdditionIntegerFunctor>;
-
-begin
-  writeln(TIntegerAdditionalAccumalate.Create(arr.FirstEntry, 0).Value);
-end;
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TAccumulate).
 
 
 
@@ -504,37 +487,7 @@ uses
 type
   generic TMap<V, Iterator, Functor> = class
 ```
-Functor is based on [utils.functor.TUnaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) interface and used to modify item value.
+Functor is based on [utils.functor.TUnaryFunctor](https://github.com/isemenkov/pascalutils/wiki/TUnaryFunctor) interface and used to modify item value.
 
 
-```pascal
-uses
-  container.arraylist, utils.functor, utils.functional;
-
-type
-  TIntegerArrayList = {$IFDEF FPC}specialize{$ENDIF} TArrayList<Integer,    
-    TCompareFunctorInteger>;
-
-  TIntegerPow2Functor = class
-    ({$IFDEF FPC}specialize{$ENDIF} TUnaryFunctor<Integer, Integer>)
-  public
-    function Call (AValue : Integer) : Integer;
-    begin
-      Result := AValue * AValue;
-    end;
-  end;
-
-  TIntegerArrayListMap = {$IFDEF FPC}specialize{$ENDIF} 
-    TMap<Integer, TIntegerArrayList.TIterator, TIntegerPow2Functor>;
-
-var
-  arr : TIntegerArrayList;
-  iter : TIntegerArrayListMap.TIterator;
-begin
-  arr := TIntegerArrayList.Create;
-
-  for iter in TIntegerArrayListMap.Create(arr.FirstEntry, 
-    TIntegerPow2Functor.Create) do
-    writeln(iter.Value);
-end;
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TMap).
