@@ -32,12 +32,12 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
 * [Iterators](#iterators)
   * [TForwardIterator](#tforwarditerator) 
   * [TBidirectionalIterator](#tbidirectionaliterator)
-  * [TEnumerator, TFilterEnumerator](#tenumerator-tfilterenumerator)
-    * [Examples](#examples)
+  * [TEnumerator](#tenumerator)
+  * [TFilterEnumerator](#tfilterenumerator)
   * [TAccumulate](#taccumulate)
-    * [Examples](#examples-1)
+    * [Examples](#examples)
   * [TMap](#tmap)
-    * [Examples](#examples-2)
+    * [Examples](#examples-1)
 
 
 
@@ -427,9 +427,24 @@ type
 
 
 
-#### TEnumerator, TFilterEnumerator
+#### TEnumerator
 
-[TEnumerator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) class adds counter to an iterable objects what have iterator based on [TForwardIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) or [TBidirectionalIterator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) and returns it (the enumerate object) like in a Python language.
+[TEnumerator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) class adds counter to an iterable objects what have iterator based on [TForwardIterator](https://github.com/isemenkov/pascalutils/wiki/TForwardIterator) or [TBidirectionalIterator](https://github.com/isemenkov/pascalutils/wiki/TBidirectionalIterator) and returns it (the enumerate object) like in a Python language.
+
+
+```pascal
+uses
+  utils.enumerate;
+
+type
+  generic TEnumerator<V, Iterator> = class
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TEnumerator).
+
+
+
+#### TFilterEnumerator
 
 [TFilterEnumerator](https://github.com/isemenkov/pascalutils/blob/master/source/utils.enumerate.pas) class provides filtering enumerator by UnaryFunctor.
 
@@ -438,69 +453,11 @@ uses
   utils.enumerate, utils.functor;
 
 type
-  generic TEnumerator<V, Iterator> = class
   generic TFilterEnumerator<V, Iterator, Functor> = class
 ```
-Functor is based on [utils.functor.TUnaryFunctor](https://github.com/isemenkov/pascalutils/blob/master/source/utils.functor.pas) interface and used to filtering item value.
+Functor is based on [utils.functor.TUnaryFunctor](https://github.com/isemenkov/pascalutils/wiki/TUnaryFunctor) interface and used to filtering item value.
 
-
-
-##### Examples
-
-```pascal
-uses
-  utils.enumerate, container.arraylist, utils.functor;
-
-type
-  TIntegerArrayList = {$IFDEF FPC}specialize{$ENDIF} TArrayList<Integer, TCompareFunctorInteger>;
-
-  TArrEnumerator = {$IFDEF FPC}specialize{$ENDIF} TEnumerator<Integer, TIntegerArrayList.TIterator>;
-
-var
-  Arr : TIntegerArrayList;
-  ArrIterator : TArrEnumerator.TIterator;
-  Index, Value : Integer;
-
-begin
-  for ArrIterator in TArrEnumerator.Create(Arr.FirstEntry) do
-  begin
-    Index := ArrIterator.Index;
-    Value := ArrIterator.Value;
-  end;
-end;
-```
-
-```pascal
-uses
-  utils.enumerate, container.arraylist, utils.functor;
-
-type
-  TIntegerArrayList = {$IFDEF FPC}specialize{$ENDIF} TArrayList<Integer, TCompareFunctorInteger>;
-
-  TFilterIntegerOddFunctor = class
-    ({$IFDEF FPC}specialize{$ENDIF} TUnaryFunctor<Integer, Boolean>)
-  public
-    function Call(AValue : Integer) : Boolean; override;
-    begin
-      Result := (AValue mod 2) = 1;
-    end;
-  end;
-
-  TArrOddFilterEnumerator = {$IFDEF FPC}specialize{$ENDIF} TEnumerator<Integer, 
-    TIntegerArrayList.TIterator, TFilterIntegerOddFunctor>;
-
-var
-  Arr : TIntegerArrayList;
-  ArrIterator : TArrOddFilterEnumerator.TIterator;
-  Index, Value : Integer;
-
-begin
-  for ArrIterator in TArrOddFilterEnumerator.Create(Arr.FirstEntry) do
-  begin
-    Value := ArrIterator.Value;
-  end;
-end;
-```
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TFilterEnumerator).
 
 
 
