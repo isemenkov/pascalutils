@@ -26,7 +26,7 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
     * [TDefaultGreaterFunctor](#tdefaultgreaterfunctor)
     * [TDefaultEqualFunctor](#tdefaultequalfunctor)
     * [TDefaultPairKeyCompareFunctor](#tdefaultpairkeycomparefunctor)
-  * [API.CString](#api.cstring)
+  * [API.CString](#apicstring)
 * [Errors processing](#errors-processing)
   * [TArrayErrorsStack](#tarrayerrorsstack)
   * [TListErrorsStack](#tlisterrorsstack)
