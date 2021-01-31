@@ -26,6 +26,7 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
     * [TDefaultGreaterFunctor](#tdefaultgreaterfunctor)
     * [TDefaultEqualFunctor](#tdefaultequalfunctor)
     * [TDefaultPairKeyCompareFunctor](#tdefaultpairkeycomparefunctor)
+  * [API.CString](#api.cstring)
 * [Errors processing](#errors-processing)
   * [TArrayErrorsStack](#tarrayerrorsstack)
   * [TListErrorsStack](#tlisterrorsstack)
@@ -352,6 +353,25 @@ uses
 ```
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TBinaryFunctor#tdefaultpairkeycomparefunctor).
+
+
+
+### API.CString
+
+API.CString is a wrapper around C language API cstring `char *` value.
+
+```pascal
+uses
+  utils.api.cstring;
+  
+type
+  API = class
+  type
+    CString = class
+  end;
+```
+
+*More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/API.CString).
 
 
 
