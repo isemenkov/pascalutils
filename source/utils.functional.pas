@@ -44,11 +44,6 @@ type
     {$IFNDEF FPC}: TForwardIterator<V, Iterator>{$ENDIF};
     Functor{$IFNDEF FPC}: constructor, TBinaryFunctor<V, V>{$ENDIF}> = class
   public
-    type
-      {$IFDEF USE_OPTIONAL}
-      TOptionalValue = {$IFDEF FPC}specialize{$ENDIF} TOptional<V>;
-      {$ENDIF}
-  public
     constructor Create (AIterator : Iterator; AInitial : V);
   protected
     FValue : V;
