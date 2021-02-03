@@ -84,6 +84,10 @@ type
   generic TOptional<T> = class
 ```
 
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TOptional#create)
+  * [IsSome](https://github.com/isemenkov/pascalutils/wiki/TOptional#issome)
+  * [Unwrap](https://github.com/isemenkov/pascalutils/wiki/TOptional#unwrap)
+
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TOptional).
 
 
@@ -99,6 +103,12 @@ uses
 type
   generic TResult<V, E> = class
 ```
+
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TResult#create)
+  * [IsOk](https://github.com/isemenkov/pascalutils/wiki/TResult#isok)
+  * [IsErr](https://github.com/isemenkov/pascalutils/wiki/TResult#iserr)
+  * [Value](https://github.com/isemenkov/pascalutils/wiki/TResult#value)
+  * [Error](https://github.com/isemenkov/pascalutils/wiki/TResult#error)
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TResult).
 
@@ -116,6 +126,11 @@ type
   generic TVoidResult<E> = class
 ```
 
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TVoidResult#create)
+  * [IsOk](https://github.com/isemenkov/pascalutils/wiki/TVoidResult#isok)
+  * [IsErr](https://github.com/isemenkov/pascalutils/wiki/TVoidResult#iserr)
+  * [Error](https://github.com/isemenkov/pascalutils/wiki/TVoidResult#error)
+
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TVoidResult).
 
 
@@ -131,6 +146,10 @@ uses
 type
   TDataSize = class
 ```
+
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TDataSize#create)
+  * [Values](https://github.com/isemenkov/pascalutils/wiki/TDataSize#values)
+  * [Convert](https://github.com/isemenkov/pascalutils/wiki/TDataSize#convert)
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TDataSize).
 
@@ -148,6 +167,10 @@ type
   TTimeInterval = class
 ```
 
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TTimeInterval#create)
+  * [Values](https://github.com/isemenkov/pascalutils/wiki/TTimeInterval#values)
+  * [Convert](https://github.com/isemenkov/pascalutils/wiki/TTimeInterval#convert)
+
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TTimeInterval).
 
 
@@ -164,6 +187,10 @@ uses
 type
   generic TPair<T1, T2> = class
 ```
+
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TPair#create)
+  * [First](https://github.com/isemenkov/pascalutils/wiki/TPair#first)
+  * [Second](https://github.com/isemenkov/pascalutils/wiki/TPair#second)
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TPair).
 
@@ -189,6 +216,18 @@ type
   generic TTuple10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> = class
 ```
 
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TTuple#create)
+  * [First](https://github.com/isemenkov/pascalutils/wiki/TTuple#first)
+  * [Second](https://github.com/isemenkov/pascalutils/wiki/TTuple#second)
+  * [Third](https://github.com/isemenkov/pascalutils/wiki/TTuple#third)
+  * [Fourth](https://github.com/isemenkov/pascalutils/wiki/TTuple#fourth)
+  * [Fifth](https://github.com/isemenkov/pascalutils/wiki/TTuple#fifth)
+  * [Sixth](https://github.com/isemenkov/pascalutils/wiki/TTuple#sixth)
+  * [Seventh](https://github.com/isemenkov/pascalutils/wiki/TTuple#sevent)
+  * [Eighth](https://github.com/isemenkov/pascalutils/wiki/TTuple#eighth)
+  * [Ninth](https://github.com/isemenkov/pascalutils/wiki/TTuple#ninth)
+  * [Tenth](https://github.com/isemenkov/pascalutils/wiki/TTuple#tenth)
+
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TTuple).
 
 
@@ -213,6 +252,11 @@ type
   generic TVariant9<T1, T2, T3, T4, T5, T6, T7, T8, T9> = class
   generic TVariant10<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> = class
 ```
+
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TVariant#create)
+  * [GetType](https://github.com/isemenkov/pascalutils/wiki/TVariant#gettype)
+  * [GetValue](https://github.com/isemenkov/pascalutils/wiki/TVariant#getvalue)
+  * [SetValue](https://github.com/isemenkov/pascalutils/wiki/TVariant#setvalue)
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TVariant).
 
@@ -371,6 +415,12 @@ type
   end;
 ```
 
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/API.CString#create)
+  * [ToString](https://github.com/isemenkov/pascalutils/wiki/API.CString#tostring)
+  * [ToPAnsiChar](https://github.com/isemenkov/pascalutils/wiki/API.CString#topansichar)
+  * [ToUniquePAnsiChar](https://github.com/isemenkov/pascalutils/wiki/API.CString#touniquepansichar)
+  * [Length](https://github.com/isemenkov/pascalutils/wiki/API.CString#length)
+
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/API.CString).
 
 
@@ -389,6 +439,12 @@ type
   generic TArrayErrorsStack<T> = class
 ```
 
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TArrayErrorsStack#create)
+  * [Push](https://github.com/isemenkov/pascalutils/wiki/TArrayErrorsStack#push)
+  * [Pop](https://github.com/isemenkov/pascalutils/wiki/TArrayErrorsStack#pop)
+  * [Count](https://github.com/isemenkov/pascalutils/wiki/TArrayErrorsStack#count)
+  * [Iterate](https://github.com/isemenkov/pascalutils/wiki/TArrayErrorsStack#iterate)
+
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TArrayErrorsStack).
 
 
@@ -404,6 +460,12 @@ uses
 type
   generic TListErrorsStack<T> = class
 ```
+
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TListErrorsStack#create)
+  * [Push](https://github.com/isemenkov/pascalutils/wiki/TListErrorsStack#push)
+  * [Pop](https://github.com/isemenkov/pascalutils/wiki/TListErrorsStack#pop)
+  * [Count](https://github.com/isemenkov/pascalutils/wiki/TListErrorsStack#count)
+  * [Iterate](https://github.com/isemenkov/pascalutils/wiki/TListErrorsStack#iterate)
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TListErrorsStack).
 
@@ -425,6 +487,13 @@ type
   generic TForwardIterator<V, Iterator> = class
 ```
 
+  * [HasValue](https://github.com/isemenkov/pascalutils/wiki/TForwardIterator#hasvalue)
+  * [Next](https://github.com/isemenkov/pascalutils/wiki/TForwardIterator#next)
+  * [MoveNext](https://github.com/isemenkov/pascalutils/wiki/TForwardIterator#movenext)
+  * [GetEnumerator](https://github.com/isemenkov/pascalutils/wiki/TForwardIterator#geenumerator)
+  * [GetValue](https://github.com/isemenkov/pascalutils/wiki/TForwardIterator#gevalue)
+  * [GetCurrent](https://github.com/isemenkov/pascalutils/wiki/TForwardIterator#getcurrent)
+
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TForwardIterator).
 
 
@@ -440,6 +509,14 @@ uses
 type
   generic TBidirectionalIterator<V, Iterator> = class
 ```
+
+  * [HasValue](https://github.com/isemenkov/pascalutils/wiki/TBidirectionalIterator#hasvalue)
+  * [Next](https://github.com/isemenkov/pascalutils/wiki/TBidirectionalIterator#next)
+  * [Prev](https://github.com/isemenkov/pascalutils/wiki/TBidirectionalIterator#prev)
+  * [MoveNext](https://github.com/isemenkov/pascalutils/wiki/TBidirectionalIterator#movenext)
+  * [GetEnumerator](https://github.com/isemenkov/pascalutils/wiki/TBidirectionalIterator#geenumerator)
+  * [GetValue](https://github.com/isemenkov/pascalutils/wiki/TBidirectionalIterator#gevalue)
+  * [GetCurrent](https://github.com/isemenkov/pascalutils/wiki/TBidirectionalIterator#getcurrent)
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TBidirectionalIterator).
 
@@ -458,6 +535,9 @@ type
   generic TEnumerator<V, Iterator> = class
 ```
 
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TEnumerator#create)
+  * [Iterate](https://github.com/isemenkov/pascalutils/wiki/TEnumerator#iterate)
+
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TEnumerator).
 
 
@@ -474,6 +554,9 @@ type
   generic TFilterEnumerator<V, Iterator, Functor> = class
 ```
 Functor is based on [utils.functor.TUnaryFunctor](https://github.com/isemenkov/pascalutils/wiki/TUnaryFunctor) interface and used to filtering item value.
+
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TFilterEnumerator#create)
+  * [Iterate](https://github.com/isemenkov/pascalutils/wiki/TFilterEnumerator#iterate)
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TFilterEnumerator).
 
@@ -492,6 +575,11 @@ type
 ```
 Functor is based on [utils.functor.TBinaryFunctor](https://github.com/isemenkov/pascalutils/wiki/TBinaryFunctor) interface and used to accumulate the result value.
 
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TAccumulate#create)
+  * [Value](https://github.com/isemenkov/pascalutils/wiki/TAccumulate#value)
+  * [Default addition functors](https://github.com/isemenkov/pascalutils/wiki/TAccumulate#default-addition-functors)
+  * [Default multiplication functors](https://github.com/isemenkov/pascalutils/wiki/TAccumulate#default-multiplication-functors)
+
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TAccumulate).
 
 
@@ -509,5 +597,7 @@ type
 ```
 Functor is based on [utils.functor.TUnaryFunctor](https://github.com/isemenkov/pascalutils/wiki/TUnaryFunctor) interface and used to modify item value.
 
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TMap#create)
+  * [Iterate](https://github.com/isemenkov/pascalutils/wiki/TMap#iterate)
 
 *More details read on* [wiki page](https://github.com/isemenkov/pascalutils/wiki/TMap).
