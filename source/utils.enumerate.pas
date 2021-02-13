@@ -91,28 +91,30 @@ type
       TOptionalValue = {$IFDEF FPC}specialize{$ENDIF} TOptional<V>;
       {$ENDIF}
 
-      TIterator = class
-      public
+      TIterator = class; { Fix for FreePascal compiler. }
+      TIterator = class ({$IFDEF FPC}specialize{$ENDIF} TForwardIterator<V,
+        TIterator>)
+      protected
         constructor Create (AIterator : Iterator; AIndex : Integer);
-
+      public
         { Return true if iterator has correct value. }
-        function HasValue : Boolean;
+        function HasValue : Boolean; override;
 
         { Retrieve the next entry. }
-        function Next : TIterator;
+        function Next : TIterator; override;
 
         { Return True if we can move to next element. }
-        function MoveNext : Boolean;
+        function MoveNext : Boolean; override;
 
         { Return enumerator for in operator. }
-        function GetEnumerator : TIterator;
+        function GetEnumerator : TIterator; override;
       protected
         { Get item value. }
         function GetValue : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
-          {$ENDIF};
+          {$ENDIF}; override;
 
         { Return current item iterator and move it to next. }
-        function GetCurrent : TIterator;
+        function GetCurrent : TIterator; reintroduce;
 
         { Return current item index. }
         function GetIndex : Integer;
@@ -133,14 +135,21 @@ type
     { Return True if we can move to next element. }
     function MoveNext : Boolean;
 
+    { Retrive the first entry. }
+    function FirstEntry : TIterator;
+      {$IFNDEF DEBUG}inline;{$ENDIF}
+
     { Return enumerator for in operator. }
     function GetEnumerator : TIterator;
+      {$IFNDEF DEBUG}inline;{$ENDIF}
   protected
     { Return current item iterator and move it to next. }
     function GetCurrent : TIterator;
   public
     property Current : TIterator read GetCurrent;
   protected
+    FStartIndex : Integer;
+    FBaseIterator : Iterator;
     FIterator : TIterator; 
   end;
 
@@ -154,28 +163,30 @@ type
       TOptionalValue = {$IFDEF FPC}specialize{$ENDIF} TOptional<V>;
       {$ENDIF}
 
-      TIterator = class
-      public
+      TIterator = class; { Fix for FreePascal compiler. }
+      TIterator = class ({$IFDEF FPC}specialize{$ENDIF} TForwardIterator<V,
+        TIterator>)
+      protected
         constructor Create (AIterator : Iterator; AFilter : Functor);
-
+      public
         { Return true if iterator has correct value. }
-        function HasValue : Boolean;
+        function HasValue : Boolean; override;
 
         { Retrieve the next entry. }
-        function Next : TIterator;
+        function Next : TIterator; override;
 
         { Return True if we can move to next element. }
-        function MoveNext : Boolean;
+        function MoveNext : Boolean; override;
 
         { Return enumerator for in operator. }
-        function GetEnumerator : TIterator;
+        function GetEnumerator : TIterator; override;
       protected
         { Get item value. }
         function GetValue : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
-          {$ENDIF};
+          {$ENDIF}; override;
 
         { Return current item iterator and move it to next. }
-        function GetCurrent : TIterator;
+        function GetCurrent : TIterator; reintroduce;
       public
         property Value : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
           {$ENDIF} read GetValue;
@@ -191,14 +202,20 @@ type
     { Return True if we can move to next element. }
     function MoveNext : Boolean;
 
+    { Retrive the first entry. }
+    function FirstEntry : TIterator;
+      {$IFNDEF DEBUG}inline;{$ENDIF}
+
     { Return enumerator for in operator. }
     function GetEnumerator : TIterator;
+      {$IFNDEF DEBUG}inline;{$ENDIF}
   protected
     { Return current item iterator and move it to next. }
     function GetCurrent : TIterator;
   public
     property Current : TIterator read GetCurrent;
   protected
+    FBaseIterator : Iterator;
     FIterator : TIterator; 
     FFunctor : Functor;
   end;
@@ -263,12 +280,20 @@ end;
 constructor TEnumerator{$IFNDEF FPC}<V, Iterator>{$ENDIF}.Create (AIterator : 
   Iterator; AStartIndex : Integer);
 begin
+  FStartIndex := AStartIndex;
+  FBaseIterator := AIterator;
   FIterator := TIterator.Create(AIterator, AStartIndex);
 end;
 
 function TEnumerator{$IFNDEF FPC}<V, Iterator>{$ENDIF}.MoveNext : Boolean;
 begin
   Result := FIterator.MoveNext;
+end;
+
+function TEnumerator{$IFNDEF FPC}<V, Iterator>{$ENDIF}.FirstEntry : 
+  TIterator;
+begin
+  Result := TIterator.Create(FBaseIterator, FStartIndex);
 end;
 
 function TEnumerator{$IFNDEF FPC}<V, Iterator>{$ENDIF}.GetEnumerator : 
@@ -352,6 +377,7 @@ end;
 constructor TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
   .Create (AIterator : Iterator; AFilter : Functor);
 begin
+  FBaseIterator := AIterator;
   FIterator := TIterator.Create(AIterator, AFilter);
   FFunctor := AFilter;
 end;
@@ -360,6 +386,12 @@ function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
   .MoveNext : Boolean;
 begin
   Result := FIterator.MoveNext;
+end;
+
+function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
+  .FirstEntry : TIterator;
+begin
+  Result := TIterator.Create(FBaseIterator, FFunctor);
 end;
 
 function TFilterEnumerator{$IFNDEF FPC}<V, Iterator, Functor>{$ENDIF}
