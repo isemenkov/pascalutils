@@ -35,8 +35,8 @@ unit utils.functional;
 interface
 
 uses
-  SysUtils, utils.functor {$IFDEF USE_OPTIONAL}, utils.optional{$ENDIF}
-  {$IFNDEF FPC}, utils.enumerate{$ENDIF};
+  SysUtils, utils.functor, utils.enumerate 
+  {$IFDEF USE_OPTIONAL}, utils.optional{$ENDIF};
 
 type
   { Accumulate iterable object data using Functor. }
@@ -61,28 +61,30 @@ type
       TOptionalValue = {$IFDEF FPC}specialize{$ENDIF} TOptional<V>;
       {$ENDIF}
 
-      TIterator = class
-      public
+      TIterator = class; { Fix for FreePascal compiler. }
+      TIterator = class ({$IFDEF FPC}specialize{$ENDIF} TForwardIterator<V,
+        TIterator>)
+      protected
         constructor Create (AIterator : Iterator; AFunctor : Functor);
-
+      public
         { Return true if iterator has correct value. }
-        function HasValue : Boolean;
+        function HasValue : Boolean; override;
 
         { Retrieve the next entry. }
-        function Next : TIterator;
+        function Next : TIterator; override;
 
         { Return True if we can move to next element. }
-        function MoveNext : Boolean;
+        function MoveNext : Boolean; override;
 
         { Return enumerator for in operator. }
-        function GetEnumerator : TIterator;
+        function GetEnumerator : TIterator; override;
       protected
         { Get item value. }
         function GetValue : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
-          {$ENDIF};
+          {$ENDIF}; override;
 
         { Return current item iterator and move it to next. }
-        function GetCurrent : TIterator;
+        function GetCurrent : TIterator; reintroduce;
       public
         property Value : {$IFNDEF USE_OPTIONAL}V{$ELSE}TOptionalValue
           {$ENDIF} read GetValue;
@@ -99,14 +101,21 @@ type
     { Return True if we can move to next element. }
     function MoveNext : Boolean;
 
+    { Retrive the first entry. }
+    function FirstEntry : TIterator;
+      {$IFNDEF DEBUG}inline;{$ENDIF}
+
     { Return enumerator for in operator. }
     function GetEnumerator : TIterator;
+      {$IFNDEF DEBUG}inline;{$ENDIF}
   protected
     { Return current item iterator and move it to next. }
     function GetCurrent : TIterator;
   public
     property Current : TIterator read GetCurrent;
   protected
+    FBaseIterator : Iterator;
+    FFunctor : Functor;
     FIterator : TIterator;
   end; 
 
@@ -594,6 +603,8 @@ end;
 constructor TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.Create
   (AIterator : Iterator; AFunctor : Functor);
 begin
+  FBaseIterator := AIterator;
+  FFunctor := AFunctor;
   FIterator := TIterator.Create(AIterator, AFunctor);
 end;
 
@@ -607,6 +618,12 @@ function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.GetEnumerator :
 begin
   Result := FIterator;
   FIterator := FIterator.Next;
+end;
+
+function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.FirstEntry : 
+  TIterator;
+begin
+  Result := TIterator.Create(FBaseIterator, FFunctor);
 end;
 
 function TMap{$IFNDEF FPC}<V, Iterator; Functor>{$ENDIF}.GetCurrent : 
