@@ -143,7 +143,7 @@ type
   protected
     type
       { Item enty type }
-      PPListEntry = ^PPListEntry;
+      PPListEntry = ^PListEntry;
       PListEntry = ^TListEntry;
       TListEntry = record
         Value : T;
@@ -370,7 +370,7 @@ begin
 end;
 
 function TArrayErrorsStack{$IFNDEF FPC}<T>{$ENDIF}.GetEnumerator : 
-  TInterator;
+  TIterator;
 begin
   Result := TIterator.Create(@FData, FLength, 0);
 end;
