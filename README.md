@@ -10,6 +10,7 @@ PascalUtils is an object library for delphi and FreePascal of data structures th
 * [Installation](#installation)
 * [Usage](#usage)
 * [Data structures](#data-structures)
+  * [TAny](#tany)
   * [TOptional](#toptional)
   * [TResult](#tresult)
   * [TVoidResult](#tvoidresult)
@@ -71,6 +72,22 @@ Add the unit you want to use to the `uses` clause.
 
 
 ### Data structures
+
+### TAny
+[TAny](https://github.com/isemenkov/pascalutils/blob/master/source/utils.any.pas) class describes a type-safe container for single value.
+
+```pascal
+uses
+  utils.any;
+
+type
+  generic TAny<T> = class
+```
+
+  * [Create](https://github.com/isemenkov/pascalutils/wiki/TAny#create)
+  * [Value](https://github.com/isemenkov/pascalutils/wiki/TAny#value)
+
+
 
 #### TOptional
 
