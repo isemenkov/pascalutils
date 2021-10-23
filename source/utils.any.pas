@@ -57,6 +57,9 @@ type
     property Value : T read FValue;
   end;
 
+  TNone = ( NONE_VALUE );
+  TNoneValue = {$IFDEF FPC}specialize{$ENDIF} TAny<TNone>;
+
   TByteValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Byte>;
   TShortIntValue = {$IFDEF FPC}specialize{$ENDIF} TAny<ShortInt>;
   TWordValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Word>;
@@ -83,6 +86,7 @@ type
   TAnsiStringValue = {$IFDEF FPC}specialize{$ENDIF} TAny<AnsiString>;
   TStringValue = {$IFDEF FPC}specialize{$ENDIF} TAny<String>;
   TWideStringValue = {$IFDEF FPC}specialize{$ENDIF} TAny<WideString>;
+  TPointer = {$IFDEF FPC}specialize{$ENDIF} TAny<Pointer>;
 
 implementation
 
