@@ -46,6 +46,10 @@ type
   TAnyValue = class
   end;
 
+  { None value type. }
+  TNoneValue = class(TAnyValue)
+  end;
+
   { Generic for any type implementation. }
   {$IFDEF FPC}generic{$ENDIF} TAny<T> = class(TAnyValue)
   public
@@ -56,9 +60,6 @@ type
   public
     property Value : T read FValue;
   end;
-
-  TNone = ( NONE_VALUE );
-  TNoneValue = {$IFDEF FPC}specialize{$ENDIF} TAny<TNone>;
 
   TByteValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Byte>;
   TShortIntValue = {$IFDEF FPC}specialize{$ENDIF} TAny<ShortInt>;
@@ -88,6 +89,9 @@ type
   TWideStringValue = {$IFDEF FPC}specialize{$ENDIF} TAny<WideString>;
   TPointer = {$IFDEF FPC}specialize{$ENDIF} TAny<Pointer>;
 
+var
+  NoneValue : TNoneValue;
+
 implementation
 
 { TAny }
@@ -103,4 +107,8 @@ begin
   inherited Destroy;
 end;
 
+initialization
+  NoneValue := TNoneValue.Create;
+finalization
+  FreeAndNil(NoneValue);
 end.
