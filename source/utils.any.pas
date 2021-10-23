@@ -57,6 +57,33 @@ type
     property Value : T read FValue;
   end;
 
+  TByteValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Byte>;
+  TShortIntValue = {$IFDEF FPC}specialize{$ENDIF} TAny<ShortInt>;
+  TWordValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Word>;
+  TSmallintValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Smallint>;
+  TIntegerValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Integer>;
+  {$IFDEF FPC}
+  TDWordValue = {$IFDEF FPC}specialize{$ENDIF} TAny<DWord>;
+  {$ENDIF}
+  TCardinalValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Cardinal>;
+  TLongWordValue = {$IFDEF FPC}specialize{$ENDIF} TAny<LongWord>;
+  TLongIntValue = {$IFDEF FPC}specialize{$ENDIF} TAny<LongInt>;
+  {$IFDEF FPC}
+  TQWordValue = {$IFDEF FPC}specialize{$ENDIF} TAny<QWord>;
+  {$ENDIF}
+  TInt64Value = {$IFDEF FPC}specialize{$ENDIF} TAny<Int64>;
+  TSingleValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Single>;
+  TRealValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Real>;
+  TDoubleValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Double>;
+  TExtendedValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Extended>;
+  TCurrencyValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Currency>;
+  TBooleanValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Boolean>;
+  TCharValue = {$IFDEF FPC}specialize{$ENDIF} TAny<Char>;
+  TWideCharValue = {$IFDEF FPC}specialize{$ENDIF} TAny<WideChar>;
+  TAnsiStringValue = {$IFDEF FPC}specialize{$ENDIF} TAny<AnsiString>;
+  TStringValue = {$IFDEF FPC}specialize{$ENDIF} TAny<String>;
+  TWideStringValue = {$IFDEF FPC}specialize{$ENDIF} TAny<WideString>;
+
 implementation
 
 { TAny }
