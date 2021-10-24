@@ -50,13 +50,15 @@ type
         constructor Create; overload;
         constructor Create (AString : String); overload;
         constructor Create (AString : PAnsiChar); overload;
+        destructor Destroy; override;
 
         function ToString : String; override;
         function ToPAnsiChar : PAnsiChar;
         function ToUniquePAnsiChar : PAnsiChar;
         function Length : Integer; 
       protected
-        FString : String; 
+        FString : String;
+        FAnsiString : PAnsiChar; 
       end;
   end;
 
@@ -67,19 +69,29 @@ implementation
 constructor API.CString.Create;
 begin
   FString := '';
+  FAnsiString := nil;
 end;
 
 constructor API.CString.Create (AString : String);
 begin
   FString := AString;
+  FAnsiString := nil;
 end;
 
 constructor API.CString.Create (AString : PAnsiChar);
 begin
   FString := String(Utf8ToString(AString));
+  FAnsiString := nil;
 end;
 
-function API.CString.toString : String;
+destructor API.CString.Destroy;
+begin
+  if FAnsiString <> nil then
+    StrDispose(FAnsiString);
+  inherited Destroy;
+end;
+
+function API.CString.ToString : String;
 begin
   Result := FString;
 end;
@@ -91,7 +103,8 @@ end;
 
 function API.CString.ToUniquePAnsiChar : PAnsiChar;
 begin
-  Result := {$IFNDEF FPC}System.AnsiStrings.{$ENDIF}StrNew(ToPAnsiChar);
+  FAnsiString := {$IFNDEF FPC}System.AnsiStrings.{$ENDIF}StrNew(ToPAnsiChar);
+  Result := FAnsiString;
 end;
 
 function API.CString.Length : Integer;
