@@ -45,50 +45,64 @@ type
   API = class
   public
     type
+      PAnsiStringWrapper = class
+      public
+        constructor Create (AString : PAnsiChar; ALength : Cardinal);
+        destructor Destroy; override;
+      protected
+        FAnsiString : PAnsiChar;
+        FLength : Cardinal;
+      public
+        property Value : PAnsiChar read FAnsiString;
+        property Length : Cardinal read FLength;
+      end;
+      
       CString = class
       public
         constructor Create; overload;
         constructor Create (AString : String); overload;
         constructor Create (AString : PAnsiChar); overload;
-        destructor Destroy; override;
 
         function ToString : String; override;
         function ToPAnsiChar : PAnsiChar;
-        function ToUniquePAnsiChar : PAnsiChar;
+        function ToUniquePAnsiChar : PAnsiStringWrapper;
         function Length : Integer; 
       protected
         FString : String;
-        FAnsiString : PAnsiChar; 
       end;
   end;
 
 implementation
+
+{ API.PAnsiStringWrapper }
+
+constructor API.PAnsiStringWrapper.Create (AString : PAnsiChar; ALength :
+  Cardinal);
+begin
+  FAnsiString := AString;
+  FLength := ALength;
+end;
+
+destructor API.PAnsiStringWrapper.Destroy;
+begin
+  {$IFNDEF FPC}System.AnsiStrings.{$ENDIF}StrDispose(FAnsiString);
+end;
 
 { API.CString }
 
 constructor API.CString.Create;
 begin
   FString := '';
-  FAnsiString := nil;
 end;
 
 constructor API.CString.Create (AString : String);
 begin
   FString := AString;
-  FAnsiString := nil;
 end;
 
 constructor API.CString.Create (AString : PAnsiChar);
 begin
   FString := String(Utf8ToString(AString));
-  FAnsiString := nil;
-end;
-
-destructor API.CString.Destroy;
-begin
-  if FAnsiString <> nil then
-    StrDispose(FAnsiString);
-  inherited Destroy;
 end;
 
 function API.CString.ToString : String;
@@ -101,10 +115,12 @@ begin
   Result := PAnsiChar({$IFNDEF FPC}Utf8Encode{$ENDIF}(FString));
 end;
 
-function API.CString.ToUniquePAnsiChar : PAnsiChar;
+function API.CString.ToUniquePAnsiChar : PAnsiStringWrapper;
 begin
-  FAnsiString := {$IFNDEF FPC}System.AnsiStrings.{$ENDIF}StrNew(ToPAnsiChar);
-  Result := FAnsiString;
+  Result := PAnsiStringWrapper.Create(
+    {$IFNDEF FPC}System.AnsiStrings.{$ENDIF}StrNew(ToPAnsiChar),
+    System.Length(FString)  
+  );
 end;
 
 function API.CString.Length : Integer;
