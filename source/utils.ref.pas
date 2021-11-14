@@ -2,6 +2,8 @@
 (*                                PascalUtils                                 *)
 (*          delphi and object pascal library of utils data structures         *)
 (*                                                                            *)
+(*    This class is authored by @ap1973.  https://habr.com/ru/post/587240/    *)
+(*                                                                            *)
 (* Copyright (c) 2021                                       Ivan Semenkov     *)
 (* https://github.com/isemenkov/pascalutils                 ivan@semenkov.pro *)
 (*                                                          Ukraine           *)
@@ -27,7 +29,7 @@
 (*                                                                            *)
 (******************************************************************************)
 
-unit utils.api.cstring;
+unit utils.ref;
 
 {$IFDEF FPC}
   {$mode objfpc}{$H+}
@@ -38,98 +40,67 @@ unit utils.api.cstring;
 
 interface
 
-uses
-  SysUtils {$IFNDEF FPC}, System.AnsiStrings{$ENDIF}, utils.ref;
+uses    
+  SysUtils;
 
 type
-  API = class
+  {$IFDEF FPC}generic{$ENDIF} TReference<T: class> = record
   public
     type
-      PAnsiStringWrapper = class;
-      PAnsiStringRefWrapper = TReference<PAnsiStringWrapper>;
-
-      PAnsiStringWrapper = class
-      public
-        constructor Create (AString : PAnsiChar; ALength : Cardinal);
-        destructor Destroy; override;
-      protected
-        FAnsiString : PAnsiChar;
-        FLength : Cardinal;
-      public
-        property Value : PAnsiChar read FAnsiString;
-        property Length : Cardinal read FLength;
+      {$IFDEF FPC}generic{$ENDIF} Ref<V> = reference to function : V;
+      TRef = class(TInterfacedObject, {$IFDEF FPC}specialize{$ENDIF}Ref<T>)
+        public
+          constructor Create(const AValue : T);
+          destructor Destroy; override;
+        protected
+          function Invoke : T;
+        private
+          FValue : T;
       end;
-          
-      CString = class
-      public
-        constructor Create; overload;
-        constructor Create (AString : String); overload;
-        constructor Create (AString : PAnsiChar); overload;
-
-        function ToString : String; override;
-        function ToPAnsiChar : PAnsiChar;
-        function ToUniquePAnsiChar : PAnsiStringRefWrapper;
-        function Length : Integer;       
-      protected
-        FString : String;
-      end;
-  end;
-
+  private
+    FValue : T;
+  public
+    class function Create(const AValue : T) : Ref<T>; static; inline;
+    class operator Implicit(const AValue:
+      {$IFDEF FPC}specialize{$ENDIF} TReference<T>) : Ref<T>; static; inline;
+    class operator Explicit(const AValue : T) :
+      {$IFDEF FPC}specialize{$ENDIF} TReference<T>; static; inline;
+  end; 
+  
 implementation
 
-{ API.PAnsiStringWrapper }
-
-constructor API.PAnsiStringWrapper.Create (AString : PAnsiChar; ALength :
-  Cardinal);
+constructor TReference{$IFNDEF FPC}<T>{$ENDIF}.TRef.Create(const AValue : T);
 begin
-  FAnsiString := AString;
-  FLength := ALength;
+  FValue := AValue;
 end;
 
-destructor API.PAnsiStringWrapper.Destroy;
+destructor TReference{$IFNDEF FPC}<T>{$ENDIF}.TRef.Destroy;
 begin
-  {$IFNDEF FPC}System.AnsiStrings.{$ENDIF}StrDispose(FAnsiString);
+  FreeAndNil(FValue);
   inherited Destroy;
 end;
 
-{ API.CString }
-
-constructor API.CString.Create;
+function TReference{$IFNDEF FPC}<T>{$ENDIF}.TRef.Invoke : T;
 begin
-  FString := '';
+  Result := FValue;
 end;
 
-constructor API.CString.Create (AString : String);
+class function TReference{$IFNDEF FPC}<T>{$ENDIF}.Create(const AValue : T) :
+  Ref<T>;
 begin
-  FString := AString;
+  Result := TRef.Create(AValue);
 end;
 
-constructor API.CString.Create (AString : PAnsiChar);
+class operator TReference{$IFNDEF FPC}<T>{$ENDIF}.Implicit(const AValue : 
+  {$IFDEF FPC}specialize{$ENDIF} TReference<T>) : Ref<T>;
 begin
-  FString := String(Utf8ToString(AString));
+  Result := TRef.Create(AValue.FValue);
 end;
 
-function API.CString.ToString : String;
+class operator TReference{$IFNDEF FPC}<T>{$ENDIF}.Explicit(const AValue : T) :
+  {$IFDEF FPC}specialize{$ENDIF} TReference<T>;
 begin
-  Result := FString;
-end;
-
-function API.CString.ToPAnsiChar : PAnsiChar;
-begin
-  Result := PAnsiChar({$IFNDEF FPC}Utf8Encode{$ENDIF}(FString));
-end;
-
-function API.CString.ToUniquePAnsiChar : PAnsiStringRefWrapper;
-begin
-  Result := PAnsiStringRefWrapper(PAnsiStringWrapper.Create(
-    {$IFNDEF FPC}System.AnsiStrings.{$ENDIF}StrNew(ToPAnsiChar),
-    System.Length(FString)
-  ));
-end;
-
-function API.CString.Length : Integer;
-begin
-  Result := System.Length(FString);
+  Result.FValue := AValue;
 end;
 
 end.

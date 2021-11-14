@@ -125,7 +125,7 @@ type
   {$IFDEF FPC}generic{$ENDIF} TUnsortableFunctor<V> = class
     ({$IFDEF FPC}specialize{$ENDIF} TBinaryFunctor<V, Integer>)
   public
-    function Call({%H-}AValue1, {%H-}AValue2 : V) : Integer; override;
+    function Call({%H-} AValue1, {%H-} AValue2 : V) : Integer; override;
   end;
 
   { -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
