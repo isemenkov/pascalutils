@@ -184,7 +184,7 @@ begin
     Result := FValue.Error^;
   end else 
   begin
-    raise TErrorNotExistException.Create('Error not exists');
+    raise TErrorNotExistsException.Create('Error not exists');
   end;
 end;
 
